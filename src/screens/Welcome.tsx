@@ -24,9 +24,6 @@ const WelcomeScreen = ({ navigation }: any) => {
 
   return (
     <ScreenWrapper>
-      {/* <StatusBar hidden={true} /> */}
-
-      {/* Main Content */}
       <ImageBackground
         source={require('../assets/welcome-gradient.png')}
         resizeMode="cover"
@@ -53,7 +50,6 @@ const WelcomeScreen = ({ navigation }: any) => {
             All in One Place
           </CustomText>
 
-          {/* THIS BUTTON NOW WORKS */}
           <ButtonSimple
             title="Get Started"
             backgroundColor={colors.black}
@@ -64,16 +60,13 @@ const WelcomeScreen = ({ navigation }: any) => {
         </View>
       </ImageBackground>
 
-      {/* MODAL - NOW ON TOP & WORKING */}
       <Modal
         visible={modalVisible}
         transparent={true}
         animationType="fade"
         onRequestClose={() => setModalVisible(false)}
       >
-        {/* Full screen container */}
         <View style={styles.modalContainer}>
-          {/* Transparent overlay - only behind the card */}
           <TouchableOpacity
             style={styles.backdrop}
             activeOpacity={1}

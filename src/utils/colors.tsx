@@ -3,13 +3,17 @@ const colors = {
   whiteBackground: '#FAFAFA',
   greenPrimary: '#14CB95',
   yellowPrimary: '#FFBE2B',
+  yellowSecondary: '#FFF2C0',
+  lightGray: '#EFF0F3',
+  textDiscription: '#71717A',
   bluePrimary: '#00B1E7',
+  blueSecondary: '#E2F5FF',
   whiteTransparent1: '#FFFFFF66',
   blackTransparent1: '#00000014',
   whiteTransparent2: '#FFFFFFCC',
   black: '#000000',
   white: '#FFFFFF',
-  greenSecondary: '#12CB95',
+  greenSecondary: '#E0F9ED',
   greenAccent: '#00BE8C',
   blueAccent: '#00B0E9',
   yellowAccent: '#FFBE0C',
@@ -17,6 +21,7 @@ const colors = {
   greyLight: '#F5F5F5',
   red: '#FF0000',
   purpleLight: '#E1D3F7',
+  gray: '#E1E1E1',
 };
 
 export default colors;
