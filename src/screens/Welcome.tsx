@@ -101,7 +101,7 @@ const WelcomeScreen = ({ navigation }: any) => {
               backgroundColor={colors.bluePrimary}
               onPress={() => {
                 setModalVisible(false);
-                navigation?.navigate('SignUp');
+                navigation?.navigate('SignIn');
               }}
               style={styles.emailBtn}
             />
