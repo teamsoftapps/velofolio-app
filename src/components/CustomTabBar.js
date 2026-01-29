@@ -1,6 +1,14 @@
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Image, Text } from 'react-native';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+
+import {
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
+} from 'react-native-responsive-dimensions';
+
+import colors from '../utils/colors';
+import CustomText from './CustomText';
 
 const icons = {
   Home: {
@@ -21,11 +29,7 @@ const icons = {
   },
 };
 
-const CustomTabBar = ({
-  state,
-  descriptors,
-  navigation,
-}: BottomTabBarProps) => {
+const CustomTabBar = ({ state, navigation }) => {
   const handleCenterPress = () => {
     console.log('Center + button pressed');
   };
@@ -36,101 +40,103 @@ const CustomTabBar = ({
         const isFocused = state.index === index;
 
         const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
+          navigation.navigate(route.name);
         };
 
         const iconSource =
-          icons[route.name as keyof typeof icons]?.[
-            isFocused ? 'active' : 'inactive'
-          ];
+          icons[route.name]?.[isFocused ? 'active' : 'inactive'];
 
         const tabStyle = index < 2 ? styles.leftTab : styles.rightTab;
 
         return (
-          <TouchableOpacity key={route.key} onPress={onPress} style={tabStyle}>
+          <TouchableOpacity
+            key={route.key}
+            onPress={onPress}
+            style={tabStyle}
+            activeOpacity={0.8}
+          >
             <Image
               source={iconSource}
-              style={[styles.sideIcon, { opacity: isFocused ? 1 : 0.6 }]}
+              style={[styles.sideIcon, { opacity: isFocused ? 1 : 0.5 }]}
               resizeMode="contain"
             />
           </TouchableOpacity>
         );
       })}
 
+      {/* CENTER BUTTON */}
       <View style={styles.centerButtonWrapper}>
         <TouchableOpacity
           style={styles.centerButton}
           onPress={handleCenterPress}
-          activeOpacity={0.8}
+          activeOpacity={0.85}
         >
-          <Text style={styles.plusText}>+</Text>
+          <CustomText style={styles.plusText}>+</CustomText>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
+export default CustomTabBar;
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#fff',
+    backgroundColor: colors.white, // ✅ themed
     borderTopWidth: 1,
-    borderTopColor: '#eee',
-    height: 70,
+    borderTopColor: colors.borderLight, // ✅ themed
+    height: responsiveHeight(9),
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 8,
+    paddingHorizontal: responsiveWidth(6),
+    paddingBottom: responsiveHeight(1),
   },
+
   leftTab: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 40,
+    marginRight: responsiveWidth(10),
   },
+
   rightTab: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 40,
+    marginLeft: responsiveWidth(10),
   },
+
   sideIcon: {
-    width: 26,
-    height: 26,
+    width: responsiveWidth(6.5),
+    height: responsiveWidth(6.5),
   },
+
   centerButtonWrapper: {
     position: 'absolute',
     left: 0,
     right: 0,
-    bottom: 20,
+    bottom: responsiveHeight(2.2),
     alignItems: 'center',
   },
+
   centerButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#00A3AD',
+    width: responsiveWidth(16),
+    height: responsiveWidth(16),
+    borderRadius: responsiveWidth(8),
+    backgroundColor: colors.tealPrimary, // ✅ themed
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.shadow, // ✅ themed
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 10,
   },
+
   plusText: {
-    color: '#fff',
-    fontSize: 36,
+    color: colors.white, // ✅ themed
+    fontSize: responsiveFontSize(4),
     fontWeight: '300',
-    marginTop: -3,
+    marginTop: -2,
   },
 });
-
-export default CustomTabBar;

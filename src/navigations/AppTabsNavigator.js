@@ -9,7 +9,7 @@ import CalendarScreen from '../screens/Calendar';
 import CustomTabBar from '../components/CustomTabBar';
 import { TabParamList } from './types';
 
-const Tab = createBottomTabNavigator<TabParamList>();
+const Tab = createBottomTabNavigator();
 
 const AppTabsNavigator = () => {
   return (

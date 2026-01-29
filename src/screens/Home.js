@@ -32,7 +32,7 @@ const Home = () => {
       title: 'Wedding Film Completed',
       subtitle: 'Wedding film for Mark & Jess completed.',
       bgColor: colors.white,
-      iconBg: '#4CAF50',
+      iconBg: colors.success,
     },
     {
       id: '2',
@@ -40,7 +40,7 @@ const Home = () => {
       title: 'Payment Received',
       subtitle: 'Payment received from Willow Studio.',
       bgColor: colors.white,
-      iconBg: '#2196F3',
+      iconBg: colors.info,
     },
     {
       id: '3',
@@ -48,11 +48,11 @@ const Home = () => {
       title: 'New Job Assigned',
       subtitle: 'Alex assigned to new job: ‘Music Video Shoot’.',
       bgColor: colors.white,
-      iconBg: '#FF9800',
+      iconBg: colors.warning,
     },
   ];
 
-  const renderItem = ({ item }: { item: { title: string } }) => (
+  const renderItem = item => (
     <TouchableOpacity style={styles.button}>
       <Image
         source={require('../assets/plus-outline.png')}
@@ -65,7 +65,7 @@ const Home = () => {
     </TouchableOpacity>
   );
 
-  const renderActivityItem = ({ item }: { item: any }) => (
+  const renderActivityItem = ({ item }) => (
     <View style={[styles.activityCard, { backgroundColor: item.bgColor }]}>
       <View style={styles.activityLeft}>
         <View style={[styles.activityIconContainer]}>
@@ -247,11 +247,12 @@ const styles = StyleSheet.create({
 
   card: {
     width: '100%',
-    backgroundColor: '#fff',
-    borderRadius: 20,
+    backgroundColor: colors.cardBackground, // ✅
+    borderRadius: responsiveWidth(5),
     padding: responsiveWidth(3),
     marginBottom: responsiveHeight(2),
-    shadowColor: '#000',
+
+    shadowColor: colors.shadow, // ✅
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.08,
     shadowRadius: 12,
@@ -328,11 +329,11 @@ const styles = StyleSheet.create({
     width: responsiveWidth(5),
     height: responsiveWidth(5),
     marginRight: responsiveWidth(2.5),
-    tintColor: '#333',
+    tintColor: colors.textDark,
   },
   buttonText: {
     fontSize: responsiveFontSize(2),
-    color: '#333',
+    color: colors.textDark,
   },
   activityContainer: {
     marginVertical: responsiveHeight(2),

@@ -18,8 +18,10 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import ButtonSimple from '../components/Button';
 import CustomText from '../components/CustomText';
 import colors from '../utils/colors';
+import { useNavigation } from '@react-navigation/native';
 
-const WelcomeScreen = ({ navigation }: any) => {
+const WelcomeScreen = () => {
+  const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -106,7 +108,13 @@ const WelcomeScreen = ({ navigation }: any) => {
               style={styles.emailBtn}
             />
 
-            <TouchableOpacity style={styles.googleBtn}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+                navigation?.navigate('SignIn');
+              }}
+              style={styles.googleBtn}
+            >
               <Image
                 source={require('../assets/Google.png')}
                 style={styles.googleIcon}
@@ -122,7 +130,6 @@ const WelcomeScreen = ({ navigation }: any) => {
     </ScreenWrapper>
   );
 };
-
 const styles = StyleSheet.create({
   background: { flex: 1 },
 
@@ -131,85 +138,120 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   iconsImage: {
     width: responsiveWidth(120),
     height: undefined,
     aspectRatio: 1,
   },
+
   bottomContainer: {
     paddingHorizontal: responsiveWidth(4),
     paddingBottom: responsiveHeight(4),
     alignItems: 'center',
   },
+
   title: {
     fontSize: responsiveFontSize(4),
     textAlign: 'center',
     marginBottom: responsiveHeight(3),
   },
-  button: { width: responsiveWidth(90) },
-  buttonText: { fontWeight: '300', fontSize: responsiveFontSize(2.2) },
+
+  button: {
+    width: responsiveWidth(90),
+  },
+
+  buttonText: {
+    fontWeight: '300',
+    fontSize: responsiveFontSize(2.2),
+  },
+
+  /* ---------------- MODAL ---------------- */
 
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',
   },
+
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'transparent',
+    backgroundColor: colors.transparent, // ✅ themed
   },
+
   modalCard: {
     backgroundColor: colors.white,
     borderRadius: responsiveWidth(10),
-    paddingHorizontal: 24,
+
+    paddingHorizontal: responsiveWidth(6), // ✅ responsive
     paddingTop: responsiveHeight(4),
     paddingBottom: responsiveHeight(5),
-    shadowColor: '#000',
+
+    shadowColor: colors.shadow, // ✅ themed
     shadowOffset: { width: 0, height: -10 },
-    shadowOpacity: responsiveWidth(1),
-    shadowRadius: responsiveWidth(4),
-    elevation: responsiveWidth(4),
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 8,
+
     marginBottom: responsiveHeight(2),
-    marginHorizontal: responsiveHeight(2),
+    marginHorizontal: responsiveWidth(4),
   },
+
   modalHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: responsiveHeight(2),
   },
-  logo: { width: responsiveWidth(30) },
-  appName: {
-    fontSize: responsiveFontSize(2.6),
-    marginLeft: responsiveWidth(2),
-    flex: 1,
+
+  logo: {
+    width: responsiveWidth(30),
   },
-  closeText: { fontSize: responsiveFontSize(5), color: '#999' },
+
+  closeText: {
+    fontSize: responsiveFontSize(5),
+    color: colors.textLight, // ✅ themed
+  },
+
   modalTitle: {
     fontSize: responsiveFontSize(4.2),
     marginBottom: responsiveHeight(1),
+    color: colors.black,
   },
+
   modalSubtitle: {
     width: responsiveWidth(60),
     fontSize: responsiveFontSize(2),
     marginBottom: responsiveHeight(2),
+    color: colors.black,
   },
-  emailBtn: { marginBottom: responsiveHeight(2) },
+
+  emailBtn: {
+    marginBottom: responsiveHeight(2),
+  },
+
   googleBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: responsiveWidth(0.5),
-    borderColor: '#E0E0E0',
+
+    borderWidth: 1,
+    borderColor: colors.borderSoft, // ✅ themed
     borderRadius: responsiveWidth(10),
     height: responsiveHeight(7),
-    backgroundColor: '#fff',
+
+    backgroundColor: colors.white, // ✅ themed
   },
+
   googleIcon: {
     width: responsiveWidth(5),
-    height: responsiveHeight(5),
+    height: responsiveWidth(5),
     marginRight: responsiveWidth(3),
   },
-  googleText: { fontSize: responsiveFontSize(2.1), color: colors.black },
+
+  googleText: {
+    fontSize: responsiveFontSize(2.1),
+    color: colors.black,
+  },
 });
 
 export default WelcomeScreen;

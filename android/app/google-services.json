@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "130588342127",
+    "project_id": "velofolio-6b313",
+    "storage_bucket": "velofolio-6b313.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130588342127:android:3990238b8b6cb09e93da9a",
+        "android_client_info": {
+          "package_name": "com.velofolio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8kZZthG0FPtlfzSVkLMi20xA7_5SCPeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
