@@ -82,6 +82,6 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: responsiveFontSize(2.2),
-    color: colors.white, // ✅ themed
+    // color: titleColor, // ✅ themed
   },
 });

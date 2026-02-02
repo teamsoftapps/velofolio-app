@@ -76,6 +76,7 @@ const ForgotPassword = () => {
 
               {/* Button */}
               <ButtonSimple
+                textStyle={{ color: colors.white }}
                 onPress={() => {
                   navigation.navigate('otp');
                 }}

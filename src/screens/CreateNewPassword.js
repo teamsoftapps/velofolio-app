@@ -85,6 +85,7 @@ const CreateNewPassword = () => {
 
               {/* Button */}
               <ButtonSimple
+                textStyle={{ color: colors.white }}
                 onPress={() => {
                   navigation.replace('SignIn');
                 }}

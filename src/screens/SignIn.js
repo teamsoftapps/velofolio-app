@@ -75,6 +75,7 @@ const LoginScreen = () => {
 
             {/* Sign In Button */}
             <ButtonSimple
+              textStyle={{ color: colors.white }}
               title="Sign In"
               backgroundColor={colors.black}
               onPress={async () => {
@@ -95,6 +96,7 @@ const LoginScreen = () => {
 
             {/* Google */}
             <ButtonSimple
+              textStyle={{ color: colors.black }}
               title="Sign in with Google"
               backgroundColor={colors.white}
               leftIcon={require('../assets/Google.png')}
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
 
   forgot: {
     alignSelf: 'flex-end',
-    marginTop: responsiveHeight(1.3),
+    marginVertical: responsiveHeight(1.3),
   },
 
   orRow: {

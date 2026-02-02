@@ -66,6 +66,7 @@ const VerifyOtp = () => {
 
             {/* Button */}
             <ButtonSimple
+              textStyle={{ color: colors.white }}
               onPress={() => {
                 navigation.navigate('newpassword');
               }}

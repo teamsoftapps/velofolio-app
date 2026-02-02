@@ -89,6 +89,7 @@ const SignUpScreen = () => {
 
             {/* Button */}
             <ButtonSimple
+              textStyle={{ color: colors.white }}
               title="Sign Up"
               backgroundColor={colors.black}
               onPress={async () => {
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
   termsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: responsiveHeight(1.5),
+    marginVertical: responsiveHeight(1.5),
   },
 
   termsText: {

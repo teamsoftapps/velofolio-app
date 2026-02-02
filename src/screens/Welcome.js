@@ -99,6 +99,7 @@ const WelcomeScreen = () => {
             </CustomText>
 
             <ButtonSimple
+              textStyle={{ color: colors.white }}
               title="Continue with email"
               backgroundColor={colors.bluePrimary}
               onPress={() => {
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: '300',
     fontSize: responsiveFontSize(2.2),
+    color: colors.white,
   },
 
   /* ---------------- MODAL ---------------- */
