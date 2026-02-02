@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -20,6 +20,8 @@ import { useNavigation } from '@react-navigation/native';
 import colors from '../utils/colors';
 import { loginWithEmail, loginWithGoogle } from '../services/firebaseAuth';
 const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
   return (
     <ScreenWrapper backgroundColor="transparent">
@@ -57,9 +59,17 @@ const LoginScreen = () => {
               label="Email Address"
               placeholder="e.g. noah@gmail.com"
               keyboardType="email-address"
+              onChangeText={setEmail}
+              value={email}
             />
 
-            <InputField label="Password" placeholder="********" isPassword />
+            <InputField
+              label="Password"
+              placeholder="********"
+              isPassword
+              onChangeText={setPassword}
+              value={password}
+            />
 
             {/* Forgot */}
             <TouchableOpacity
@@ -78,12 +88,15 @@ const LoginScreen = () => {
               textStyle={{ color: colors.white }}
               title="Sign In"
               backgroundColor={colors.black}
-              onPress={async () => {
-                try {
-                  await loginWithEmail(email, password);
-                } catch (e) {
-                  alert(e.message);
-                }
+              // onPress={async () => {
+              //   try {
+              //     await loginWithEmail(email, password);
+              //   } catch (e) {
+              //     alert(e.message);
+              //   }
+              // }}
+              onPress={() => {
+                navigation.navigate('Welcome');
               }}
             />
 

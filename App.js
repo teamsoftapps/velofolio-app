@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigations/RootNavigator';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import Jobs from './src/screens/Jobs';
 
 GoogleSignin.configure({
   webClientId:
@@ -11,7 +12,8 @@ GoogleSignin.configure({
 const App = () => {
   return (
     <NavigationContainer>
-      <RootNavigator />
+      {/* <RootNavigator /> */}
+      <Jobs />
     </NavigationContainer>
   );
 };
