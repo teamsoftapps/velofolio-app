@@ -47,7 +47,10 @@ const ButtonSimple = ({
         <ActivityIndicator color={colors.white} /> // ✅ themed
       ) : (
         <View style={styles.content}>
-          {leftIcon && <Image source={leftIcon} style={styles.icon} />}
+          {/* {leftIcon && <Image source={leftIcon} style={styles.icon} />} */}
+          <View>
+            {leftIcon}
+          </View>
 
           <CustomText style={[styles.text, textStyle]}>{title}</CustomText>
         </View>

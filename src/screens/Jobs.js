@@ -7,9 +7,72 @@ import CustomHeader from '../components/CustomHeader';
 import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
+const JobsData = [
+  {
+    tags: [
+      { title: "Wedding", color: colors.white, bgColor: colors.blueAccent },
+      { title: "In Progress", color: colors.black, bgColor: colors.purpleLight },
+    ],
+    title: "Wedding Film Mark & Jess",
+    details: [
+      { label: "Event Date", value: "12 Nov 2025" },
+      { label: "Location", value: "New York" },
+    ],
+    progress: {
+      colors: colors.yellowAccent,
+      percent: 70,
+    },
+  },
+  {
+    tags: [
+      { title: "Corporate", color: colors.white, bgColor: colors.greenAccent },
+      { title: "Pending", color: colors.white, bgColor: colors.greenAccent },
+    ],
+    title: "Annual Report Video",
+    details: [
+      { label: "Event Date", value: "22 Dec 2025" },
+      { label: "Location", value: "San Francisco" },
+    ],
+    progress: {
+      colors: colors.greenAccent,
+      percent: 45,
+    },
+  },
+  {
+    tags: [
+      { title: "Birthday", color: colors.white, bgColor: colors.blueAccent},
+      { title: "Completed", color: colors.white, bgColor: colors.greenAccent }
+    ],
+    title: "Emma's 30th Birthday Party",
+    details: [
+      { label: "Event Date", value: "05 Jan 2026" },
+      { label: "Location", value: "Los Angeles" },
+    ],
+    progress: {
+      colors: colors.pinkAccent,
+      percent: 100,
+    },
+  },
+  {
+    tags: [
+      { title: "Festival", color: colors.black, bgColor: colors.purpleLight },
+      { title: "In Progress", color: colors.white, bgColor: colors.greenAccent },
+    ],
+    title: "Music Festival Promo",
+    details: [
+      { label: "Event Date", value: "18 Feb 2026" },
+      { label: "Location", value: "Miami" },
+    ],
+    progress: {
+      colors: colors.purpleAccent,
+      percent: 30,
+    },
+  },
+];
+
 const Jobs = () => {
   return (
-    <ScreenWrapper backgroundColor="transparent">
+    <ScreenWrapper backgroundColor="transparent" style={styles.mainwrapper}>
       <View style={styles.headWrapper}>
         <CustomHeader title="Jobs" />
 
@@ -27,8 +90,12 @@ const Jobs = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.cardContainer}>
-        <JobCard />
+      <ScrollView style={styles.cardContainer}  contentContainerStyle={{
+    alignItems: 'center', // or 'flex-start', 'flex-end'
+  }}>
+       {JobsData.map((job, index) => (
+        <JobCard key={index} job={job} />
+      ))}
       </ScrollView>
       {/* <CustomTabBar state={'state'} navigation={'navigation'} /> */}
     </ScreenWrapper>
@@ -38,6 +105,9 @@ const Jobs = () => {
 export default Jobs;
 
 const styles = StyleSheet.create({
+  mainwrapper:{
+paddingHorizontal:responsiveWidth(3)
+  },
   headWrapper: {
     backgroundColor: colors.white,
     borderBottomLeftRadius: responsiveWidth(6),
@@ -46,13 +116,16 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     marginTop: responsiveWidth(4),
-    paddingHorizontal: responsiveWidth(4),
+    // paddingHorizontal: responsiveWidth(4),
     flex: 1,
+    gap:responsiveWidth(3),
+    // alignItems:"center"
+
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: responsiveWidth(5),
+    // paddingHorizontal: responsiveWidth(5),
     gap: responsiveWidth(3),
   },
 

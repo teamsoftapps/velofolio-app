@@ -4,6 +4,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors';
 import CustomText from './CustomText';
+import ButtonSimple from './Button';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+
 
 const CustomHeader = ({ title }) => {
   return (
@@ -17,14 +20,10 @@ const CustomHeader = ({ title }) => {
         </View>
       </View>
       <View style={styles.sideContainer}>
-        <TouchableOpacity>
-          <View style={styles.rightButton}>
-            <CustomText style={styles.plusIcon}>+</CustomText>
-            <Text style={styles.addButtonText}>
-              Add {title.replace(/s$/, '')}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <ButtonSimple title={"Add Jobs"} leftIcon={
+          <Fontisto name="plus-a" size={20} color={colors.white}/>
+        }   style={styles.rightButton}  textStyle={styles.addButtonText}    />
+       
       </View>
     </View>
   );
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: responsiveWidth(4),
-    paddingHorizontal: responsiveWidth(3),
+    // paddingHorizontal: responsiveWidth(3),
   },
   headerTitle: {
     fontSize: responsiveWidth(6),
@@ -68,12 +67,12 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   rightButton: {
-    width: responsiveWidth(32),
+    width: responsiveWidth(36),
     height: responsiveWidth(12),
     borderRadius: responsiveWidth(3),
-    backgroundColor: colors.tealPrimary,
+    // backgroundColor: colors.blueAccent,
     flexDirection: 'row',
-    gap: responsiveWidth(2),
+    gap: responsiveWidth(7),
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -81,5 +80,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: responsiveWidth(4),
     fontWeight: '600',
+    marginLeft:responsiveWidth(2)
   },
 });
