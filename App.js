@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from './src/navigations/RootNavigator';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import Jobs from './src/screens/Jobs';
+import Clients from './src/screens/Clients';
+import MyCalendarScreen from './src/screens/Calendar';
 
 GoogleSignin.configure({
   webClientId:
@@ -13,7 +15,9 @@ const App = () => {
   return (
     <NavigationContainer>
       {/* <RootNavigator /> */}
-      <Jobs />
+      {/* <Jobs /> */}
+      {/* <Clients/> */}
+      <MyCalendarScreen/>
     </NavigationContainer>
   );
 };

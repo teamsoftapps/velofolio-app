@@ -20,7 +20,7 @@ const CustomHeader = ({ title }) => {
         </View>
       </View>
       <View style={styles.sideContainer}>
-        <ButtonSimple title={"Add Jobs"} leftIcon={
+        <ButtonSimple title={`Add ${title==="Calendar"?"New":title.slice(0,-1)}`} leftIcon={
           <Fontisto name="plus-a" size={20} color={colors.white}/>
         }   style={styles.rightButton}  textStyle={styles.addButtonText}    />
        

@@ -138,6 +138,7 @@ import DetailItem from "./DetailItem";
 import ProgressBar from "./ProgressBar";
 import TeamComponent from "./TeamComponent";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import ActionButtons from './ActionButton';
 
 // Your JobsData
 
@@ -186,14 +187,9 @@ const JobCard = ({job}) => {
           <TeamComponent />
         </View>
 
-        <View style={styles.actions}>
-          <TouchableOpacity style={styles.actionConatiner}>
-            <MaterialIcons name='delete' size={28} color={colors.red} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionConatiner}>
-            <MaterialIcons name='edit' size={28} color={colors.blueAccent} />
-          </TouchableOpacity>
-        </View>
+  <ActionButtons
+  direction="row-reverse"
+/>
       </View>
     </View>
   );
@@ -225,10 +221,7 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(2.4),
     justifyContent: "space-between",
   },
-  actions: {
-    flexDirection: "row",
-    gap: responsiveWidth(2),
-  },
+
   teamContainer: {
     backgroundColor: colors.white,
     padding: responsiveWidth(1),
