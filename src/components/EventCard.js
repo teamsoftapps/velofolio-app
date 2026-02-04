@@ -14,13 +14,13 @@ const EventCard = ({
  event
 
 }) => {
-  // Dynamic status styling
+
   const getStatusStyle = (status) => {
     switch (status) {
       case 'In Progress':
-        return { backgroundColor: colors.white, color: colors.black,container:colors.blueAccent,contentColor:colors.white }; // light blue + blue text
+        return { backgroundColor: colors.white, color: colors.black,container:colors.blueAccent,contentColor:colors.white };
       case 'Completed':
-        return { backgroundColor: colors.black, color: colors.white,container:colors.yellowAccent,contentColor:colors.black }; // gold + dark text
+        return { backgroundColor: colors.black, color: colors.white,container:colors.yellowAccent,contentColor:colors.black }; 
       default:
         return { backgroundColor: '#e0e0e0', color: '#555',container:colors.blueAccent };
     }
@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 3,
     flexDirection:"row",
-    gap:responsiveWidth(3)
+    gap:responsiveWidth(3),
+    width:"85%"
   },
   eventname:{
 fontSize:responsiveFontSize(2.2)

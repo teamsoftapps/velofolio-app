@@ -5,19 +5,21 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import Jobs from './src/screens/Jobs';
 import Clients from './src/screens/Clients';
 import MyCalendarScreen from './src/screens/Calendar';
-
 GoogleSignin.configure({
   webClientId:
     '130588342127-kmrjq28tj7eodkio74imb0ouc1cdrdd1.apps.googleusercontent.com',
+      offlineAccess: false, // optional, true if you need refresh token
+
 });
+
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <RootNavigator /> */}
+      <RootNavigator />
       {/* <Jobs /> */}
       {/* <Clients/> */}
-      <MyCalendarScreen/>
+      {/* <MyCalendarScreen/> */}
     </NavigationContainer>
   );
 };

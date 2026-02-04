@@ -101,8 +101,8 @@ const eventsToShow = selectedDate
 
 
   return (
-    <ScreenWrapper style={styles.container} >
-      <View style={styles.topContainer}>
+    <ScreenWrapper  >
+      <View style={styles.headWrapper}>
       <CustomHeader title="Calendar" />
 <CalendarDropDown
 
@@ -125,7 +125,7 @@ const eventsToShow = selectedDate
       {selectedDate && (
         <>
        
-          <ScrollView style={styles.cardContainer}
+          <ScrollView style={styles.container}
           contentContainerStyle={{
             alignItems: 'center',
             paddingBottom: responsiveHeight(2),
@@ -149,19 +149,22 @@ export default SimpleCalendarScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: responsiveWidth(2),
+
+
     backgroundColor: "transparent",
   },
-  topContainer:{
-backgroundColor:colors.white,
-
-  },
+   headWrapper: {
+     backgroundColor: colors.white,
+     borderBottomLeftRadius: responsiveWidth(6),
+     borderBottomRightRadius: responsiveWidth(6),
+     paddingVertical: responsiveWidth(3),
+     paddingHorizontal:responsiveWidth(3)
+   },
 
  
   noEventText: {
     textAlign: 'center',
-    marginTop: 20,
+    marginTop: responsiveHeight(3),
     color: colors.gray,
     fontSize: responsiveFontSize(3),
     fontStyle: 'italic',

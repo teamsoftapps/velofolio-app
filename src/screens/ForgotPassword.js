@@ -5,6 +5,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import {
@@ -22,10 +23,28 @@ import ButtonSimple from '../components/Button';
 import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import { Color } from 'react-native/types_generated/Libraries/Animated/AnimatedExports';
+import { forgotPassword } from '../services/firebaseAuth';
 
 const ForgotPassword = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
+const [loading,setLoading]=useState(false)
+// const [message,setMessage]=useState('')
+const handleReset = async () => {
+    setLoading(true);
+ 
+    try {
+      const response = await forgotPassword(email.trim());
+      
+      Alert.alert('Success', 'Reset link sent — check your email!');
+      navigation.goBack(); // or navigate to login
+    } catch (err) {
+      Alert.alert('Error', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <ScreenWrapper backgroundColor="transparent">
@@ -77,10 +96,8 @@ const ForgotPassword = () => {
               {/* Button */}
               <ButtonSimple
                 textStyle={{ color: colors.white }}
-                onPress={() => {
-                  navigation.navigate('otp');
-                }}
-                title="Send Verification Code"
+                onPress={handleReset}
+                title="Send Reset Email"
                 backgroundColor={colors.black}
                 style={styles.button}
                 disabled={!email}

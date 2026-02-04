@@ -17,6 +17,7 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import DashboardHeader from '../components/DashboardHeader';
 import CustomText from '../components/CustomText';
 import colors from '../utils/colors';
+import { logoutUser } from '../services/firebaseAuth';
 
 const Home = () => {
   const actionItems = [
@@ -92,7 +93,7 @@ const Home = () => {
   return (
     <ScreenWrapper backgroundColor={colors.screenBackground}>
       <ScrollView>
-        <DashboardHeader name="Akshay" />
+        <DashboardHeader name="Akshay" onMenuPress={logoutUser} />
 
         <View style={styles.container}>
           <CustomText style={styles.todayTitle} fontWeight="600">

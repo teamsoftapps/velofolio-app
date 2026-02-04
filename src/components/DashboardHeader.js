@@ -8,6 +8,7 @@ import {
 
 import CustomText from './CustomText';
 import colors from '../utils/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
   return (
@@ -33,11 +34,12 @@ const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
 
       {/* Right: Menu Icon */}
       <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-        <View style={styles.hamburger}>
+        {/* <View style={styles.hamburger}>
           <View style={styles.line} />
           <View style={styles.line} />
           <View style={styles.line} />
-        </View>
+        </View> */}
+        <Ionicons name='exit-outline' size={responsiveWidth(9)}/>
       </TouchableOpacity>
     </View>
   );
@@ -56,7 +58,7 @@ const styles = StyleSheet.create({
     paddingBottom: responsiveHeight(3),
 
     backgroundColor: colors.white,
-    borderRadius: responsiveWidth(6), // smoother card look
+    borderRadius: responsiveWidth(6), 
   },
 
   leftSection: {

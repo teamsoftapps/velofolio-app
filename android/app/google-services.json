@@ -12,7 +12,20 @@
           "package_name": "com.velofolio"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "130588342127-32k3uo9dupu41j83aou7qcv9m609au02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.velofolio",
+            "certificate_hash": "c39342e305dad0d4366b0964150e39b8b55ebc28"
+          }
+        },
+        {
+          "client_id": "130588342127-kmrjq28tj7eodkio74imb0ouc1cdrdd1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD8kZZthG0FPtlfzSVkLMi20xA7_5SCPeE"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "130588342127-kmrjq28tj7eodkio74imb0ouc1cdrdd1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

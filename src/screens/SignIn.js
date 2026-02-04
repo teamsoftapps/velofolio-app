@@ -88,16 +88,14 @@ const LoginScreen = () => {
               textStyle={{ color: colors.white }}
               title="Sign In"
               backgroundColor={colors.black}
-              // onPress={async () => {
-              //   try {
-              //     await loginWithEmail(email, password);
-              //   } catch (e) {
-              //     alert(e.message);
-              //   }
-              // }}
-              onPress={() => {
-                navigation.navigate('Welcome');
+              onPress={async () => {
+                try {
+                  await loginWithEmail(email, password);
+                } catch (e) {
+                  alert(e.message);
+                }
               }}
+        
             />
 
             {/* OR */}

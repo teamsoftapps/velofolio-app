@@ -95,7 +95,7 @@ const ClientsData = [
 
 const Clients = () => {
   return (
-    <ScreenWrapper backgroundColor="transparent" style={styles.mainwrapper}>
+    <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
         <CustomHeader title="Clients" />
 
@@ -116,6 +116,7 @@ const Clients = () => {
 <FlatList
   data={ClientsData}
   keyExtractor={(item) => item.id.toString()}
+  style={styles.mainwrapper}
   renderItem={({ item }) => (
     <ClientCard
       job={item}
@@ -143,13 +144,15 @@ export default Clients;
 
 const styles = StyleSheet.create({
   mainwrapper:{
-paddingHorizontal:responsiveWidth(3)
+paddingHorizontal:responsiveWidth(3),
+paddingVertical:responsiveHeight(2)
   },
   headWrapper: {
     backgroundColor: colors.white,
     borderBottomLeftRadius: responsiveWidth(6),
     borderBottomRightRadius: responsiveWidth(6),
     paddingVertical: responsiveWidth(3),
+    paddingHorizontal:responsiveWidth(3)
   },
   cardContainer: {
     marginTop: responsiveWidth(4),

@@ -22,11 +22,32 @@ import CheckBoxSimple from '../components/CheckBoxSimple';
 
 import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
-import { signupWithEmail } from '../services/firebaseAuth';
+import { loginWithGoogle, signupWithEmail } from '../services/firebaseAuth';
 const SignUpScreen = () => {
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
+  const [email,setEmail]=useState('')
+  const [name, setName] = useState ('');
+  const [password, setPassword] = useState('');
 
+  const handleSignup=async () => {
+    if (!name || !email || !password) {
+      alert('Please fill all fields');
+      return;
+    }
+
+    if (!agree) {
+      alert('Please accept terms & conditions');
+      return;
+    }
+
+    try {
+      await signupWithEmail(email, password, name);
+      navigation.replace('Home');
+    } catch (e) {
+      alert(e.message);
+    }
+  }
   return (
     <ScreenWrapper backgroundColor="transparent">
       <ImageBackground
@@ -59,16 +80,20 @@ const SignUpScreen = () => {
           <View style={styles.form}>
             <InputField
               label="First Name"
+              value={name}
+              onChangeText={setName}
               placeholder="Enter your first name"
             />
 
             <InputField
+            value={email}
+            onChangeText={setEmail}
               label="Email Address"
               placeholder="e.g. noah@gmail.com"
               keyboardType="email-address"
             />
 
-            <InputField label="Password" placeholder="********" isPassword />
+            <InputField value={password} onChangeText={setPassword} label="Password" placeholder="********" isPassword />
 
             {/* Terms */}
             <View style={styles.termsRow}>
@@ -88,19 +113,13 @@ const SignUpScreen = () => {
             </View>
 
             {/* Button */}
-            <ButtonSimple
-              textStyle={{ color: colors.white }}
-              title="Sign Up"
-              backgroundColor={colors.black}
-              onPress={async () => {
-                try {
-                  await signupWithEmail(email, password);
-                  navigation.replace('Home');
-                } catch (e) {
-                  alert(e.message);
-                }
-              }}
-            />
+           <ButtonSimple
+  textStyle={{ color: colors.white }}
+  title="Sign Up"
+  backgroundColor={colors.black}
+  onPress={handleSignup}
+/>
+
 
             {/* OR */}
             <View style={styles.orRow}>
@@ -116,6 +135,13 @@ const SignUpScreen = () => {
               textStyle={{ color: colors.black }}
               leftIcon={require('../assets/Google.png')}
               style={styles.googleBtn}
+                onPress={async () => {
+                              try {
+                                await loginWithGoogle();
+                              } catch (e) {
+                                alert(e.message);
+                              }
+                            }}
             />
 
             {/* Sign In */}

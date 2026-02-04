@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 import {
@@ -6,9 +6,10 @@ import {
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-
+import ActionModal from "./ActionModal"
 import colors from '../utils/colors';
 import CustomText from './CustomText';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 
 const icons = {
   Home: {
@@ -29,9 +30,10 @@ const icons = {
   },
 };
 
-const CustomTabBar = ({ state, navigation }) => {
+const CustomTabBar = ({ state, navigation ,setModal,modal}) => {
+ 
   const handleCenterPress = () => {
-    console.log('Center + button pressed');
+   setModal(!modal)
   };
 
   return (
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(16),
     height: responsiveWidth(16),
     borderRadius: responsiveWidth(8),
-    backgroundColor: colors.tealPrimary, // ✅ themed
+    backgroundColor: colors.blueAccent, // ✅ themed
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: colors.shadow, // ✅ themed

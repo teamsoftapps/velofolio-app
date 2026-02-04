@@ -2,7 +2,7 @@ import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { responsiveWidth } from 'react-native-responsive-dimensions';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import CustomHeader from '../components/CustomHeader';
 import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
@@ -72,7 +72,7 @@ const JobsData = [
 
 const Jobs = () => {
   return (
-    <ScreenWrapper backgroundColor="transparent" style={styles.mainwrapper}>
+    <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
         <CustomHeader title="Jobs" />
 
@@ -90,7 +90,7 @@ const Jobs = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.cardContainer}  contentContainerStyle={{
+      <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
     alignItems: 'center', // or 'flex-start', 'flex-end'
   }}>
        {JobsData.map((job, index) => (
@@ -106,13 +106,15 @@ export default Jobs;
 
 const styles = StyleSheet.create({
   mainwrapper:{
-paddingHorizontal:responsiveWidth(3)
+paddingHorizontal:responsiveWidth(3),
+paddingVertical:responsiveHeight(2)
   },
   headWrapper: {
     backgroundColor: colors.white,
     borderBottomLeftRadius: responsiveWidth(6),
     borderBottomRightRadius: responsiveWidth(6),
     paddingVertical: responsiveWidth(3),
+    paddingHorizontal:responsiveWidth(3)
   },
   cardContainer: {
     marginTop: responsiveWidth(4),
