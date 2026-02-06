@@ -21,6 +21,7 @@ import colors from '../utils/colors';
 import { loginWithEmail, loginWithGoogle } from '../services/firebaseAuth';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
+  const [isLoading,setIsLoading]=useState(false)
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
   return (
@@ -86,13 +87,18 @@ const LoginScreen = () => {
             {/* Sign In Button */}
             <ButtonSimple
               textStyle={{ color: colors.white }}
-              title="Sign In"
+              title={isLoading?"Signing In...":"Sign In"}
               backgroundColor={colors.black}
               onPress={async () => {
                 try {
+                  setIsLoading(true)
                   await loginWithEmail(email, password);
+                                    setIsLoading(false)
+
                 } catch (e) {
+
                   alert(e.message);
+                  setIsLoading(false)
                 }
               }}
         

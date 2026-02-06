@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Image,
@@ -18,13 +18,32 @@ import DashboardHeader from '../components/DashboardHeader';
 import CustomText from '../components/CustomText';
 import colors from '../utils/colors';
 import { logoutUser } from '../services/firebaseAuth';
-
+import auth from "@react-native-firebase/auth"
+import database from '@react-native-firebase/database';
+ 
 const Home = () => {
+  const [userData, setUserData] = useState(null);
   const actionItems = [
     { id: '1', title: 'New Job' },
     { id: '2', title: 'New Client' },
     { id: '3', title: 'Team Member' },
   ];
+
+
+
+useEffect(() => {
+  const uid = auth().currentUser?.uid;
+  if (!uid) return;
+
+  const userRef = database().ref(`/users/${uid}`);
+
+  const listener = userRef.on('value', snapshot => {
+    setUserData(snapshot.val());
+  });
+
+  return () => userRef.off('value', listener);
+}, []);
+console.log(userData)
 
   const recentActivity = [
     {
@@ -93,7 +112,7 @@ const Home = () => {
   return (
     <ScreenWrapper backgroundColor={colors.screenBackground}>
       <ScrollView>
-        <DashboardHeader name="Akshay" onMenuPress={logoutUser} />
+        <DashboardHeader name={(userData?.displayName || userData?.name)||"User"} onMenuPress={logoutUser} />
 
         <View style={styles.container}>
           <CustomText style={styles.todayTitle} fontWeight="600">

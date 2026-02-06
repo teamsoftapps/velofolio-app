@@ -1999,6 +1999,11 @@
   dependencies:
     plist "^3.1.0"
 
+"@react-native-firebase/database@^23.8.6":
+  version "23.8.6"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-23.8.6.tgz#cab5c748bcedbdfe25a8d3481cfc988644af93c8"
+  integrity sha512-/fkZ5hi0jUNx/s6Zi1DNNr2CJOjLb0X7vgDCzSPnNzI64G/sqFm6LJMJ4gj+xRx+Yp0d6Tps+J94ohfchjBvqg==
+
 "@react-native-google-signin/google-signin@^16.1.1":
   version "16.1.1"
   resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-16.1.1.tgz#40b9f8458a09cf8933132efd8a68f0a573167e92"

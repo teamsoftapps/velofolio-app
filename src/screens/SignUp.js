@@ -24,12 +24,12 @@ import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import { loginWithGoogle, signupWithEmail } from '../services/firebaseAuth';
 const SignUpScreen = () => {
+  const [isLoading,setIsLoading]=useState(false)
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
   const [email,setEmail]=useState('')
   const [name, setName] = useState ('');
   const [password, setPassword] = useState('');
-
   const handleSignup=async () => {
     if (!name || !email || !password) {
       alert('Please fill all fields');
@@ -40,12 +40,16 @@ const SignUpScreen = () => {
       alert('Please accept terms & conditions');
       return;
     }
-
+setIsLoading(true)
     try {
+
       await signupWithEmail(email, password, name);
+      setIsLoading(false)
       navigation.replace('Home');
     } catch (e) {
       alert(e.message);
+            setIsLoading(false)
+
     }
   }
   return (
@@ -115,7 +119,7 @@ const SignUpScreen = () => {
             {/* Button */}
            <ButtonSimple
   textStyle={{ color: colors.white }}
-  title="Sign Up"
+  title={isLoading?"Signing Up...":"Sign Up"}
   backgroundColor={colors.black}
   onPress={handleSignup}
 />

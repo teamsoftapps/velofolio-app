@@ -29,6 +29,10 @@
 
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import database from '@react-native-firebase/database';
+
+
+
 
 
 
@@ -52,14 +56,27 @@ const parseError = error => {
   }
 };
 
-/* SIGNUP */
-export const signupWithEmail = async (email, password) => {
-  try {
-    return await auth().createUserWithEmailAndPassword(email, password);
-  } catch (e) {
-    throw new Error(parseError(e));
-  }
+const saveUserToRTDB = async (user, name = null) => {
+  await database().ref(`/users/${user.uid}`).set({
+    uid: user.uid,
+    email: user.email,
+    name: name || user.displayName || 'User',
+    provider: user.providerData[0]?.providerId,
+    createdAt: Date.now(),
+  });
 };
+export const signupWithEmail = async (email, password, name) => {
+  const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+
+  await userCredential.user.updateProfile({ displayName: name });
+  await userCredential.user.reload();
+
+  // Save to RTDB
+  await saveUserToRTDB(userCredential.user, name);
+
+  return userCredential.user;
+};
+
 
 /* LOGIN */
 export const loginWithEmail = async (email, password) => {
@@ -72,25 +89,19 @@ export const loginWithEmail = async (email, password) => {
 
 
 export const loginWithGoogle = async () => {
-  try {
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    const idToken=userInfo?.data?.idToken
-console.log("userInfo",userInfo)
-    if (!idToken) {
-      throw new Error('No ID token returned from Google Sign-In. Check webClientId in configure().');
-    }
+  await GoogleSignin.hasPlayServices();
+  const userInfo = await GoogleSignin.signIn();
+  const idToken = userInfo?.idToken || userInfo?.data?.idToken;
 
-    const credential = auth.GoogleAuthProvider.credential(idToken);
+  const credential = auth.GoogleAuthProvider.credential(idToken);
+  const userCredential = await auth().signInWithCredential(credential);
 
+  // Save to RTDB
+  await saveUserToRTDB(userCredential.user);
 
-    const userCredential = await auth().signInWithCredential(credential);
-    return userCredential;
-  } catch (error) {
-    console.error('Google login error:', error);
-    throw error;
-  }
+  return userCredential;
 };
+
 
 
 
