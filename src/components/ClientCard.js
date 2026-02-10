@@ -85,7 +85,7 @@ export default ClientCard;
 const styles = StyleSheet.create({
   card: {
     width: responsiveWidth(90),
-    backgroundColor: colors.blueSecondary,
+    backgroundColor: colors.greenSecondary,
     padding: responsiveWidth(4.5),
     borderRadius: responsiveWidth(4.5),
     marginBottom: responsiveHeight(2.4),

@@ -8,6 +8,7 @@ import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
 import ClientCard from "../components/ClientCard"
+import { useNavigation } from '@react-navigation/native';
 const ClientsData = [
   {
     id: 1,
@@ -94,10 +95,14 @@ const ClientsData = [
 
 
 const Clients = () => {
+  const navigation=useNavigation()
+  const navigateToClientForm=()=>{
+    navigation.navigate("AddClients")
+  }
   return (
     <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
-        <CustomHeader title="Clients" />
+        <CustomHeader title="Clients" onPress={navigateToClientForm}/>
 
         <View style={styles.searchContainer}>
           <View style={styles.inputWrapper}>

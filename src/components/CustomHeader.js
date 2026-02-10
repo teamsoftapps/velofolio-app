@@ -6,25 +6,37 @@ import colors from '../utils/colors';
 import CustomText from './CustomText';
 import ButtonSimple from './Button';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import { useNavigation } from '@react-navigation/native';
 
 
-const CustomHeader = ({ title }) => {
+const CustomHeader = ({ title,onPress }) => {
+  const navigation = useNavigation();
+
+const handleGoBack = () => {
+  navigation.goBack();
+};
+
   return (
     <View style={styles.header}>
-      <View style={styles.leftSide}>
-        <TouchableOpacity style={styles.leftIcon}>
+      <View  style={[
+    styles.leftSide,
+    (title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients") && { width: '100%' },
+  ]}>
+        <TouchableOpacity style={styles.leftIcon} onPress={handleGoBack}>
           <Ionicons name="arrow-back-outline" size={26} color={colors.text} />
         </TouchableOpacity>
         <View>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>
       </View>
+
+      {   !(title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients")&&
       <View style={styles.sideContainer}>
-        <ButtonSimple title={`Add ${title==="Calendar"?"New":title.slice(0,-1)}`} leftIcon={
+        <ButtonSimple title={`Add ${title==="Calendar"?"New":title.slice(0,-1)}`} onPress={onPress} leftIcon={
           <Fontisto name="plus-a" size={20} color={colors.white}/>
         }   style={styles.rightButton}  textStyle={styles.addButtonText}    />
        
-      </View>
+      </View>}
     </View>
   );
 };

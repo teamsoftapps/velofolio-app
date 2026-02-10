@@ -9,17 +9,19 @@ import {
 import CustomText from './CustomText';
 import colors from '../utils/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 
 const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
+  const navigation=useNavigation()
   return (
     <View style={styles.container}>
       {/* Left: Profile + Greeting */}
       <View style={styles.leftSection}>
-        <Image
+        {/* <Image
           source={require('../assets/Profile.png')}
           style={styles.avatar}
           resizeMode="cover"
-        />
+        /> */}
 
         <View style={styles.greeting}>
           <CustomText style={styles.hiText} fontWeight="bold">
@@ -31,7 +33,18 @@ const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
           </CustomText>
         </View>
       </View>
+      
 
+            <TouchableOpacity onPress={()=>  navigation.navigate("Notifications")
+} style={styles.menuButton}>
+        {/* <View style={styles.hamburger}>
+          <View style={styles.line} />
+          <View style={styles.line} />
+          <View style={styles.line} />
+        </View> */}
+        <View style={styles.unread}></View>
+        <Ionicons name='notifications-outline' size={responsiveWidth(9)}/>
+      </TouchableOpacity>
       {/* Right: Menu Icon */}
       <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
         {/* <View style={styles.hamburger}>
@@ -52,7 +65,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-
+gap:responsiveWidth(2),
     paddingHorizontal: responsiveWidth(5),
     paddingTop: responsiveHeight(2),
     paddingBottom: responsiveHeight(3),
@@ -82,7 +95,18 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(3.2),
     color: colors.black,
   },
+unread:{
+width:responsiveWidth(3),
+height:responsiveHeight(1.5),
+backgroundColor:colors.yellowAccent,
+borderRadius:responsiveWidth(10),
+position:'absolute',
+top:responsiveWidth(2),
+left:responsiveWidth(6),
+zIndex:10
 
+
+},
   subtitle: {
     fontSize: responsiveFontSize(1.9),
     lineHeight: responsiveFontSize(2.6),
@@ -92,6 +116,10 @@ const styles = StyleSheet.create({
 
   menuButton: {
     padding: responsiveWidth(2),
+    borderColor:colors.gray,
+    borderWidth:responsiveWidth(0.7 ),
+    borderRadius:responsiveWidth(3),
+    position:"relative"
   },
 
   hamburger: {

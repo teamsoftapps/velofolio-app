@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "130588342127",
+    "firebase_url": "https://velofolio-6b313-default-rtdb.firebaseio.com",
     "project_id": "velofolio-6b313",
     "storage_bucket": "velofolio-6b313.firebasestorage.app"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.velofolio",
             "certificate_hash": "c39342e305dad0d4366b0964150e39b8b55ebc28"
+          }
+        },
+        {
+          "client_id": "130588342127-grr9tqdkdtfekalnrkmqfgjqgc3afq1l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.velofolio",
+            "certificate_hash": "0791ed5334d85f41f9e8d63aa8916d52905b7ed7"
           }
         },
         {

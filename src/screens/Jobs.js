@@ -7,6 +7,7 @@ import CustomHeader from '../components/CustomHeader';
 import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
+import { useNavigation } from '@react-navigation/native';
 const JobsData = [
   {
     tags: [
@@ -71,10 +72,14 @@ const JobsData = [
 ];
 
 const Jobs = () => {
+  const navigation=useNavigation()
+  const navigatetoJobForm=()=>{
+    navigation.navigate("AddJobs")
+  }
   return (
     <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
-        <CustomHeader title="Jobs" />
+        <CustomHeader title="Jobs"  onPress={navigatetoJobForm}/>
 
         <View style={styles.searchContainer}>
           <View style={styles.inputWrapper}>

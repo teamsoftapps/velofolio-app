@@ -9,6 +9,10 @@ import CalendarScreen from '../screens/Calendar';
 import CustomTabBar from '../components/CustomTabBar';
 import { TabParamList } from './types';
 import ActonModal from "../components/ActionModal"
+import Notifications from "../screens/Notifications"
+import AddJobs from "../screens/AddJobs"
+import AddClients from "../screens/AddClients"
+
 const Tab = createBottomTabNavigator();
 
 const AppTabsNavigator = () => {
@@ -25,6 +29,11 @@ const AppTabsNavigator = () => {
       <Tab.Screen name="Jobs" component={JobsScreen} />
       <Tab.Screen name="Clients" component={ClientsScreen} />
       <Tab.Screen name="Calendar" component={CalendarScreen} />
+      <Tab.Screen name="AddJobs" component={AddJobs} />
+      <Tab.Screen name="AddClients" component={AddClients} />
+
+
+      <Tab.Screen name="Notifications" component={Notifications} />
     </Tab.Navigator>
     </>
   );

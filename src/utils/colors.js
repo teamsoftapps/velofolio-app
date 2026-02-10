@@ -21,6 +21,7 @@ const colors = {
   greyLight: '#F5F5F5',
   red: '#FF0000',
   purpleLight: '#E1D3F7',
+  grayDark:"#A89C9C",
   gray: '#E1E1E1',
   disabled: '#AFAFAF',
   borderLight: '#EEEEEE',

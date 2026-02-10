@@ -16,15 +16,16 @@ const InputField = ({
   containerStyle,
   isPassword = false,
   style,
+  labelStyle,
   ...props
 }) => {
   const [secure, setSecure] = useState(isPassword);
 
   return (
-    <View style={[styles.wrapper, containerStyle]}>
-      {label && <CustomText style={styles.label}>{label}</CustomText>}
+    <View style={[styles.wrapper]}>
+      {label && <CustomText style={[styles.label,labelStyle]}>{label}</CustomText>}
 
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer,containerStyle]}>
         <TextInput
           {...props}
           style={[styles.input, style]}

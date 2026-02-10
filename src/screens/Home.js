@@ -20,15 +20,16 @@ import colors from '../utils/colors';
 import { logoutUser } from '../services/firebaseAuth';
 import auth from "@react-native-firebase/auth"
 import database from '@react-native-firebase/database';
+// import { useNavigation } from '@react-navigation/native';
  
 const Home = () => {
+  // const navigation=useNavigation()
   const [userData, setUserData] = useState(null);
   const actionItems = [
     { id: '1', title: 'New Job' },
     { id: '2', title: 'New Client' },
     { id: '3', title: 'Team Member' },
   ];
-
 
 
 useEffect(() => {
@@ -109,6 +110,7 @@ console.log(userData)
       </View>
     </View>
   );
+  
   return (
     <ScreenWrapper backgroundColor={colors.screenBackground}>
       <ScrollView>
