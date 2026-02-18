@@ -1,5 +1,5 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
@@ -8,6 +8,9 @@ import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
 import { useNavigation } from '@react-navigation/native';
+import ViewToggle from "../components/ViewToggle"
+import JobCardBoard from "../components/JobCardBoard"
+import JobBoardView from "../components/JobBoardView"
 const JobsData = [
   {
     tags: [
@@ -76,16 +79,19 @@ const Jobs = () => {
   const navigatetoJobForm=()=>{
     navigation.navigate("AddJobs")
   }
+  const [viewType, setViewType] = useState('List'); // 'list' or 'grid'
+
   return (
     <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
         <CustomHeader title="Jobs"  onPress={navigatetoJobForm}/>
 
         <View style={styles.searchContainer}>
-          <View style={styles.inputWrapper}>
-            <SearchInput placeholder="Search Jobs" />
-          </View>
-
+<ViewToggle
+  options={['List', 'Board']}
+  selected={viewType}
+  onSelect={setViewType}
+/>
           <TouchableOpacity style={styles.rightIcon}>
             <Ionicons
               name="options-outline"
@@ -95,13 +101,16 @@ const Jobs = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
+  { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
     alignItems: 'center', // or 'flex-start', 'flex-end'
   }}>
        {JobsData.map((job, index) => (
         <JobCard key={index} job={job} />
+       
       ))}
-      </ScrollView>
+      </ScrollView>}
+{viewType==="Board"&&<JobBoardView/>}
+      {/* <JobCardBoard/> */}
       {/* <CustomTabBar state={'state'} navigation={'navigation'} /> */}
     </ScreenWrapper>
   );
@@ -134,6 +143,7 @@ paddingVertical:responsiveHeight(2)
     alignItems: 'center',
     // paddingHorizontal: responsiveWidth(5),
     gap: responsiveWidth(3),
+    justifyContent:"space-between"
   },
 
   inputWrapper: {
@@ -151,4 +161,15 @@ paddingVertical:responsiveHeight(2)
     alignItems: 'center',
     paddingHorizontal: responsiveWidth(1),
   },
+  toggleWrapper:{
+    width:responsiveWidth(40),
+    backgroundColor:colors.gray3,
+    height:responsiveHeight(5),
+    paddingHorizontal:responsiveWidth(2),
+    paddingVertical:responsiveHeight(3.2),
+    borderRadius:responsiveWidth(12)
+  },
+  toggleText:{
+    color:colors.black
+  }
 });

@@ -11,6 +11,7 @@ const colors = {
   whiteTransparent1: '#FFFFFF66',
   blackTransparent1: '#00000014',
   whiteTransparent2: '#FFFFFFCC',
+  gray3:"#F2F2F2",
   black: '#000000',
   white: '#FFFFFF',
   greenSecondary: '#E0F9ED',
