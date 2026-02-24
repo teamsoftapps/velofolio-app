@@ -20,9 +20,10 @@ import colors from '../utils/colors';
 import { logoutUser } from '../services/firebaseAuth';
 import auth from "@react-native-firebase/auth"
 import database from '@react-native-firebase/database';
+import VelofolioSidebar from "../components/Sidebar"
 // import { useNavigation } from '@react-navigation/native';
  
-const Home = () => {
+const Home = ({sidebarVisible,setSidebarVisible}) => {
   // const navigation=useNavigation()
   const [userData, setUserData] = useState(null);
   const actionItems = [
@@ -114,7 +115,7 @@ console.log(userData)
   return (
     <ScreenWrapper backgroundColor={colors.screenBackground}>
       <ScrollView>
-        <DashboardHeader name={(userData?.displayName || userData?.name)||"User"} onMenuPress={logoutUser} />
+        <DashboardHeader name={(userData?.displayName || userData?.name)||"User"} onMenuPress={()=>setSidebarVisible(!sidebarVisible)} />
 
         <View style={styles.container}>
           <CustomText style={styles.todayTitle} fontWeight="600">
@@ -242,7 +243,7 @@ console.log(userData)
           </View>
         </View>
       </ScrollView>
-    </ScreenWrapper>
+   </ScreenWrapper>
   );
 };
 

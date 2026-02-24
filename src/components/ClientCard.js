@@ -12,7 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ClientMetaRow from "../components/ClientBottomRow"
 import ClientAvatarInfo from "../components/AvatarInfro"
 import ActionButtons from "../components/ActionButton"
-const ClientCard = ({ job = {}, onEdit, onDelete }) => {
+const ClientCard = ({ job = {}, onEdit, onDelete ,teamColor,onPress}) => {
   const defaultJob = {
     tags: [],
     clientName: "Unknown Client",
@@ -37,7 +37,7 @@ const ClientCard = ({ job = {}, onEdit, onDelete }) => {
   } = data;
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity onPress={onPress} style={[styles.card,{backgroundColor:teamColor}]}>
 
       <View style={styles.topContainer}>
       <View style={styles.topRow}>
@@ -76,7 +76,7 @@ const ClientCard = ({ job = {}, onEdit, onDelete }) => {
         totalAmount={totalAmount}
       />
 
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -52,7 +52,7 @@ const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
           <View style={styles.line} />
           <View style={styles.line} />
         </View> */}
-        <Ionicons name='exit-outline' size={responsiveWidth(9)}/>
+        <Ionicons name='menu' size={responsiveWidth(9)}/>
       </TouchableOpacity>
     </View>
   );

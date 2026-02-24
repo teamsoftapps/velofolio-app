@@ -20,7 +20,7 @@ const handleGoBack = () => {
     <View style={styles.header}>
       <View  style={[
     styles.leftSide,
-    (title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients") && { width: '100%' },
+    (title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients" ||title==="Settings" || title==="Add New Memebers"||title==="Profile") && { width: '100%' },
   ]}>
         <TouchableOpacity style={styles.leftIcon} onPress={handleGoBack}>
           <Ionicons name="arrow-back-outline" size={26} color={colors.text} />
@@ -30,9 +30,13 @@ const handleGoBack = () => {
         </View>
       </View>
 
-      {   !(title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients")&&
+      {   !(title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients"||title==="Settings"|| title==="Add New Memebers")&&
       <View style={styles.sideContainer}>
-        <ButtonSimple title={`Add ${title==="Calendar"?"New":title.slice(0,-1)}`} onPress={onPress} leftIcon={
+        <View style={styles.mail}>
+                    <Ionicons name="mail-outline" size={responsiveWidth(8)} color={colors.white} />
+
+          </View>
+        <ButtonSimple title={`Add ${title==="Calendar"?"New":title==="Teams"?"Member":title.slice(0,-1)}`} onPress={onPress} leftIcon={
           <Fontisto name="plus-a" size={20} color={colors.white}/>
         }   style={styles.rightButton}  textStyle={styles.addButtonText}    />
        
@@ -49,7 +53,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: responsiveWidth(4),
-    // paddingHorizontal: responsiveWidth(3),
+    backgroundColor:colors.white,
+    paddingHorizontal: responsiveWidth(2),
   },
   headerTitle: {
     fontSize: responsiveWidth(6),
@@ -62,6 +67,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: responsiveWidth(4),
   },
+  mail:{
+padding:responsiveWidth(2),
+backgroundColor:colors.greenAccent,
+width:responsiveWidth(15),
+borderRadius:responsiveWidth(3),
+justifyContent:"center",
+alignItems:"center"
+  },
   leftIcon: {
     width: responsiveWidth(12),
     height: responsiveWidth(12),
@@ -71,6 +84,10 @@ const styles = StyleSheet.create({
 
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  sideContainer:{
+    flexDirection:"row",
+    gap:responsiveWidth(2)
   },
   plusIcon: {
     fontSize: responsiveWidth(7),
@@ -87,6 +104,7 @@ const styles = StyleSheet.create({
     gap: responsiveWidth(7),
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal:responsiveWidth(3)
   },
   addButtonText: {
     color: colors.white,
