@@ -5,6 +5,10 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import Jobs from './src/screens/Jobs';
 import Clients from './src/screens/Clients';
 import MyCalendarScreen from './src/screens/Calendar';
+import UserProfileScreen from './src/screens/Profile';
+import Workload from "./src/components/Profile/WorkloadOverview"
+import Payments from "./src/screens/Payments"
+import ReportAnalysis from "./src/screens/ReportAnalysis"
 GoogleSignin.configure({
   webClientId:
     '130588342127-kmrjq28tj7eodkio74imb0ouc1cdrdd1.apps.googleusercontent.com',
@@ -17,6 +21,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <RootNavigator />
+      {/* <ReportAnalysis/> */}
+      {/* <Payments/> */}
+      {/* <Workload/> */}
       {/* <Jobs /> */}
       {/* <Clients/> */}
       {/* <MyCalendarScreen/> */}

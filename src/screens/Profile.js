@@ -1,68 +1,5 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-// import ScreenWrapper from '../components/ScreenWrapper'
-// import { responsiveWidth } from 'react-native-responsive-dimensions'
-// import colors from '../utils/colors'
-// import CustomHeader from '../components/CustomHeader'
 
-// const Profile = () => {
-//   return (
-//     <ScreenWrapper>
-    //         <View style={styles.headWrapper}>
-    //     <CustomHeader title="Profile" onPress={""}/>
-
-    //     <View style={styles.searchContainer}>
-         
-
-       
-    //     </View>
-    //   </View>
-//     </ScreenWrapper>
-//   )
-// }
-
-// export default Profile
-
-// const styles = StyleSheet.create({
-//      headWrapper: {
-//     backgroundColor: colors.white,
-//     borderBottomLeftRadius: responsiveWidth(6),
-//     borderBottomRightRadius: responsiveWidth(6),
-//     paddingVertical: responsiveWidth(3),
-//     paddingHorizontal:responsiveWidth(3)
-//   },
-//   cardContainer: {
-//     marginTop: responsiveWidth(4),
-//     // paddingHorizontal: responsiveWidth(4),
-//     flex: 1,
-//     gap:responsiveWidth(3),
-//     // alignItems:"center"
-
-//   },
-//   searchContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     // paddingHorizontal: responsiveWidth(5),
-//     gap: responsiveWidth(3),
-//   },
-
-//   inputWrapper: {
-//     flex: 1,
-//     marginVertical: responsiveWidth(4),
-//   },
-
-//   rightIcon: {
-//     width: responsiveWidth(14),
-//     height: responsiveWidth(14),
-//     borderRadius: responsiveWidth(3),
-//     borderWidth: 2,
-//     borderColor: colors.inputBorder,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     paddingHorizontal: responsiveWidth(1),
-//   },
-// })
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -86,15 +23,143 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomHeader from '../components/CustomHeader';
+import ProfileTabs from "../components/Profile/ProfileTabs"
+import ProfileDetails from  "../components/Profile/ProfileDetail"
+import WorkloadOverview from '../components/Profile/WorkloadOverview';
+import JobList from "../components/Profile/JobnTaskLIst"
+import Availibility from "../components/Profile/Availibility"
 
+
+const JobsData = [
+  {
+    tags: [
+      { title: "Wedding", color: colors.white, bgColor: colors.blueAccent },
+      { title: "In Progress", color: colors.black, bgColor: colors.purpleLight },
+    ],
+    title: "Wedding Film Mark & Jess",
+    details: [
+      { label: "Event Date", value: "12 Nov 2025" },
+      { label: "Location", value: "New York" },
+    ],
+    progress: {
+      colors: colors.yellowAccent,
+      percent: 70,
+    },
+  },
+  {
+    tags: [
+      { title: "Corporate", color: colors.white, bgColor: colors.greenAccent },
+      { title: "Pending", color: colors.white, bgColor: colors.greenAccent },
+    ],
+    title: "Annual Report Video",
+    details: [
+      { label: "Event Date", value: "22 Dec 2025" },
+      { label: "Location", value: "San Francisco" },
+    ],
+    progress: {
+      colors: colors.greenAccent,
+      percent: 45,
+    },
+  },
+  {
+    tags: [
+      { title: "Birthday", color: colors.white, bgColor: colors.blueAccent},
+      { title: "Completed", color: colors.white, bgColor: colors.greenAccent }
+    ],
+    title: "Emma's 30th Birthday Party",
+    details: [
+      { label: "Event Date", value: "05 Jan 2026" },
+      { label: "Location", value: "Los Angeles" },
+    ],
+    progress: {
+      colors: colors.pinkAccent,
+      percent: 100,
+    },
+  },
+  {
+    tags: [
+      { title: "Festival", color: colors.black, bgColor: colors.purpleLight },
+      { title: "In Progress", color: colors.white, bgColor: colors.greenAccent },
+    ],
+    title: "Music Festival Promo",
+    details: [
+      { label: "Event Date", value: "18 Feb 2026" },
+      { label: "Location", value: "Miami" },
+    ],
+    progress: {
+      colors: colors.purpleAccent,
+      percent: 30,
+    },
+  },
+];
+
+
+const taskData = [
+  {
+    tags: [
+      { title: "High", color: colors.white, bgColor: colors.red },
+    ],
+    title: "Pre Wedding Shoot",
+    name: "Sarah & John",
+    progress: {
+      colors: colors.yellowAccent,
+      percent: 70,
+    },
+  },
+  {
+    tags: [
+      { title: "Medium", color: colors.white, bgColor: colors.tealPrimary  },
+    ],
+    title: "Corporate Interview Editing",
+    name: "Tech Summit 2026",
+    progress: {
+      colors: colors.orange,
+      percent: 40,
+    },
+  },
+  {
+    tags: [
+      { title: "Low", color: colors.white, bgColor: colors.blueAccent },
+    ],
+    title: "Social Media Promo Cut",
+    name: "Brand Campaign",
+    progress: {
+      colors: colors.blueAccent,
+      percent: 55,
+    },
+  },
+  {
+    tags: [
+      { title: "Urgent", color: colors.white, bgColor: colors.red },
+    ],
+    title: "Event Highlight Reel",
+    name: "Music Festival 2026",
+    progress: {
+      colors: colors.red,
+      percent: 10,
+    },
+  },
+  {
+    tags: [
+      { title: "In Progress", color: colors.white, bgColor: colors.greenAccent },
+    ],
+    title: "Wedding Teaser Video",
+    name: "Emma & Liam",
+    progress: {
+      colors: colors.greenAccent,
+      percent: 85,
+    },
+  },
+];
 const UserProfileScreen = () => {
+    const [activeTab, setActiveTab] = useState('ABOUT');
+
   return (
-    <ScrollView
+    <View
       style={styles.container}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.contentContainer}
     >
-      {/* Profile Header */}
         <View style={styles.headWrapper}>
         <CustomHeader title="Profile" onPress={""} />
    <View style={styles.headerCard}>
@@ -107,7 +172,16 @@ const UserProfileScreen = () => {
           />
 
           <View style={styles.infoContainer}>
+            <View style={styles.headingRow}>
             <Text style={styles.name}>Sarah Lee</Text>
+               <TouchableOpacity hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
+            <Feather
+              name="more-horizontal"
+              size={responsiveFontSize(2.8)}
+              color={colors.grayDark || '#6b7280'}
+            />
+          </TouchableOpacity>
+            </View>
             <Text style={styles.title}>Lead Photographer</Text>
 
             <View style={styles.statusBadge}>
@@ -121,125 +195,31 @@ const UserProfileScreen = () => {
             </View>
           </View>
 
-          <TouchableOpacity hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
-            <Feather
-              name="more-horizontal"
-              size={responsiveFontSize(2.8)}
-              color={colors.grayDark || '#6b7280'}
-            />
-          </TouchableOpacity>
+       
         </View>
       </View>
-
-      {/* Tabs */}
-      <View style={styles.tabsWrapper}>
-        <View style={styles.tabs}>
-          <Text style={[styles.tabItem, styles.activeTab]}>ABOUT</Text>
-          <Text style={styles.tabItem}>OVERVIEW</Text>
-          <Text style={styles.tabItem}>JOBS</Text>
-          <Text style={styles.tabItem}>TASKS</Text>
-          <Text style={styles.tabItem}>AVAILABILITY</Text>
-        </View>
-
-        <View style={styles.tabUnderline} />
-      </View>
+ <ProfileTabs
+        activeTab={activeTab}
+        onTabPress={setActiveTab}
+      />
       
       </View>
    
+<ScrollView
+  style={{ flex: 1 }}
+  contentContainerStyle={styles.tabsData}
+  showsVerticalScrollIndicator={false}
+>
+  {activeTab === 'ABOUT' && <ProfileDetails />}
+  {activeTab === 'OVERVIEW' && <WorkloadOverview />}
+  {activeTab === 'JOBS' && <JobList Data={JobsData} />}
+  {activeTab === 'TASKS' && <JobList tab="task" Data={taskData} />}
+  {activeTab==="AVAILABILITY"&& <Availibility/>}
+</ScrollView>
 
-      {/* Personal Details */}
-      <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>Personal Details</Text>
 
-        <View style={styles.row}>
-          <Ionicons
-            name="person-outline"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Full Name</Text>
-          <Text style={styles.value}>Sarah Lee</Text>
-        </View>
-
-        <View style={styles.row}>
-          <MaterialCommunityIcons
-            name="cake-variant-outline"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Date of Birth</Text>
-          <Text style={styles.value}>January 1, 1987</Text>
-        </View>
-
-        <View style={styles.row}>
-          <MaterialCommunityIcons
-            name="gender-female"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Gender</Text>
-          <Text style={styles.value}>Female</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Ionicons
-            name="location-outline"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Address</Text>
-          <Text style={styles.valueMultiLine}>
-            225 Cherry Street #24,{'\n'}
-            New York, NY
-          </Text>
-        </View>
-
-        <View style={styles.row}>
-          <MaterialIcons
-            name="event-available"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Joining Date</Text>
-          <Text style={styles.value}>Jan 12, 2024</Text>
-        </View>
-      </View>
-
-      {/* Contact Details */}
-      <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>Contact Details</Text>
-
-        <View style={styles.row}>
-          <MaterialIcons
-            name="mail-outline"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Email</Text>
-          <Text style={styles.value}>sarah@studio.com</Text>
-        </View>
-
-        <View style={styles.row}>
-          <Ionicons
-            name="call-outline"
-            size={responsiveFontSize(2.5)}
-            color={colors.grayDark || '#64748b'}
-            style={styles.icon}
-          />
-          <Text style={styles.label}>Phone</Text>
-          <Text style={styles.value}>+1(514) 550-3281</Text>
-        </View>
-      </View>
-
-      {/* Bottom spacing */}
-      <View style={{ height: responsiveHeight(6) }} />
-    </ScrollView>
+      {/* <View style={{ height: responsiveHeight(6) }} /> */}
+    </View>
   );
 };
 
@@ -272,6 +252,10 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
+  },
+  tabsData:{
+ flexGrow: 1,   // 🔥 THIS IS THE KEY FIX
+  paddingBottom: responsiveHeight(5),
   },
   name: {
     fontSize: responsiveFontSize(2.8),
@@ -314,6 +298,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     // marginBottom: responsiveHeight(1.2),
+  },
+  headingRow:{
+flexDirection:"row",
+justifyContent:"space-between",
+alignItems:"center"
   },
   tabItem: {
     fontSize: responsiveFontSize(1.9),

@@ -69,12 +69,14 @@ const navigation=useNavigation()
               <Text style={styles.itemText}>Leads</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.item} onPress={() => { onClose() }}>
+            <TouchableOpacity style={styles.item} onPress={() => { navigation.navigate("Payments")
+            onClose() }}>
               <Ionicons name="card-outline" size={responsiveWidth(5.5)} color={colors.grayDark} />
               <Text style={styles.itemText}>Payments & Invoices</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.item} onPress={() => { onClose() }}>
+            <TouchableOpacity style={styles.item} onPress={() => { navigation.navigate("ReportAnalysis")
+            onClose() }}>
               <Icon name="analytics" size={responsiveWidth(5.5)} color={colors.grayDark} />
               <Text style={styles.itemText}>Reports & Analytics</Text>
             </TouchableOpacity>

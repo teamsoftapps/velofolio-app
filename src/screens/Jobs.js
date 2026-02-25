@@ -79,7 +79,7 @@ const Jobs = () => {
   const navigatetoJobForm=()=>{
     navigation.navigate("AddJobs")
   }
-  const [viewType, setViewType] = useState('List'); // 'list' or 'grid'
+  const [viewType, setViewType] = useState('List'); 
 
   return (
     <ScreenWrapper backgroundColor="transparent" >
@@ -102,7 +102,7 @@ const Jobs = () => {
         </View>
       </View>
   { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
-    alignItems: 'center', // or 'flex-start', 'flex-end'
+    alignItems: 'center',
   }}>
        {JobsData.map((job, index) => (
         <JobCard key={index} job={job} />

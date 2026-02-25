@@ -4,7 +4,7 @@ import * as Progress from 'react-native-progress';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors';
 
-const ProgressWithBackground = ({ progress = 0.7 }) => {
+const ProgressWithBackground = ({ progress = 0.7 ,tab}) => {
   const percent = Math.round(progress * 100);
 
   return (
@@ -14,9 +14,9 @@ const ProgressWithBackground = ({ progress = 0.7 }) => {
         width={responsiveWidth(70)}           // ← most of the width
         height={responsiveHeight(1.3)}
         color={colors.yellowAccent}
-        unfilledColor="white"              // ← usually better than transparent
+        unfilledColor={tab==="task"?colors.gray:'white'}            // ← usually better than transparent
         borderWidth={3}
-        borderColor='white'
+        borderColor={'white'}
         borderRadius={responsiveWidth(2)}
       />
 

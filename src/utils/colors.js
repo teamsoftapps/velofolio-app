@@ -53,6 +53,8 @@ const colors = {
   textLight: '#999999',
   borderSoft: '#E0E0E0',
   transparent: 'transparent',
+  goldPrimary: '#CC980A',
+  graySecondary:"#818181"
 };
 
 export default colors;

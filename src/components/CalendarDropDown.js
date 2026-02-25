@@ -7,7 +7,7 @@ import colors from '../utils/colors';
 import IconButton from "./IconButton"
 import { formatDate } from '../utils/formateDate';
 
-const CalendarFilter = ({ selectedDate, onDateChange }) => {
+const CalendarFilter = ({ selectedDate, onDateChange,availStyle }) => {
   const [showPicker, setShowPicker] = useState(false);
 
   const handleDateChange = (event, date) => {
@@ -21,7 +21,7 @@ const CalendarFilter = ({ selectedDate, onDateChange }) => {
     <View style={styles.container}>
 
       <TouchableOpacity
-        style={styles.dropdown}
+        style={[styles.dropdown,availStyle]}
         onPress={() => setShowPicker(true)}
         activeOpacity={0.7}
       >
