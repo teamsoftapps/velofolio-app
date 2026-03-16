@@ -19,6 +19,7 @@ import AddTeams from "../screens/AddTeams"
 import Profile from "../screens/Profile"
 import Payment from "../screens/Payments"
 import ReportAnalysis from "../screens/ReportAnalysis"
+import ClientProfile from "../screens/ClientProfile"
 
 const Tab = createBottomTabNavigator();
 
@@ -38,11 +39,13 @@ const AppTabsNavigator = () => {
       <Tab.Screen name="Home">
         {props => <HomeScreen {...props} setSidebarVisible={setSidebarVisible} />}
       </Tab.Screen>
+
       <Tab.Screen name="Jobs" component={JobsScreen} />
       <Tab.Screen name="Teams" component={Teams} />
       <Tab.Screen name="Profile" component={Profile} />
       <Tab.Screen name="Payments" component={Payment} />
             <Tab.Screen name="ReportAnalysis" component={ReportAnalysis} />
+      <Tab.Screen name="ClientProfile" component={ClientProfile} />
 
 
 

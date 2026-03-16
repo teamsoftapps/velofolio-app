@@ -23,7 +23,7 @@ const JobCard = ({job,tab}) => {
   // const job = JobsData[0];
 
   return (
-    <View style={[styles.card,{backgroundColor:tab==="task"?colors.white:colors.yellowSecondary,height:tab==="task"?"auto":""}]}>
+    <View style={[styles.card,{backgroundColor:(tab==="task"||tab==="clientjob")?colors.white:colors.yellowSecondary,height:tab==="task"?"auto":""}]}>
       {/* Tags */}
       <View style={styles.tagsWrapper}>
         <View style={styles.tagsContainer}>
@@ -60,7 +60,7 @@ const JobCard = ({job,tab}) => {
 
       </View>
 
-{tab!=="task"  && <View style={styles.detailConatiner}>
+{tab!=="task"  && <View style={[styles.detailConatiner,{backgroundColor:tab==="clientjob"?colors.blueSecondary:"",padding:tab==="clientjob"?responsiveWidth(2):responsiveWidth(0),justifyContent:tab==="clientjob"?"space-between":""}]}>
         {job.details.map((detail, index) => (
           <DetailItem
             key={index}
@@ -71,11 +71,12 @@ const JobCard = ({job,tab}) => {
       </View>}
 
       {/* Progress Bar (keep as is) */}
-      <View style={styles.progressbar}>
+   {tab!=="clientjob"  && <View style={styles.progressbar}>
         <ProgressBar tab={tab}/>
-      </View>
+      </View>}
 
 
+        {/* {tab==="clientjob" && <Text>Team</Text>} */}
       <View style={styles.bottomConatiner}>
 {tab==="task"&&  < ><View style={styles.date}>
           <Icon name='calendar-today' color={colors.grayDark} size={18}/>
@@ -89,14 +90,18 @@ const JobCard = ({job,tab}) => {
             text={"Pending"}
           /></>  }  
 
-
       {tab!=="task"  && <>  <View style={styles.teamContainer}>
           <TeamComponent />
         </View>
 
-  <ActionButtons
+  {tab!=="clientjob" &&<ActionButtons
   direction="row-reverse"
-/></>}
+/>
+  }
+
+
+
+</>}
       </View>
     </View>
   );
@@ -192,5 +197,6 @@ fontWeight:"500"
   },
   heading: {
     fontSize: responsiveWidth(5),
+    fontWeight:"500"
   },
 });

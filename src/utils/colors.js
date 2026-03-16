@@ -54,7 +54,10 @@ const colors = {
   borderSoft: '#E0E0E0',
   transparent: 'transparent',
   goldPrimary: '#CC980A',
-  graySecondary:"#818181"
+  graySecondary:"#818181",
+  veryLightGray:"#F3F3F3",
+  greenLight:"#dcfce7",
+  emred:"#2BCB37"
 };
 
 export default colors;

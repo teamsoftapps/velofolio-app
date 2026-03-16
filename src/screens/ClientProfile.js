@@ -30,6 +30,9 @@ import JobList from "../components/Profile/JobnTaskLIst"
 import Availibility from "../components/Profile/Availibility"
 import ProfileHeaderCard from "../components/ProfileHeaderCard"
 import InvoiceCard from '../components/InvoiceCard';
+import ContractCard from '../components/ContractCard';
+import FollowUpCard from '../components/FollowUpCard';
+import SearchFilterComponnet from '../components/SearchFilterComponent';
 const JobsData = [
     {
         tags: [
@@ -175,7 +178,7 @@ const taskData = [
   ];
 const ClientProfile = () => {
     const [activeTab, setActiveTab] = useState('ABOUT');
-const tabs = ['ABOUT', 'OVERVIEW', 'EVENTS', 'TASKS', 'CONTRACTS & DOCS',"INVOICES & PAYMENTS"];
+const tabs = ['ABOUT', 'OVERVIEW','JOBS', 'CONTRACTS & DOCS','MAIL',"INVOICES & PAYMENTS"];
 
     return (
         <View
@@ -210,10 +213,14 @@ const tabs = ['ABOUT', 'OVERVIEW', 'EVENTS', 'TASKS', 'CONTRACTS & DOCS',"INVOIC
             >
                 {activeTab === 'ABOUT' && <ProfileDetails  type="Client"/>}
                 {activeTab === 'OVERVIEW' && <WorkloadOverview  type="Client"  />}
-                {activeTab === 'JOBS' && <JobList Data={JobsData} />}
+                {activeTab === 'JOBS' && <JobList tab='clientjob' Data={JobsData} />}
                 {activeTab === 'TASKS' && <JobList tab="task" Data={taskData} />}
                 {activeTab === "AVAILABILITY" && <Availibility />}
-                {activeTab === "INVOICES & PAYMENTS" && <View style={styles.invoiceContainer}> {invoices.map((invoice) => (
+                {activeTab === "INVOICES & PAYMENTS" && <View style={styles.invoiceContainer}>
+                    
+                    {/* <SearchFilterComponnet/> */}
+                    
+                     {invoices.map((invoice) => (
         <InvoiceCard
           key={invoice.id}
           customerName={invoice.customerName}
@@ -227,6 +234,40 @@ const tabs = ['ABOUT', 'OVERVIEW', 'EVENTS', 'TASKS', 'CONTRACTS & DOCS',"INVOIC
         />
       ))}</View>
 }
+
+                         {activeTab === "CONTRACTS & DOCS" && <View style={styles.contractsContainer}>
+                            
+                            
+                            {/* <SearchFilterComponnet/> */}
+                             {invoices.map((invoice) => (
+  <ContractCard 
+  contract={{
+    title: 'Wedding Contract',
+    type: 'Contract',
+    uploadedBy: 'Sarah Lee',
+    date: 'Oct 1, 2025',
+    status: 'SIGNED'
+  }}
+  onMorePress={() => console.log('More options')}
+/>
+      ))}</View>
+}
+
+{activeTab === "MAIL" && <View style={styles.contractsContainer}> 
+    {/* <SearchFilterComponnet/> */}
+    {invoices.map((invoice) => (
+<FollowUpCard
+  title="Follow Up"
+  date="Mar 1, 2026"
+  email="sarahjohnson@gmail.com"
+  status="DELIVERED"
+  onViewPress={() => console.log('View pressed')}
+/>
+      ))}</View>
+}
+
+
+
 
             </ScrollView>
 
@@ -269,6 +310,10 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         flex: 1,
+    },
+    contractsContainer:{
+        paddingHorizontal: responsiveWidth(4),
+        paddingVertical:responsiveHeight(2)
     },
     tabsData: {
         flexGrow: 1,   // 🔥 THIS IS THE KEY FIX

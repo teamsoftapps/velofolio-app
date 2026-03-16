@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   metaText:{
     fontWeight:"600",
-    fontSize:responsiveFontSize(1.7)
+    fontSize:responsiveFontSize(2)
 
   },
   
