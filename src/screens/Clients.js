@@ -125,6 +125,8 @@ const Clients = () => {
   renderItem={({ item }) => (
     <ClientCard
       job={item}
+      onPress={()=>navigation.navigate("ClientProfile")}
+      teamColor={colors.greenSecondary}
       onEdit={() => console.log('Edit', item.id)}
       onDelete={() => console.log('Delete', item.id)}
     />

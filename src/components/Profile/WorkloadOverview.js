@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../utils/colors';
 import StatCard from "./StatCard"
 import ActivityItem from "./ActivityItem"
-
+import ClientOverview from "../ClientOverview"
 import {
   responsiveWidth,
   responsiveHeight,
@@ -21,7 +21,7 @@ import {
 
 import StatsFlowHeader from "./StatsFlowHeader";
 
-const WorkloadOverview = () => {
+const WorkloadOverview = ({type="Team"}) => {
   const stats = [
     {
       id: '1',
@@ -70,14 +70,15 @@ const WorkloadOverview = () => {
   return (
     <View style={styles.container}>
       {/* Header */}
-<StatsFlowHeader
+{type==="Team"&& <StatsFlowHeader
     title="Workload Overview"
     filterText="Last 30 Days"
-  />
+  />}
 
-
+{type==="Client"&&<ClientOverview/>
+}
       {/* Stats Grid */}
-      <View style={styles.statsGrid}>
+{type==="Team"&&      <View style={styles.statsGrid}>
         {stats.map((stat) => (
           <StatCard
             key={stat.id}
@@ -88,10 +89,10 @@ const WorkloadOverview = () => {
             iconName={stat.iconName}
           />
         ))}
-      </View>
+      </View>}
 
       {/* Recent Activity Section */}
-      <Text style={styles.sectionTitle}>Recent Activity</Text>
+{type==="Team"&&      <>  <Text style={styles.sectionTitle}>Recent Activity</Text>
       <FlatList
         data={recentActivity}
         keyExtractor={(item) => item.id}
@@ -104,7 +105,7 @@ const WorkloadOverview = () => {
           />
         )}
         showsVerticalScrollIndicator={false}
-      />
+      /></>}
     </View>
   );
 };
@@ -112,7 +113,7 @@ const WorkloadOverview = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.screenBackground,
+    // backgroundColor: colors.screenBackground,
     padding: responsiveWidth(4),
   },
 

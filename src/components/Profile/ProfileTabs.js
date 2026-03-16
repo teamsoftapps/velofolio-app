@@ -58,9 +58,9 @@ import {
 } from 'react-native-responsive-dimensions';
 import colors from '../../utils/colors';
 
-const tabs = ['ABOUT', 'OVERVIEW', 'JOBS', 'TASKS', 'AVAILABILITY'];
+const defaulttabs = ['ABOUT', 'OVERVIEW', 'JOBS', 'TASKS', 'AVAILABILITY'];
 
-const ProfileTabs = ({ activeTab, onTabPress }) => {
+const ProfileTabs = ({ activeTab, onTabPress ,tabs={defaulttabs}}) => {
   
 
 

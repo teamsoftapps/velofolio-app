@@ -40,7 +40,7 @@ const CustomTabBar = ({ state, navigation ,setModal,modal}) => {
     <View style={styles.container}>
       {state.routes.map((route, index) => {
         const isFocused = state.index === index;
-if (route.name === 'Notifications'||route.name==="AddJobs" ||route.name==="AddClients"||route.name==="Settings"||route.name==="Teams"|| route.name==="AddTeams"|| route.name==="Payments") return null;
+if (route.name === 'Notifications'||route.name==="AddJobs" ||route.name==="AddClients"||route.name==="Settings"||route.name==="Teams"|| route.name==="AddTeams"|| route.name==="Payments"|| route.name.includes("Profile")) return null;
 
         const onPress = () => {
           navigation.navigate(route.name);

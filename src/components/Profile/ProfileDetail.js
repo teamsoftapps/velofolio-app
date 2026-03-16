@@ -12,7 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ProfileDetails = () => {
+const ProfileDetails = ({type="Team"}) => {
   return (
     <>
       {/* Personal Details */}
@@ -24,8 +24,27 @@ const ProfileDetails = () => {
           label="Full Name"
           value="Sarah Lee"
         />
+       {  type==="Client"   &&<>    <DetailRow
+          icon={<MaterialCommunityIcons name="cake-variant-outline" size={20} color="#64748b" />}
+          label="Country"
+          value="USA"
+        />
 
         <DetailRow
+          icon={<MaterialCommunityIcons name="city" size={20} color="#64748b" />}
+          label="City"
+          value="New York"
+        /></>}
+
+
+
+
+
+
+
+
+
+      {  type==="Team"   &&<>    <DetailRow
           icon={<MaterialCommunityIcons name="cake-variant-outline" size={20} color="#64748b" />}
           label="Date of Birth"
           value="January 1, 1987"
@@ -35,7 +54,7 @@ const ProfileDetails = () => {
           icon={<MaterialCommunityIcons name="gender-female" size={20} color="#64748b" />}
           label="Gender"
           value="Female"
-        />
+        /></>}
 
         <DetailRow
           icon={<Ionicons name="location-outline" size={20} color="#64748b" />}
@@ -44,13 +63,13 @@ const ProfileDetails = () => {
           multiline
         />
 
-        <DetailRow
+ { type==="Team"   &&   <DetailRow
           icon={<MaterialIcons name="event-available" size={20} color="#64748b" />}
           label="Joining Date"
           value="Jan 12, 2024"
-        />
+        />}
       </View>
-
+<View style={styles.separator} />
       {/* Contact Details */}
       <View style={styles.sectionCard}>
         <Text style={styles.sectionHeader}>Contact Details</Text>
@@ -86,7 +105,7 @@ const DetailRow = ({ icon, label, value, multiline = false }) => (
 
 const styles = StyleSheet.create({
   sectionCard: {
-    marginHorizontal: responsiveWidth(5),
+    // marginHorizontal: responsiveWidth(5),
     marginTop: responsiveHeight(1),
     padding: responsiveWidth(5),
     borderRadius: responsiveWidth(5),
@@ -110,6 +129,11 @@ const styles = StyleSheet.create({
     fontSize: responsiveFontSize(1.85),
     color: colors.grayDark,
     fontWeight: '500',
+  },
+    separator: {
+    height: 1,
+    backgroundColor: colors.borderExtraLight,
+    // marginVertical: responsiveHeight(1),
   },
   value: {
     flex: 1,

@@ -57,7 +57,7 @@ export default PaymentsBreakdown;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: responsiveWidth(4),
+    // paddingHorizontal: responsiveWidth(4),
     paddingVertical: responsiveHeight(2),
   },
   title: {
