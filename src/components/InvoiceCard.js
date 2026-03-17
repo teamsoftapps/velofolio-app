@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: responsiveWidth(3),
     padding: responsiveWidth(4),
-    marginVertical: responsiveHeight(1),
+    marginBottom: responsiveHeight(1),
     borderWidth: 1,
     borderColor: colors.borderExtraLight,
   },

@@ -32,7 +32,8 @@ import ProfileHeaderCard from "../components/ProfileHeaderCard"
 import InvoiceCard from '../components/InvoiceCard';
 import ContractCard from '../components/ContractCard';
 import FollowUpCard from '../components/FollowUpCard';
-import SearchFilterComponnet from '../components/SearchFilterComponent';
+import SearchFilterComponent from '../components/SearchFilterComponent';
+import AddButton from "../components/AddButton"
 const JobsData = [
     {
         tags: [
@@ -216,55 +217,51 @@ const tabs = ['ABOUT', 'OVERVIEW','JOBS', 'CONTRACTS & DOCS','MAIL',"INVOICES & 
                 {activeTab === 'JOBS' && <JobList tab='clientjob' Data={JobsData} />}
                 {activeTab === 'TASKS' && <JobList tab="task" Data={taskData} />}
                 {activeTab === "AVAILABILITY" && <Availibility />}
-                {activeTab === "INVOICES & PAYMENTS" && <View style={styles.invoiceContainer}>
-                    
-                    {/* <SearchFilterComponnet/> */}
-                    
-                     {invoices.map((invoice) => (
-        <InvoiceCard
-          key={invoice.id}
-          customerName={invoice.customerName}
-          projectType={invoice.projectType}
-          dueDate={invoice.dueDate}
-          invoiceId={invoice.invoiceId}
-          amount={invoice.amount}
-          paid={invoice.paid}
-          status={invoice.status}
-          onPress={() => console.log('Invoice pressed:', invoice.invoiceId)}
-        />
-      ))}</View>
-}
+                {activeTab === "INVOICES & PAYMENTS" && (
+          <View>
+            <SearchFilterComponent colors={colors} />
 
-                         {activeTab === "CONTRACTS & DOCS" && <View style={styles.contractsContainer}>
-                            
-                            
-                            {/* <SearchFilterComponnet/> */}
-                             {invoices.map((invoice) => (
-  <ContractCard 
-  contract={{
-    title: 'Wedding Contract',
-    type: 'Contract',
-    uploadedBy: 'Sarah Lee',
-    date: 'Oct 1, 2025',
-    status: 'SIGNED'
-  }}
-  onMorePress={() => console.log('More options')}
-/>
-      ))}</View>
-}
+            <View style={styles.contentPadding}>
+              <InvoiceCard />
+              <InvoiceCard />
+            </View>
+          </View>
+        )}
 
-{activeTab === "MAIL" && <View style={styles.contractsContainer}> 
-    {/* <SearchFilterComponnet/> */}
-    {invoices.map((invoice) => (
-<FollowUpCard
-  title="Follow Up"
-  date="Mar 1, 2026"
-  email="sarahjohnson@gmail.com"
-  status="DELIVERED"
-  onViewPress={() => console.log('View pressed')}
-/>
-      ))}</View>
-}
+                          {activeTab === "CONTRACTS & DOCS" && (
+          <View>
+            
+            <SearchFilterComponent colors={colors} placeholder='Search Contracts & Docs' />
+
+            <View style={styles.contentPadding}>
+              <ContractCard />
+              <ContractCard />
+              
+            </View>
+            <View style={styles.addButtonContainer}>              <AddButton
+  label="Add Job"
+  onPress={() => navigation.navigate('CreateJob')}
+  colors={{ primary: '#000000', textLight: '#FFFFFF' }}
+/></View>
+          </View>
+        )}
+
+ {activeTab === "MAIL" && (
+          <View>
+            <SearchFilterComponent colors={colors}  />
+
+            <View style={styles.contentPadding}>
+              <FollowUpCard />
+              <FollowUpCard />
+<View style={styles.addButtonContainer}>              <AddButton
+  label="Add Job"
+  onPress={() => navigation.navigate('CreateJob')}
+  colors={{ primary: '#000000', textLight: '#FFFFFF' }}
+/></View>
+
+            </View>
+          </View>
+        )}
 
 
 
@@ -301,6 +298,12 @@ const styles = StyleSheet.create({
     invoiceContainer:{
         paddingHorizontal: responsiveWidth(4),
 
+    },
+    addButtonContainer:{
+        width:responsiveWidth(40),
+        position:"absolute",
+        top:responsiveHeight(44),
+        right:responsiveWidth(6)
     },
     avatar: {
         width: responsiveWidth(18),
@@ -426,6 +429,11 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         lineHeight: responsiveFontSize(2.2),
     },
+     contentPadding: {
+    paddingHorizontal: responsiveWidth(4),
+    // paddingVertical: responsiveHeight(2),
+  },
+    
 });
 
 export default ClientProfile;

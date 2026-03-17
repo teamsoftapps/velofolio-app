@@ -17,26 +17,33 @@ const CustomHeader = ({ title,onPress }) => {
 const handleGoBack = () => {
   navigation.goBack();
 };
+  const isCentered = title === "Company Profile";
 
   return (
     <View style={styles.header}>
       <View  style={[
     styles.leftSide,
-    (title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients" ||title==="Settings" || title==="Add New Memebers"||title==="Profile" || title==="Payments") && { width: '100%' },title==="Report & Analysis" && { width: '80%' },
+    (title === 'Notifications'||title==="Change Password"   || title === "Security & Password" || title==="Add Jobs"|| title==="Add Clients" || title==="Company Profile" ||title==="Settings" || title==="Add New Memebers"||title==="Profile" || title==="Payments") && { width: '100%' },title==="Report & Analysis" && { width: '80%' },
   ]}>
         <TouchableOpacity style={styles.leftIcon} onPress={handleGoBack}>
           <Ionicons name="arrow-back-outline" size={26} color={colors.text} />
         </TouchableOpacity>
+          {isCentered ? (
+        <View style={styles.centerTitle}>
+          <Text style={styles.headerTitle}>{title}</Text>
+        </View>
+      ) : (
         <View>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>
+      )}
       </View>
   {title==="Report & Analysis"&&  <View style={[styles.mail,styles.file]}>
                     <FontAwesome5 name="file-export" size={responsiveWidth(7)} color={colors.white} />
 
           </View>}
 
-      {   !(title === 'Notifications' || title==="Add Jobs"|| title==="Add Clients"||title==="Settings"|| title==="Add New Memebers" || title==="Payments"||title==="Report & Analysis")&&
+      {   !(title === 'Notifications'||title==="Profile" ||title==="Change Password" ||  title === "Security & Password" || title==="Add Jobs"|| title==="Company Profile" || title==="Add Clients"||title==="Settings"|| title==="Add New Memebers" || title==="Payments"||title==="Report & Analysis")&&
       <View style={styles.sideContainer}>
       {title==="Add New Memebers"&&  <View style={styles.mail}>
                     <Ionicons name="mail-outline" size={responsiveWidth(8)} color={colors.white} />
@@ -67,6 +74,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: colors.textPrimary,
   },
+  centerTitle: {
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
   leftSide: {
     width: responsiveWidth(28),
     alignItems: 'center',

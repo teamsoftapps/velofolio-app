@@ -9,34 +9,20 @@ import { FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-
 import ScreenWrapper from '../ScreenWrapper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
+import SearchHeader from "../SearchFilterComponent";
 
 
 
 const JobsLIst = ({tab="job",Data}) => {
   return (
     <View>
-              <View style={styles.searchContainer}>
-          <View style={[styles.inputWrapper]}>
-            <SearchInput placeholder="Search by Name,Role,Email" />
-          </View>
-
-          <TouchableOpacity style={styles.rightIcon}>
-            <Ionicons
-              name="options-outline"
-              size={responsiveWidth(9)}
-              color={colors.text}
-            />
-          </TouchableOpacity>
-          {
-            tab==="task"&&  <TouchableOpacity style={[styles.rightIcon,styles.plusIcon]}>
-            <Octicons
-              name="plus"
-              size={responsiveWidth(9)}
-              color={colors.white}
-            />
-          </TouchableOpacity>
-          }
-        </View>
+           <SearchHeader
+  placeholder="Search by Name, Role, Email"
+  showPlus={tab === "task"}
+  onFilterPress={() => console.log("Filter")}
+  onPlusPress={() => console.log("Add")}
+  colors={colors}
+/>
         <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
     alignItems: 'center',
   }}>

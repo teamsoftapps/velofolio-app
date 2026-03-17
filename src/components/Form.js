@@ -1,19 +1,22 @@
 // components/forms/JobForm.jsx
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import { Picker } from '@react-native-picker/picker';
 ; // adjust path if needed
 import InputField from './InputField'; // adjust path
 import colors from '../utils/colors';
 
-export default function JobForm({fields, onSubmit, submitText = 'Save Job' }) {
+export default function JobForm({fields, onSubmit, submitText = 'Save Job',type="" }) {
   // ── Form state ────────────────────────────────────────────────
   const [formData, setFormData] = useState({  });
+  const [isPassword, setisPassword] = useState(false); // for password toggle
 
   const handleChange = (name, value) => {
       console.log('changing field:', name, value); // 🔥 add this
@@ -43,6 +46,25 @@ if (!Object.values(filteredData).every(
   const renderField = (field) => {
     const value = formData[field.name] ?? '';
 
+  if (field.type === 'password') {
+    return (
+        <InputField
+          key={field.name}
+          label={field.label}
+          placeholder={field.placeholder}
+          value={value}
+          onChangeText={(text) => handleChange(field.name, text)}
+          keyboardType={field.keyboardType}
+          autoCapitalize={field.autoCapitalize}
+          multiline={field.multiline}
+          numberOfLines={field.numberOfLines}
+          labelStyle={styles.label}
+          containerStyle={styles.inputContainer}
+          isPassword={isPassword}
+          
+        />
+      );
+  }
     if (field.type === 'text' ) {
       return (
         <InputField
@@ -143,19 +165,20 @@ if (field.type === 'select') {
   return (
     <View style={styles.formContainer}>
       {fields.map(renderField)}
-
-      <TouchableOpacity
+{submitText!=='CompanyProfile' &&<>    <TouchableOpacity
         style={styles.Button}
         onPress={handleSubmit}
       >
         <Text style={styles.submitText}>{submitText}</Text>
       </TouchableOpacity>
-       <TouchableOpacity
+     {type!=="passsave" &&   <TouchableOpacity
         style={[styles.Button,styles.cancel]}
         // onPress={() => onSubmit?.(formData)}
       >
-        <Text style={styles.cancelText}>Cancel </Text>
-      </TouchableOpacity>
+      <Text style={styles.cancelText}>Cancel </Text>
+      </TouchableOpacity>}
+      </>}
+  
     </View>
   );
 }

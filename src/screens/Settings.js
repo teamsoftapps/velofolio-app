@@ -45,8 +45,8 @@ export default function SettingsScreen({ navigation }) {
         {/* Account - Personal */}
         <View style={styles.section}>
 
-          {renderRow('person-circle-outline', 'Company Profile',"Ion")}
-          {renderRow('lock-outline', 'Security & Password')}
+          {renderRow('person-circle-outline', 'Company Profile',"Ion",()=> navigation.navigate('CompanyProfile'))}
+{renderRow('lock-outline', 'Security & Password', "", () => navigation.navigate('SecuritynPassword'))}
           {renderRow('email', 'Email & Notifications')}
         </View>
 

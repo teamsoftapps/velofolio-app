@@ -3,7 +3,8 @@ import auth from '@react-native-firebase/auth';
 
 import AuthNavigator from './AuthNavigator';
 import AppTabsNavigator from './AppTabsNavigator';
-
+import MainStack from "../navigations/MainStack"
+import TabsStack from './TabsStack';
 const RootNavigator = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ const RootNavigator = () => {
 
   if (loading) return null; // or splash screen
 
-  return user ? <AppTabsNavigator /> : <AuthNavigator />;
+  return user ? <MainStack /> : <AuthNavigator />;
 };
 
 export default RootNavigator;
