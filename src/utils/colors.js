@@ -57,7 +57,8 @@ const colors = {
   graySecondary:"#818181",
   veryLightGray:"#F3F3F3",
   greenLight:"#dcfce7",
-  emred:"#2BCB37"
+  emred:"#2BCB37",
+  grayDark12:"#666666",
 };
 
 export default colors;

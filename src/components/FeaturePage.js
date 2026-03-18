@@ -15,7 +15,11 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-
+import colors from '../utils/colors';
+import CustomHeader from './CustomHeader';
+import TFACard from  "../components/TFACard"
+import BackupButton from "../components/TFABackupButton"
+import { useNavigation } from '@react-navigation/native';
 /**
  * Reusable FeatureSetupPage Component
  * For feature setup screens (2FA, Notifications, etc.) with info and action cards
@@ -43,6 +47,8 @@ const FeatureSetupPage = ({
   actions = [],
   colors = {},
   headerRight,
+  isVerified,
+   phones = [],
   showStatusBar = true,
 }) => {
   const theme = {
@@ -71,7 +77,10 @@ const FeatureSetupPage = ({
     }
     return <Icon name={item.icon} {...iconProps} />;
   };
-
+  const navigation=useNavigation()
+const onAddBackup = () => {
+  navigation.navigate('AddPhoneNumber') // if needed
+};
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       {showStatusBar && (
@@ -82,26 +91,9 @@ const FeatureSetupPage = ({
       )}
       
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: theme.headerBg }]}>
-        <TouchableOpacity 
-          style={styles.backButton} 
-          onPress={onBack}
-          activeOpacity={0.7}
-        >
-          <Ionicons 
-            name="arrow-back" 
-            size={responsiveWidth(6)} 
-            color={theme.backIconColor} 
-          />
-        </TouchableOpacity>
-        
-        <Text style={[styles.headerTitle, { color: theme.titleColor }]}>
-          {title}
-        </Text>
-        
-        <View style={styles.headerRight}>
-          {headerRight}
-        </View>
+            <View style={styles.headWrapper}>
+        <CustomHeader title={""}  onPress={()=>navigation.navigate("SecuritynPassword")}/>
+
       </View>
 
       <ScrollView 
@@ -122,7 +114,7 @@ const FeatureSetupPage = ({
         )}
 
         {/* Action Cards */}
-        <View style={styles.actionsContainer}>
+    { !isVerified &&   <View style={styles.actionsContainer}>
           {actions.map((action, index) => (
             <TouchableOpacity
               key={index}
@@ -155,7 +147,12 @@ const FeatureSetupPage = ({
               />
             </TouchableOpacity>
           ))}
-        </View>
+        </View>}
+{phones.map((item, index) => (
+  <TFACard key={index} phoneNumber={item} />
+))}
+        {phones.length > 0 && <BackupButton onPress={onAddBackup} />}
+
 
         <View style={{ height: responsiveHeight(4) }} />
       </ScrollView>
@@ -175,6 +172,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: responsiveWidth(4),
     paddingVertical: responsiveHeight(1.5),
+  },
+       headWrapper: {
+    // backgroundColor: colors.white,
+    borderBottomLeftRadius: responsiveWidth(6),
+    borderBottomRightRadius: responsiveWidth(6),
+    paddingVertical: responsiveWidth(3),
+    paddingHorizontal: responsiveWidth(3),
   },
   backButton: {
     padding: responsiveWidth(2),
@@ -210,7 +214,7 @@ const styles = StyleSheet.create({
   actionCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: responsiveHeight(1.8),
+    paddingVertical: responsiveHeight(1.9),
     paddingHorizontal: responsiveWidth(4),
     borderRadius: responsiveWidth(3),
   },

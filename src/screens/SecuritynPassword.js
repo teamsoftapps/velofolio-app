@@ -40,7 +40,7 @@ function SecurityPasswordScreen({ navigation }) {
           iconType: 'Ion', 
           title: 'Delete My Account',
         //   danger: true,
-          onPress: () => navigation.getParent()?.navigate('DeleteAccount')
+          onPress: () => navigation.navigate('DeleteAccount')
         },
         { 
           icon: 'download-outline', 

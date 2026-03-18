@@ -1,10 +1,27 @@
-import FeatureSetupPage from './components/FeatureSetupPage';
+import { View } from 'react-native';
+import FeatureSetupPage from '../components/FeaturePage';
+import React from 'react';
+function TwoFactorAuthScreen({ navigation,route }) {
+const newPhone = route.params?.phone;
 
-function TwoFactorAuthScreen({ navigation }) {
+  const [phones, setPhones] = React.useState([]);
+
+  React.useEffect(() => {
+    if (newPhone) {
+      setPhones(prev => {
+        if (prev.includes(newPhone)) return prev;
+        return [...prev, newPhone];
+      });
+    }
+  }, [newPhone]);
+
+  const isVerified = phones.length > 0;
   return (
     <FeatureSetupPage
       title="Two-Factor Authentication"
-      onBack={() => navigation.goBack()}
+      isVerified={isVerified}
+      phones={phones}
+      onBack={() => navigation.navigate("SecuritynPasswords")}
       headline="Two-Factor Authentication"
       description="Add your phone number to receive a secure login code every time you sign in."
       actions={[
@@ -15,6 +32,8 @@ function TwoFactorAuthScreen({ navigation }) {
         },
       ]}
     />
+    
+
   );
 }
 export default TwoFactorAuthScreen;

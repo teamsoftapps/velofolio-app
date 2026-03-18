@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 // import MaterialDesignIcons from 'react-native-vector-icons/MaterialDesignIcons';
 
 import {
@@ -62,13 +64,16 @@ const SubSettingsPage = ({
 
   const renderIcon = (item) => {
     const iconProps = {
-      size: responsiveWidth(5.5),
+      size: responsiveWidth(6),
       color: item.iconColor || theme.iconColor,
       style: styles.rowIcon,
     };
 
     if (item.iconType === 'Ion') {
       return <Ionicons name={item.icon} {...iconProps} />;
+    }
+     else if (item.iconType === 'Mdi') {
+      return <MaterialCommunityIcons name={item.icon} {...iconProps} />;
     }
     return <Icon name={item.icon} {...iconProps} />;
   };
@@ -160,7 +165,7 @@ const SubSettingsPage = ({
       
       {/* Header */}
             <View style={styles.headWrapper}>
-        <CustomHeader title="Security & Password" />
+        <CustomHeader title={title} />
 
       </View>
 

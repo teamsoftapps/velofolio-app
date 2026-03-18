@@ -89,6 +89,13 @@ import Payments from '../screens/Payments';
 import ReportAnalysis from '../screens/ReportAnalysis';
 import ClientProfile from '../screens/ClientProfile';
 import CompanyProfile from '../screens/CompanyProfileForm';
+import TwoFactorAuthScreen from "../screens/TFA"
+import AddPhone from "../screens/AddPhone"
+import VerifyOtp from '../screens/VerifyOtp';
+import Sessions from "../screens/Sessions"
+import AccountRecoveryScreen from "../screens/AccountRecoveryScreen"
+import DeleteFeedbackScreen from "../screens/DeleteFeedbackScreen"
+import ConfirmDelete from "../screens/ConfirmDeleteScreen"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -125,6 +132,10 @@ export default function MainStack() {
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
       <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
       <Stack.Screen name="SecuritynPassword" component={SecuritynPassword} />
+            <Stack.Screen name="DeleteFeedbackScreen" component={DeleteFeedbackScreen} />
+                        <Stack.Screen name="ConfirmDelete" component={ConfirmDelete} />
+
+
       <Stack.Screen name="Notifications" component={Notifications} />
       <Stack.Screen name="Settings" component={Settings} />
       <Stack.Screen name="Profile" component={Profile} />
@@ -135,6 +146,19 @@ export default function MainStack() {
       <Stack.Screen name="ReportAnalysis" component={ReportAnalysis} />
       <Stack.Screen name="ClientProfile" component={ClientProfile} />
       <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
+      <Stack.Screen name="TwoFactor" component={TwoFactorAuthScreen} />
+            <Stack.Screen name="Sessions" component={Sessions} />
+                        <Stack.Screen name="Recovery" component={AccountRecoveryScreen} />
+
+
+            <Stack.Screen name="AddPhoneNumber" component={AddPhone} />
+     <Stack.Screen 
+  name="otpTFA" 
+  component={VerifyOtp} 
+  initialParams={{ type: 'TFA' }}
+/>
+
+
     </Stack.Navigator>
   );
 }

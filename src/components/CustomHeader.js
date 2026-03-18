@@ -14,18 +14,27 @@ import { useNavigation } from '@react-navigation/native';
 const CustomHeader = ({ title,onPress }) => {
   const navigation = useNavigation();
 
-const handleGoBack = () => {
-  navigation.goBack();
+const handlePress = () => {
+  if (onPress && typeof onPress === 'function') {
+    onPress(); // run provided function
+  } else {
+    navigation.goBack(); // default action
+  }
 };
   const isCentered = title === "Company Profile";
-
+const isVerify = title === 'Verify' || title === 'Delete My Account' || title === ' ';
   return (
-    <View style={styles.header}>
+<View
+  style={[
+    styles.header,
+    { backgroundColor: isVerify ? 'transparent' : colors.white },
+  ]}
+>
       <View  style={[
     styles.leftSide,
-    (title === 'Notifications'||title==="Change Password"   || title === "Security & Password" || title==="Add Jobs"|| title==="Add Clients" || title==="Company Profile" ||title==="Settings" || title==="Add New Memebers"||title==="Profile" || title==="Payments") && { width: '100%' },title==="Report & Analysis" && { width: '80%' },
+    (title === 'Notifications' ||title === ''||title === 'Confirm Account Deletion'||title ==="Delete My Account"||title === 'Account Recovery'||title === 'Verify'|| title==="Add Phone Number"||   title==="Change Password"   || title === "Security & Password" || title==="Add Jobs"|| title==="Add Clients" || title==="Company Profile" ||title==="Settings" || title==="Add New Memebers"||title==="Profile" || title==="Payments") && { width: '100%' },title==="Report & Analysis" && { width: '80%' },
   ]}>
-        <TouchableOpacity style={styles.leftIcon} onPress={handleGoBack}>
+        <TouchableOpacity style={styles.leftIcon} onPress={handlePress}>
           <Ionicons name="arrow-back-outline" size={26} color={colors.text} />
         </TouchableOpacity>
           {isCentered ? (
@@ -43,7 +52,7 @@ const handleGoBack = () => {
 
           </View>}
 
-      {   !(title === 'Notifications'||title==="Profile" ||title==="Change Password" ||  title === "Security & Password" || title==="Add Jobs"|| title==="Company Profile" || title==="Add Clients"||title==="Settings"|| title==="Add New Memebers" || title==="Payments"||title==="Report & Analysis")&&
+      {   !(title === 'Notifications'||title === ''||title === ' '||title === 'Confirm Account Deletion'||title === 'Verify'||title ==="Delete My Account"||title==="Add Phone Number"||title === 'Account Recovery'|| title==="Profile" ||title==="Change Password" ||  title === "Security & Password" || title==="Add Jobs"|| title==="Company Profile" || title==="Add Clients"||title==="Settings"|| title==="Add New Memebers" || title==="Payments"||title==="Report & Analysis")&&
       <View style={styles.sideContainer}>
       {title==="Add New Memebers"&&  <View style={styles.mail}>
                     <Ionicons name="mail-outline" size={responsiveWidth(8)} color={colors.white} />
@@ -66,12 +75,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: responsiveWidth(4),
-    backgroundColor:colors.white,
+    // backgroundColor:colors.white,
     paddingHorizontal: responsiveWidth(2),
   },
   headerTitle: {
     fontSize: responsiveWidth(6),
-    fontWeight: '600',
+    fontWeight: '400',
     color: colors.textPrimary,
   },
   centerTitle: {
