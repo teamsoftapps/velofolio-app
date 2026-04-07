@@ -61,7 +61,7 @@
 //         <ButtonSimple title={`Add ${title==="Calendar"?"New":title==="Teams"?"Member":title.slice(0,-1)}`} onPress={onPress} leftIcon={
 //           <Fontisto name="plus-a" size={20} color={colors.white}/>
 //         }   style={styles.rightButton}  textStyle={styles.addButtonText}    />
-       
+
 //       </View>}
 //     </View>
 //   );
@@ -209,9 +209,9 @@ const HEADER_CONFIG = {
   "Profile": { showAddButton: false },
   "Client Profile": { showAddButton: false },
   "Payments": { showAddButton: false },
-    "Gmail": { showAddButton: false },
-    "Gmail Settings": { showAddButton: false },
-    " ": { showAddButton: false , transparent: true},
+  "Gmail": { showAddButton: false },
+  "Gmail Settings": { showAddButton: false },
+  " ": { showAddButton: false, transparent: true },
 
   default: {
     showAddButton: true,
@@ -220,12 +220,12 @@ const HEADER_CONFIG = {
 
 const getConfig = (title) => {
   const config = HEADER_CONFIG[title] || HEADER_CONFIG.default;
-  
+
   // Rule: Hide 'Add' button in header for all screens that are themselves "Add" forms
   if (title.toLowerCase().startsWith("add")) {
     return { ...config, showAddButton: false };
   }
-  
+
   return config;
 };
 
@@ -247,7 +247,7 @@ const CustomHeader = ({ title = "", onPress }) => {
     if (title === "Calendar") return "Add New";
     if (title === "Teams") return "Add Member";
     if (!title) return "Add";
-    
+
     // Fix: If title already contains "Add", don't prefix it again
     if (title.toLowerCase().startsWith("add")) return title;
 

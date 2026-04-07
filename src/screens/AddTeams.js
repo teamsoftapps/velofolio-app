@@ -132,7 +132,7 @@ const AddTeams = () => {
   );
 };
 
-export default AddClients;
+export default AddTeams;
 
 const styles = StyleSheet.create({
   headWrapper: {

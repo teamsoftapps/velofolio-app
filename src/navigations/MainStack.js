@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from '../screens/Home';
 import JobsScreen from '../screens/Jobs';
 import ClientsScreen from '../screens/Clients';
@@ -8,7 +9,7 @@ import CalendarScreen from '../screens/Calendar';
 import Teams from '../screens/Teams';
 import CustomTabBar from '../components/CustomTabBar';
 import ActonModal from '../components/ActionModal';
-import VelofolioSidebar from '../components/Sidebar';
+import DrawerContent from '../components/DrawerContent';
 import ChangePassword from '../screens/ChangePassword';
 import DeleteAccount from '../screens/DeleteAccount';
 import SecuritynPassword from '../screens/SecuritynPassword';
@@ -65,23 +66,23 @@ import JobPaymentDefaults from "../screens/JobPaymentDefaults";
 import InvoiceFormatSettings from "../screens/InvoiceFormatSettings";
 import WorkflowSettings from "../screens/WorkflowSettings";
 import FilesAutomation from "../screens/FilesAutomation";
+import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 function AppTabsNavigator() {
   const [modal, setModal] = useState(false);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   return (
     <>
       <ActonModal modal={modal} setModal={setModal} />
-      <VelofolioSidebar visible={sidebarVisible} onClose={() => setSidebarVisible(false)} />
       <Tab.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <CustomTabBar {...props} setModal={setModal} modal={modal} />}
       >
-        <Tab.Screen name="Home">{props => <HomeScreen {...props} setSidebarVisible={setSidebarVisible} />}</Tab.Screen>
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Jobs" component={JobsScreen} />
         <Tab.Screen name="Teams" component={Teams} />
         <Tab.Screen name="Clients" component={ClientsScreen} />
@@ -91,11 +92,32 @@ function AppTabsNavigator() {
   );
 }
 
+function AppDrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      drawerContent={(props) => <DrawerContent {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerStyle: {
+          width: '80%',
+          borderTopRightRadius: responsiveWidth(6),
+          borderBottomRightRadius: responsiveWidth(0),
+          overflow: 'hidden',
+        },
+        drawerType: 'front',
+        swipeEnabled: true,
+      }}
+    >
+      <Drawer.Screen name="AppTabs" component={AppTabsNavigator} />
+    </Drawer.Navigator>
+  );
+}
+
 export default function MainStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* Tabs */}
-      <Stack.Screen name="Tabs" component={AppTabsNavigator} />
+      {/* Drawer wraps the Tabs */}
+      <Stack.Screen name="Tabs" component={AppDrawerNavigator} />
 
       {/* Global screens accessible from tabs */}
       <Stack.Screen name="ChangePassword" component={ChangePassword} />
@@ -124,35 +146,35 @@ export default function MainStack() {
       <Stack.Screen name="EmailNotificationSettings" component={EmailnNotificationSettings} />
       <Stack.Screen name="EmailSettings" component={EmailSettings} />
       <Stack.Screen name="EmailSenderSettings" component={EmailSenderSettingsScreen} />
-        <Stack.Screen name="DefaultEmail" component={DefaultEmailScreen} />
-<Stack.Screen name="GmailConnected" component={GmailConnectedScreen} />
-<Stack.Screen name="GmailSettingPage" component={GmailSettingPage} />
-<Stack.Screen name="EmailTemplates" component={EmailTemplates} />
-<Stack.Screen name="EditEmailTemplate" component={EditEmailTemplate} />
-<Stack.Screen name="RolesPermissions" component={RolesPermissions} />
-<Stack.Screen name="RoleDetail" component={RoleDetail} />
-<Stack.Screen name="BrandingCustomization" component={BrandingCustomization} />
-<Stack.Screen name="PaymentsBilling" component={PaymentsBilling} />
-<Stack.Screen name="CurrentPlan" component={CurrentPlan} />
-<Stack.Screen name="CancelSubscription" component={CancelSubscription} />
-<Stack.Screen name="BillingHistory" component={BillingHistory} />
-<Stack.Screen name="PaymentMethods" component={PaymentMethods} />
-<Stack.Screen name="AddPaymentMethod" component={AddPaymentMethod} />
-<Stack.Screen name="GoalsReports" component={GoalsReports} />
-<Stack.Screen name="GoalsDashboard" component={GoalsDashboard} />
-<Stack.Screen name="ReportingPreferences" component={ReportingPreferences} />
-<Stack.Screen name="SystemPreferences" component={SystemPreferences} />
-<Stack.Screen name="GeneralSettings" component={GeneralSettings} />
-<Stack.Screen name="LanguageSettings" component={LanguageSettings} />
-<Stack.Screen name="DateFormatSettings" component={DateFormatSettings} />
-<Stack.Screen name="TimeFormatSettings" component={TimeFormatSettings} />
-<Stack.Screen name="CurrencySettings" component={CurrencySettings} />
-<Stack.Screen name="FirstDaySettings" component={FirstDaySettings} />
-<Stack.Screen name="JobPaymentDefaults" component={JobPaymentDefaults} />
-<Stack.Screen name="InvoiceFormatSettings" component={InvoiceFormatSettings} />
-<Stack.Screen name="WorkflowSettings" component={WorkflowSettings} />
-<Stack.Screen name="FilesAutomation" component={FilesAutomation} />
-<Stack.Screen name="GmailSettings" component={GmailScreen} />
+      <Stack.Screen name="DefaultEmail" component={DefaultEmailScreen} />
+      <Stack.Screen name="GmailConnected" component={GmailConnectedScreen} />
+      <Stack.Screen name="GmailSettingPage" component={GmailSettingPage} />
+      <Stack.Screen name="EmailTemplates" component={EmailTemplates} />
+      <Stack.Screen name="EditEmailTemplate" component={EditEmailTemplate} />
+      <Stack.Screen name="RolesPermissions" component={RolesPermissions} />
+      <Stack.Screen name="RoleDetail" component={RoleDetail} />
+      <Stack.Screen name="BrandingCustomization" component={BrandingCustomization} />
+      <Stack.Screen name="PaymentsBilling" component={PaymentsBilling} />
+      <Stack.Screen name="CurrentPlan" component={CurrentPlan} />
+      <Stack.Screen name="CancelSubscription" component={CancelSubscription} />
+      <Stack.Screen name="BillingHistory" component={BillingHistory} />
+      <Stack.Screen name="PaymentMethods" component={PaymentMethods} />
+      <Stack.Screen name="AddPaymentMethod" component={AddPaymentMethod} />
+      <Stack.Screen name="GoalsReports" component={GoalsReports} />
+      <Stack.Screen name="GoalsDashboard" component={GoalsDashboard} />
+      <Stack.Screen name="ReportingPreferences" component={ReportingPreferences} />
+      <Stack.Screen name="SystemPreferences" component={SystemPreferences} />
+      <Stack.Screen name="GeneralSettings" component={GeneralSettings} />
+      <Stack.Screen name="LanguageSettings" component={LanguageSettings} />
+      <Stack.Screen name="DateFormatSettings" component={DateFormatSettings} />
+      <Stack.Screen name="TimeFormatSettings" component={TimeFormatSettings} />
+      <Stack.Screen name="CurrencySettings" component={CurrencySettings} />
+      <Stack.Screen name="FirstDaySettings" component={FirstDaySettings} />
+      <Stack.Screen name="JobPaymentDefaults" component={JobPaymentDefaults} />
+      <Stack.Screen name="InvoiceFormatSettings" component={InvoiceFormatSettings} />
+      <Stack.Screen name="WorkflowSettings" component={WorkflowSettings} />
+      <Stack.Screen name="FilesAutomation" component={FilesAutomation} />
+      <Stack.Screen name="GmailSettings" component={GmailScreen} />
       <Stack.Screen
         name="otpTFA"
         component={VerifyOtp}

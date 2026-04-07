@@ -10,9 +10,9 @@ import colors from '../utils/colors';
 import CustomText from './CustomText';
 
 const CustomTabBar = ({ state, navigation, setModal, modal }) => {
- 
+
   const handleCenterPress = () => {
-   setModal(!modal)
+    setModal(!modal)
   };
 
   const getIcon = (name, isFocused) => {

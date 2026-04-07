@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RootNavigator from './src/navigations/RootNavigator';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import Jobs from './src/screens/Jobs';
@@ -19,15 +20,11 @@ GoogleSignin.configure({
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <RootNavigator />
-      {/* <ReportAnalysis/> */}
-      {/* <Payments/> */}
-      {/* <Workload/> */}
-      {/* <Jobs /> */}
-      {/* <Clients/> */}
-      {/* <MyCalendarScreen/> */}
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 

@@ -18,13 +18,16 @@ import DashboardHeader from '../components/DashboardHeader';
 import CustomText from '../components/CustomText';
 import colors from '../utils/colors';
 import { logoutUser } from '../services/firebaseAuth';
-import auth from "@react-native-firebase/auth"
+import auth from "@react-native-firebase/auth";
 import database from '@react-native-firebase/database';
-import VelofolioSidebar from "../components/Sidebar"
-// import { useNavigation } from '@react-navigation/native';
- 
-const Home = ({sidebarVisible,setSidebarVisible}) => {
-  // const navigation=useNavigation()
+import Feather from 'react-native-vector-icons/Feather';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import UpcomingJobsSection from '../components/UpcomingJobsSection';
+
+const Home = () => {
+  const navigation = useNavigation();
   const [userData, setUserData] = useState(null);
   const actionItems = [
     { id: '1', title: 'New Job' },
@@ -33,42 +36,42 @@ const Home = ({sidebarVisible,setSidebarVisible}) => {
   ];
 
 
-useEffect(() => {
-  const uid = auth().currentUser?.uid;
-  if (!uid) return;
+  useEffect(() => {
+    const uid = auth().currentUser?.uid;
+    if (!uid) return;
 
-  const userRef = database().ref(`/users/${uid}`);
+    const userRef = database().ref(`/users/${uid}`);
 
-  const listener = userRef.on('value', snapshot => {
-    setUserData(snapshot.val());
-  });
+    const listener = userRef.on('value', snapshot => {
+      setUserData(snapshot.val());
+    });
 
-  return () => userRef.off('value', listener);
-}, []);
-console.log(userData)
+    return () => userRef.off('value', listener);
+  }, []);
+  console.log(userData)
 
   const recentActivity = [
     {
       id: '1',
-      icon: require('../assets/suitcase.png'),
-      title: 'Wedding Film Completed',
-      subtitle: 'Wedding film for Mark & Jess completed.',
+      icon: require('../assets/invoice.png'),
+      title: 'Invoice Overdue',
+      subtitle: 'Payment is past due and needs follow-up.',
       bgColor: colors.white,
       iconBg: colors.success,
     },
     {
       id: '2',
-      icon: require('../assets/cards.png'),
-      title: 'Payment Received',
-      subtitle: 'Payment received from Willow Studio.',
+      icon: require('../assets/suitcase.png'),
+      title: 'Job Needs Review',
+      subtitle: 'Alex assigned to new job: ‘Music Video Shoot’.',
       bgColor: colors.white,
       iconBg: colors.info,
     },
     {
       id: '3',
       icon: require('../assets/calender.png'),
-      title: 'New Job Assigned',
-      subtitle: 'Alex assigned to new job: ‘Music Video Shoot’.',
+      title: 'Upcoming Event',
+      subtitle: 'Work is Completed and Needs Approval.',
       bgColor: colors.white,
       iconBg: colors.warning,
     },
@@ -111,11 +114,11 @@ console.log(userData)
       </View>
     </View>
   );
-  
+
   return (
     <ScreenWrapper backgroundColor={colors.screenBackground}>
       <ScrollView>
-        <DashboardHeader name={(userData?.displayName || userData?.name)||"User"} onMenuPress={()=>setSidebarVisible(!sidebarVisible)} />
+        <DashboardHeader name={(userData?.displayName || userData?.name) || "User"} onMenuPress={() => navigation.openDrawer()} />
 
         <View style={styles.container}>
           <CustomText style={styles.todayTitle} fontWeight="600">
@@ -125,10 +128,11 @@ console.log(userData)
           <View style={styles.twoColumn}>
             <View style={styles.column}>
               <TouchableOpacity style={[styles.card, styles.revenueCard]}>
-                <Image
-                  source={require('../assets/Currency.png')}
+                <FontAwesome5
+                  name="coins"
+                  size={responsiveWidth(16)}
+                  color={colors.black}
                   style={styles.icon}
-                  resizeMode="contain"
                 />
                 <View>
                   <CustomText style={styles.cardTitle}>
@@ -136,24 +140,29 @@ console.log(userData)
                   </CustomText>
                   <CustomText style={styles.amount}>$45,200</CustomText>
                 </View>
-                <Image
-                  source={require('../assets/arrow-right.png')}
+                <Feather
+                  name="arrow-right"
+                  size={responsiveWidth(5)}
+                  color={colors.black}
                   style={styles.arrow}
                 />
               </TouchableOpacity>
 
               <TouchableOpacity style={[styles.card, styles.progressCard]}>
-                <Image
-                  source={require('../assets/WorkHistory.png')}
-                  style={styles.icon}
-                  resizeMode="contain"
+                <MaterialCommunityIcons
+                  name="briefcase-clock-outline"
+                  size={responsiveWidth(8)}
+                  color={colors.black}
+                  style={[styles.icon, styles.iconRight]}
                 />
                 <View>
                   <CustomText style={styles.cardTitle}>In Progress</CustomText>
                   <CustomText style={styles.count}>8 Active Jobs</CustomText>
                 </View>
-                <Image
-                  source={require('../assets/arrow-right.png')}
+                <Feather
+                  name="arrow-right"
+                  size={responsiveWidth(5)}
+                  color={colors.black}
                   style={styles.arrow}
                 />
               </TouchableOpacity>
@@ -161,26 +170,30 @@ console.log(userData)
 
             <View style={styles.column}>
               <TouchableOpacity style={[styles.card, styles.pendingCard]}>
-                <Image
-                  source={require('../assets/Watch.png')}
-                  style={styles.icon}
-                  resizeMode="contain"
+                <Feather
+                  name="clock"
+                  size={responsiveWidth(8)}
+                  color={colors.black}
+                  style={[styles.icon, styles.iconRight]}
                 />
                 <View>
                   <CustomText style={styles.cardTitle}>Pending</CustomText>
                   <CustomText style={styles.amount}>$45,200</CustomText>
                 </View>
-                <Image
-                  source={require('../assets/arrow-right.png')}
+                <Feather
+                  name="arrow-right"
+                  size={responsiveWidth(5)}
+                  color={colors.black}
                   style={styles.arrow}
                 />
               </TouchableOpacity>
 
               <TouchableOpacity style={[styles.card, styles.tasksCard]}>
-                <Image
-                  source={require('../assets/Upcoming.png')}
+                <Feather
+                  name="clipboard"
+                  size={responsiveWidth(14)}
+                  color={colors.black}
                   style={styles.icon}
-                  resizeMode="contain"
                 />
                 <View>
                   <CustomText style={styles.cardTitle}>
@@ -190,26 +203,17 @@ console.log(userData)
                     5 Tasks This Week
                   </CustomText>
                 </View>
-                <Image
-                  source={require('../assets/arrow-right.png')}
+                <Feather
+                  name="arrow-right"
+                  size={responsiveWidth(5)}
+                  color={colors.black}
                   style={styles.arrow}
                 />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.ActionContainer}>
-            <FlatList
-              data={actionItems}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.listContent}
-              ItemSeparatorComponent={() => (
-                <View style={{ width: responsiveWidth(3) }} />
-              )}
-            />
-          </View>
+
+
 
           <View
             style={{
@@ -221,16 +225,9 @@ console.log(userData)
             }}
           >
             <CustomText style={styles.todayTitle} fontWeight="600">
-              Recent Activity
+              Today's Priorities
             </CustomText>
-            <CustomText
-              style={{
-                color: colors.textDiscription,
-                fontSize: responsiveFontSize(1.8),
-              }}
-            >
-              View All
-            </CustomText>
+
           </View>
           <View style={styles.activityContainer}>
             <FlatList
@@ -241,9 +238,10 @@ console.log(userData)
               scrollEnabled={false} // or true if you want scroll
             />
           </View>
+          <UpcomingJobsSection />
         </View>
       </ScrollView>
-   </ScreenWrapper>
+    </ScreenWrapper>
   );
 };
 
@@ -253,7 +251,7 @@ const styles = StyleSheet.create({
     paddingTop: responsiveHeight(1),
   },
   todayTitle: {
-    fontSize: responsiveFontSize(3.2),
+    fontSize: responsiveFontSize(2.8),
     color: colors.black,
     // marginBottom: responsiveHeight(3),
     paddingLeft: responsiveWidth(1),
@@ -263,6 +261,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: responsiveWidth(4),
+    marginTop: responsiveHeight(2),
   },
   column: {
     flex: 1,
@@ -275,50 +274,47 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(3),
     marginBottom: responsiveHeight(2),
 
-    shadowColor: colors.shadow, // ✅
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 8,
+
     position: 'relative',
   },
   revenueCard: {
     backgroundColor: colors.yellowSecondary,
-    height: responsiveHeight(26),
+    height: responsiveHeight(21),
     display: 'flex',
     justifyContent: 'space-between',
   },
   pendingCard: {
     backgroundColor: colors.greenSecondary,
-    height: responsiveHeight(18),
+    height: responsiveHeight(14),
     display: 'flex',
     justifyContent: 'space-between',
   },
   progressCard: {
     backgroundColor: colors.lightGray,
-    height: responsiveHeight(18),
+    height: responsiveHeight(14),
     display: 'flex',
     justifyContent: 'space-between',
   },
   tasksCard: {
     backgroundColor: colors.blueSecondary,
-    height: responsiveHeight(26),
+    height: responsiveHeight(21),
     display: 'flex',
     justifyContent: 'space-between',
   },
 
   icon: {
-    width: responsiveWidth(10),
-    height: responsiveWidth(10),
     marginBottom: responsiveHeight(1.5),
   },
+  iconRight: {
+    alignSelf: 'flex-end',
+  },
   cardTitle: {
-    fontSize: responsiveFontSize(2),
+    fontSize: responsiveFontSize(2.2),
     color: colors.black,
     fontWeight: '500',
   },
   amount: {
-    fontSize: responsiveFontSize(1.8),
+    fontSize: responsiveFontSize(2),
     color: colors.black,
   },
   count: {
@@ -326,12 +322,10 @@ const styles = StyleSheet.create({
     color: colors.textDiscription,
   },
   arrow: {
-    width: responsiveWidth(5),
-    height: responsiveWidth(5),
     position: 'absolute',
-    bottom: responsiveHeight(2),
+    bottom: responsiveHeight(2.5),
     right: responsiveWidth(4),
-    opacity: 0.7,
+    opacity: 0.8,
   },
   ActionContainer: {
     paddingVertical: responsiveHeight(2),
