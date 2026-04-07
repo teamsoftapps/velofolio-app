@@ -29,7 +29,7 @@ const CompanyProfile = () => {
       name: 'website',
       label: 'Website',
       type: 'text',
-      placeholder: 'Enter Last Name',
+      placeholder: 'e.g. https://velofolio.app',
     },
     {
       name: 'companyEmail',
@@ -58,7 +58,7 @@ const CompanyProfile = () => {
       name: 'city',
       label: 'City / Suburb',
       type: 'text',
-      placeholder: 'e.g. info@sarah.org',
+      placeholder: 'e.g. New York',
     //   keyboardType: 'email-address',
     //   autoCapitalize: 'none',
     },
@@ -66,14 +66,14 @@ const CompanyProfile = () => {
       name: 'postcode',
       label: 'Postcode / Zip',
       type: 'text',
-      placeholder: 'Enter Client Country',
+      placeholder: 'e.g. 10001',
     },
  
       {
       name: 'country',
       label: 'Country',
       type: 'text',
-      placeholder: 'Enter Client Country',
+      placeholder: 'e.g. United States',
     },
  
 
@@ -82,7 +82,7 @@ const CompanyProfile = () => {
       name: 'timezone',
       label: 'Time Zone',
       type: 'text',
-      placeholder: 'Enter Client Timezone',
+      placeholder: 'e.g. GMT-5',
     },
   
   ];

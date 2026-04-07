@@ -84,7 +84,7 @@ const Jobs = () => {
   return (
     <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
-        <CustomHeader title="Jobs"  onPress={navigatetoJobForm}/>
+        <CustomHeader title="Jobs" />
 
         <View style={styles.searchContainer}>
 <ViewToggle
@@ -101,17 +101,24 @@ const Jobs = () => {
           </TouchableOpacity>
         </View>
       </View>
-  { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
-    alignItems: 'center',
-  }}>
-       {JobsData.map((job, index) => (
-        <JobCard key={index} job={job} />
-       
-      ))}
-      </ScrollView>}
-{viewType==="Board"&&<JobBoardView/>}
-      {/* <JobCardBoard/> */}
-      {/* <CustomTabBar state={'state'} navigation={'navigation'} /> */}
+  <View style={styles.listContainer}>
+    { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
+      alignItems: 'center',
+      paddingBottom: responsiveHeight(15),
+    }}>
+         {JobsData.map((job, index) => (
+          <JobCard key={index} job={job} />
+         
+        ))}
+        </ScrollView>}
+  {viewType==="Board"&&<JobBoardView/>}
+
+    {/* FAB */}
+    <TouchableOpacity style={styles.fab} onPress={navigatetoJobForm} activeOpacity={0.8}>
+      <Ionicons name="add" size={responsiveWidth(6)} color={colors.white} />
+      <Text style={styles.fabText}>Add Job</Text>
+    </TouchableOpacity>
+  </View>
     </ScreenWrapper>
   );
 };
@@ -132,16 +139,12 @@ paddingVertical:responsiveHeight(2)
   },
   cardContainer: {
     marginTop: responsiveWidth(4),
-    // paddingHorizontal: responsiveWidth(4),
     flex: 1,
     gap:responsiveWidth(3),
-    // alignItems:"center"
-
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // paddingHorizontal: responsiveWidth(5),
     gap: responsiveWidth(3),
     justifyContent:"space-between"
   },
@@ -155,11 +158,36 @@ paddingVertical:responsiveHeight(2)
     width: responsiveWidth(14),
     height: responsiveWidth(14),
     borderRadius: responsiveWidth(3),
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.inputBorder,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: responsiveWidth(1),
+  },
+  listContainer: {
+    flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: responsiveHeight(4),
+    right: responsiveWidth(5),
+    backgroundColor: '#000',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: responsiveHeight(1.8),
+    paddingHorizontal: responsiveWidth(5),
+    borderRadius: responsiveWidth(10),
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  fabText: {
+    color: colors.white,
+    fontSize: responsiveWidth(3.8),
+    fontWeight: '600',
+    marginLeft: 4,
   },
   toggleWrapper:{
     width:responsiveWidth(40),

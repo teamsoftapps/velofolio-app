@@ -20,6 +20,14 @@ const SuccessModal = ({
   visible,
   onClose,
   onInviteAnother,
+  title = "Team Member",
+  titleBold = "Added Successfully",
+  subtitle = "They're now part of your workspace.",
+  buttonText = "Done",
+  secondaryButtonText = "Invite Another Member",
+  showSecondaryButton = true,
+  showButtons = true,
+  subtitleStyle,
 }) => {
   const scaleAnim = React.useRef(new Animated.Value(0.8)).current;
   const opacityAnim = React.useRef(new Animated.Value(0)).current;
@@ -86,33 +94,39 @@ const SuccessModal = ({
           >
          
 <CheckMark/>
-            <Text style={styles.title}>Team Member</Text>
-            <Text style={styles.titleBold}>Added Successfully</Text>
+            {title && <Text style={styles.title}>{title}</Text>}
+            {titleBold && <Text style={styles.titleBold}>{titleBold}</Text>}
 
             <Text style={styles.subtitle}>
-              They're now part of your workspace.
+              {subtitle}
             </Text>
 
-            {/* Done button */}
-            <TouchableOpacity
-              style={styles.doneButton}
-              onPress={onClose}
-              activeOpacity={0.9}
-            >
-              <Text style={styles.doneButtonText}>Done</Text>
-            </TouchableOpacity>
+            {showButtons && (
+              <>
+                {/* Done button */}
+                <TouchableOpacity
+                  style={styles.doneButton}
+                  onPress={onClose}
+                  activeOpacity={0.9}
+                >
+                  <Text style={styles.doneButtonText}>{buttonText}</Text>
+                </TouchableOpacity>
 
-            {/* Invite another button */}
-            <TouchableOpacity
-              style={styles.inviteButton}
-              onPress={() => {
-                onClose();
-                onInviteAnother();
-              }}
-              activeOpacity={0.9}
-            >
-              <Text style={styles.inviteButtonText}>Invite Another Member</Text>
-            </TouchableOpacity>
+                {/* Optional secondary button */}
+                {showSecondaryButton && onInviteAnother && (
+                  <TouchableOpacity
+                    style={styles.inviteButton}
+                    onPress={() => {
+                      onClose();
+                      onInviteAnother();
+                    }}
+                    activeOpacity={0.9}
+                  >
+                    <Text style={styles.inviteButtonText}>{secondaryButtonText}</Text>
+                  </TouchableOpacity>
+                )}
+              </>
+            )}
           </Animated.View>
         </TouchableOpacity>
       </BlurView>

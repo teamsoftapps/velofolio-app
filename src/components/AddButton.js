@@ -4,7 +4,6 @@ import Octicons from "react-native-vector-icons/Octicons";
 import {
     responsiveHeight,
     responsiveWidth,
-    responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 
 /**
@@ -90,7 +89,7 @@ const styles = StyleSheet.create({
     marginRight: responsiveWidth(2),
   },
   label: {
-    fontSize: responsiveFontSize(2),
+    fontSize: responsiveWidth(4),
     fontWeight: "600",
   },
   disabled: {

@@ -47,30 +47,30 @@ export default function SettingsScreen({ navigation }) {
 
           {renderRow('person-circle-outline', 'Company Profile',"Ion",()=> navigation.navigate('CompanyProfile'))}
 {renderRow('lock-outline', 'Security & Password', "", () => navigation.navigate('SecuritynPassword'))}
-          {renderRow('email', 'Email & Notifications')}
+          {renderRow('email', 'Email & Notifications',"",() => navigation.navigate('EmailNotificationSettings'))}
         </View>
 
         {/* Account - Company / Team */}
           <Text style={styles.sectionHeader}>Account</Text>
         <View style={styles.section}>
 
-          {renderRow('group', 'Team & Permissions')}
-          {renderRow('color-palette-outline', 'Branding & Customization',"Ion")}
+          {renderRow('group', 'Team & Permissions', "", () => navigation.navigate('RolesPermissions'))}
+          {renderRow('color-palette-outline', 'Branding & Customization', "Ion", () => navigation.navigate('BrandingCustomization'))}
         </View>
 
         {/* Billing */}
           <Text style={styles.sectionHeader}>Billing</Text>
         <View style={styles.section}>
 
-          {renderRow('payment', 'Payments & Billing')}
+          {renderRow('payment', 'Payments & Billing', "", () => navigation.navigate('PaymentsBilling'))}
         </View>
 
         {/* System */}
           <Text style={styles.sectionHeader}>System</Text>
         <View style={styles.section}>
 
-          {renderRow('bar-chart', 'Goals & Reports')}
-          {renderRow('settings-outline', 'System Preferences',"Ion")}
+          {renderRow('bar-chart', 'Goals & Reports', "", () => navigation.navigate('GoalsReports'))}
+          {renderRow('settings-outline', 'System Preferences',"Ion", () => navigation.navigate('SystemPreferences'))}
         </View>
 
         {/* Optional bottom spacing */}

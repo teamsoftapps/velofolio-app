@@ -13,10 +13,12 @@ import { responsiveWidth } from 'react-native-responsive-dimensions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../utils/colors';
 import CustomHeader from '../components/CustomHeader';
+import SuccessModal from '../components/Success';
 
 const ConfirmDeleteScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const deleteItems = [
     'All projects and job history',
@@ -28,7 +30,12 @@ const ConfirmDeleteScreen = ({ navigation }) => {
 
   const handleDelete = () => {
     // Handle account deletion logic
-    console.log('Deleting account with password:', password);
+    setShowSuccessModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    navigation.navigate("Settings");
   };
 
   return (
@@ -101,7 +108,7 @@ const ConfirmDeleteScreen = ({ navigation }) => {
 
           {/* Action Buttons */}
           <TouchableOpacity 
-            style={[styles.deleteButton]}
+            style={[styles.deleteButton, !password && styles.deleteButtonDisabled]}
             onPress={handleDelete}
             disabled={!password}
           >
@@ -116,6 +123,23 @@ const ConfirmDeleteScreen = ({ navigation }) => {
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <SuccessModal
+        visible={showSuccessModal}
+        onClose={handleCloseModal}
+        title={null}
+        titleBold={null}
+        subtitle="Your account will be scheduled for deletion in 14 days. You can log back in anytime during this period to restore it."
+        buttonText="Done"
+        showSecondaryButton={false}
+        subtitleStyle={{
+          fontSize: responsiveWidth(4.5),
+          fontWeight: '500',
+          textAlign: 'center',
+          color: colors.black,
+          marginTop: responsiveWidth(2),
+        }}
+      />
     </View>
   );
 };

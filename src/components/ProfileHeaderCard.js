@@ -9,7 +9,6 @@ import {
 import {
   responsiveHeight,
   responsiveWidth,
-  responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -43,7 +42,7 @@ const ProfileHeaderCard = ({
             >
               <Feather
                 name="more-horizontal"
-                size={responsiveFontSize(2.8)}
+                size={responsiveWidth(6.5)}
                 color={colors.grayDark || '#6b7280'}
               />
             </TouchableOpacity>
@@ -67,7 +66,7 @@ const ProfileHeaderCard = ({
             </Text>
 {   status.includes("Active InActive")  &&    <MaterialIcons
               name="keyboard-arrow-down"
-              size={responsiveFontSize(2.3)}
+              size={responsiveWidth(5)}
               color={colors.grayDark || '#6b7280'}
             />}
           </TouchableOpacity>
@@ -105,13 +104,13 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   name: {
-    fontSize: responsiveFontSize(2.8),
+    fontSize: responsiveWidth(5.5),
     fontWeight: '700',
     color: colors.textPrimary || '#111827',
     marginBottom: responsiveHeight(0.4),
   },
   role: {
-    fontSize: responsiveFontSize(2.0),
+    fontSize: responsiveWidth(3.8),
     color: colors.textSecondary || '#6b7280',
     marginBottom: responsiveHeight(0.8),
   },
@@ -130,7 +129,7 @@ const styles = StyleSheet.create({
     marginRight: responsiveWidth(2),
   },
   statusText: {
-    fontSize: responsiveFontSize(1.8),
+    fontSize: responsiveWidth(3.8),
     fontWeight: '600',
   },
-});
+});

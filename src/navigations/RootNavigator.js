@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth';
 import AuthNavigator from './AuthNavigator';
 import AppTabsNavigator from './AppTabsNavigator';
 import MainStack from "../navigations/MainStack"
-import TabsStack from './TabsStack';
+// import TabsStack from './TabsStack';
 const RootNavigator = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);

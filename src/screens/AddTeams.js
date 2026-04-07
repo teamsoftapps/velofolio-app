@@ -12,7 +12,7 @@ import JobForm from '../components/Form'; // ← new import
 import Tag from '../components/Tag';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import SuccessModal from "../components/Success"
-const AddClients = () => {
+const AddTeams = () => {
     const [showSuccess, setShowSuccess] = useState(false);
 
 

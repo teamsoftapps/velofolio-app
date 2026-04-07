@@ -9,7 +9,7 @@ import colors from '../utils/colors';
 import Feather from 'react-native-vector-icons/Feather';
 import CustomHeader from '../components/CustomHeader';
 import { useNavigation } from '@react-navigation/native';
-
+import PhoneInputField from '../components/PhoneInputField';
 const AddPhoneNumber = ({ 
   defaultCountry = { code: '+1', flag: '🇺🇸', name: 'US' }
 }) => {
@@ -27,32 +27,14 @@ const AddPhoneNumber = ({
 
       {/* Phone Input Container */}
       <Text style={styles.title}>Add a Phone Number</Text>
-      <View style={styles.inputContainer}>
-        {/* Country Selector */}
-        <TouchableOpacity style={styles.countrySelector}>
-          <Text style={styles.flag}>{country.flag}</Text>
-          <Text style={styles.countryCode}>{country.code}</Text>
-          <Feather 
-            name="chevron-down" 
-            size={responsiveFontSize(2)} 
-            color={colors.grayDark || '#6b7280'} 
-          />
-        </TouchableOpacity>
-
-        {/* Divider */}
-        <View style={styles.divider} />
-
-        {/* Phone Input */}
-        <TextInput
-          style={styles.phoneInput}
-          placeholder="Phone Number"
-          placeholderTextColor={colors.grayDark || '#9ca3af'}
-          keyboardType="phone-pad"
-          value={phone}
-          onChangeText={setPhone}
-          selectionColor={colors.primary || '#0ea5e9'}
-        />
-      </View>
+<PhoneInputField
+  value={phone}
+  onChangeText={setPhone}
+  country={country}
+  onPressCountry={() => {
+    // open country picker here
+  }}
+/>
 
       {/* Continue Button */}
       <TouchableOpacity 

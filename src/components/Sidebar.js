@@ -81,7 +81,8 @@ const navigation=useNavigation()
               <Text style={styles.itemText}>Reports & Analytics</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.item} onPress={() => { onClose() }}>
+            <TouchableOpacity style={styles.item} onPress={() => { navigation.navigate("GoalsReports")
+            onClose() }}>
               <Icon name="flag" size={responsiveWidth(5.5)} color={colors.grayDark} />
               <Text style={styles.itemText}>Goals & Performance</Text>
             </TouchableOpacity>

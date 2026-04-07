@@ -7,8 +7,9 @@ import CustomHeader from '../components/CustomHeader'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Tag from '../components/Tag'
 import NotificationCard from "../components/Notifications/NotificationCard"
+
 const Notifications = () => {
-    const tabs = ['All', 'Jobs', 'Payments', 'Clients', 'Team', 'System'];
+    const tabs = ['All', 'Jobs', 'Payments', 'Clients', 'Teams'];
 
 const [activeTab, setActiveTab] = useState('All');
 
@@ -34,53 +35,47 @@ const [activeTab, setActiveTab] = useState('All');
         </ScrollView>
       </View>
 
-      <ScrollView contentContainerStyle={styles.notificationContainer}>
-      {/* <Text>Notifications</Text> */}
-<NotificationCard
-        iconName="briefcase-outline"
-        iconSet='Ionicons'
-        iconColor={colors.blueAccent}
-        iconBg={colors.blueSecondary}
-        title="Job Update"
-        subtitle="Wedding film for Sarah moved to Pho"
-        timeAgo="10 minutes ago"
-        onPress={() => console.log('open details')}
-      />
-      <NotificationCard
-        iconName="briefcase-outline"
-        iconSet='Ionicons'
-        iconColor={colors.greenAccent}
-        iconBg={colors.greenSecondary}
-                // iconBg={colors.blueSecondary}
-
-        title="Payment Received"
-        subtitle="Wedding film for Sarah moved to Pho"
-        timeAgo="1hour ago"
-        onPress={() => console.log('open details')}
-      />
-      <NotificationCard
-        iconName="briefcase-outline"
-        iconSet='Ionicons'
-        iconColor={colors.blueAccent}
-                iconBg={colors.blueSecondary}
-
-        title="Job Update"
-        subtitle="Wedding film for Sarah moved to Pho"
-        timeAgo="10 minutes ago"
-        onPress={() => console.log('open details')}
-      />
-      <NotificationCard
-        iconName="briefcase-outline"
-        iconSet='Ionicons'
-        iconColor={colors.blueAccent}
-                iconBg={colors.blueSecondary}
-
-        title="Job Update"
-        subtitle="Wedding film for Sarah moved to Pho"
-        timeAgo="10 minutes ago"
-        onPress={() => console.log('open details')}
-      />
-
+      <ScrollView contentContainerStyle={styles.notificationContainer} showsVerticalScrollIndicator={false}>
+        <NotificationCard
+          iconName="briefcase-outline"
+          iconColor="#00B1FF"
+          iconBg="#E0F5FF"
+          title="Job Update"
+          subtitle="Wedding Film for Sarah moved to In Pr..."
+          timeAgo="10 minutes ago"
+          isUnread={true}
+          onPress={() => console.log('Job details')}
+        />
+        <NotificationCard
+          iconName="card-outline"
+          iconColor="#14CB95"
+          iconBg="#E0F9ED"
+          title="Payment Received"
+          subtitle="Invoice #INV-021 paid by Lumière Stu..."
+          timeAgo="1 hour ago"
+          isUnread={true}
+          onPress={() => console.log('Payment details')}
+        />
+        <NotificationCard
+          iconName="people-outline"
+          iconColor="#FFBE2B"
+          iconBg="#FFF2C0"
+          title="Team Activity"
+          subtitle="Alex added a new job: Music Video Sh..."
+          timeAgo="2:30 PM"
+          isUnread={false}
+          onPress={() => console.log('Team details')}
+        />
+        <NotificationCard
+          iconName="warning-outline"
+          iconColor="#FF3B30"
+          iconBg="#FFE5E5"
+          title="Action Required"
+          subtitle="Invoice #INV-018 is overdue"
+          timeAgo="2:30 PM"
+          isUnread={false}
+          onPress={() => console.log('Action details')}
+        />
       </ScrollView>
 
     </ScreenWrapper>
@@ -91,8 +86,8 @@ export default Notifications
 
 const styles = StyleSheet.create({
   mainwrapper:{
-paddingHorizontal:responsiveWidth(3),
-paddingVertical:responsiveHeight(2)
+    paddingHorizontal:responsiveWidth(3),
+    paddingVertical:responsiveHeight(2)
   },
   headWrapper: {
     backgroundColor: colors.white,
@@ -103,39 +98,18 @@ paddingVertical:responsiveHeight(2)
   },
   cardContainer: {
     marginTop: responsiveWidth(4),
-    // paddingHorizontal: responsiveWidth(4),
     flex: 1,
     gap:responsiveWidth(3),
-    // alignItems:"center"
-
   },
   tabsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    // paddingHorizontal: responsiveWidth(5),
-    // width:"100%",
- 
     gap: responsiveWidth(3),
-  },
-
-  inputWrapper: {
-    flex: 1,
-    marginVertical: responsiveWidth(4),
-  },
-
-  rightIcon: {
-    width: responsiveWidth(14),
-    height: responsiveWidth(14),
-    borderRadius: responsiveWidth(3),
-    borderWidth: 2,
-    borderColor: colors.inputBorder,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: responsiveWidth(1),
   },
   notificationContainer:{
     marginTop:responsiveHeight(2),
-alignItems:"center",
-gap:responsiveHeight(2)
+    alignItems:"center",
+    gap:responsiveHeight(2),
+    paddingBottom: responsiveHeight(5),
   }
-});
+});

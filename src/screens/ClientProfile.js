@@ -11,7 +11,6 @@ import {
 import {
     responsiveHeight,
     responsiveWidth,
-    responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors'; // your colors file
 
@@ -238,11 +237,13 @@ const tabs = ['ABOUT', 'OVERVIEW','JOBS', 'CONTRACTS & DOCS','MAIL',"INVOICES & 
               <ContractCard />
               
             </View>
-            <View style={styles.addButtonContainer}>              <AddButton
-  label="Add Job"
-  onPress={() => navigation.navigate('CreateJob')}
-  colors={{ primary: '#000000', textLight: '#FFFFFF' }}
-/></View>
+            <View style={styles.addButtonWrapper}>
+              <AddButton
+                label="Add Document"
+                onPress={() => console.log('Add Document')}
+                colors={{ primary: '#000000', textLight: '#FFFFFF' }}
+              />
+            </View>
           </View>
         )}
 
@@ -253,11 +254,13 @@ const tabs = ['ABOUT', 'OVERVIEW','JOBS', 'CONTRACTS & DOCS','MAIL',"INVOICES & 
             <View style={styles.contentPadding}>
               <FollowUpCard />
               <FollowUpCard />
-<View style={styles.addButtonContainer}>              <AddButton
-  label="Add Job"
-  onPress={() => navigation.navigate('CreateJob')}
-  colors={{ primary: '#000000', textLight: '#FFFFFF' }}
-/></View>
+            <View style={styles.addButtonWrapper}>
+              <AddButton
+                label="New Mail"
+                onPress={() => console.log('New Message')}
+                colors={{ primary: colors.blueAccent, textLight: colors.white }}
+              />
+            </View>
 
             </View>
           </View>
@@ -282,9 +285,9 @@ const styles = StyleSheet.create({
     contentContainer: {
         paddingBottom: responsiveHeight(4),
     },
-    headerCard: {
+    headWrapper: {
         backgroundColor: colors.white,
-        paddingHorizontal: responsiveWidth(5),
+        // paddingHorizontal: responsiveWidth(5),
         paddingTop: responsiveHeight(3),
         paddingBottom: responsiveHeight(2.5),
 
@@ -299,11 +302,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: responsiveWidth(4),
 
     },
-    addButtonContainer:{
-        width:responsiveWidth(40),
-        position:"absolute",
-        top:responsiveHeight(44),
-        right:responsiveWidth(6)
+    addButtonWrapper: {
+        width: responsiveWidth(50),
+        alignSelf: 'center',
+        marginTop: responsiveHeight(3),
+        marginBottom: responsiveHeight(2),
     },
     avatar: {
         width: responsiveWidth(18),
@@ -314,46 +317,43 @@ const styles = StyleSheet.create({
     infoContainer: {
         flex: 1,
     },
-    contractsContainer:{
+    contractsContainer: {
         paddingHorizontal: responsiveWidth(4),
-        paddingVertical:responsiveHeight(2)
+        paddingVertical: responsiveHeight(2)
     },
     tabsData: {
-        flexGrow: 1,   // 🔥 THIS IS THE KEY FIX
-        paddingBottom: responsiveHeight(5),
+        flexGrow: 1,
+        paddingBottom: responsiveHeight(10),
     },
     name: {
-        fontSize: responsiveFontSize(2.8),
-        fontWeight: '700',
-        color: colors.textPrimary || '#111827',
-        marginBottom: responsiveHeight(0.4),
-    },
-    title: {
-        fontSize: responsiveFontSize(2.0),
-        color: colors.textSecondary || '#6b7280',
-        marginBottom: responsiveHeight(0.8),
-    },
-    statusBadge: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: colors.successLight || '#ecfdf5',
-        paddingHorizontal: responsiveWidth(3),
-        paddingVertical: responsiveHeight(0.6),
-        borderRadius: responsiveWidth(10),
-        alignSelf: 'flex-start',
-    },
-    statusDot: {
-        width: responsiveWidth(2.4),
-        height: responsiveWidth(2.4),
-        borderRadius: responsiveWidth(1.2),
-        backgroundColor: '#10b981',
-        marginRight: responsiveWidth(2),
-    },
-    statusText: {
-        fontSize: responsiveFontSize(1.8),
-        fontWeight: '600',
-        color: '#065f46',
-    },
+    fontSize: responsiveWidth(5.5),
+    fontWeight: '700',
+    color: colors.textPrimary || '#111827',
+    marginBottom: responsiveHeight(0.4),
+  },
+  role: {
+    fontSize: responsiveWidth(3.8),
+    color: colors.textSecondary || '#6b7280',
+    marginBottom: responsiveHeight(0.8),
+  },
+  statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: responsiveWidth(3),
+    paddingVertical: responsiveHeight(0.6),
+    borderRadius: responsiveWidth(10),
+    alignSelf: 'flex-start',
+  },
+  statusDot: {
+    width: responsiveWidth(2.4),
+    height: responsiveWidth(2.4),
+    borderRadius: responsiveWidth(1.2),
+    marginRight: responsiveWidth(2),
+  },
+  statusText: {
+    fontSize: responsiveWidth(3.5),
+    fontWeight: '600',
+  },
     tabsWrapper: {
         backgroundColor: colors.card || '#ffffff',
         paddingHorizontal: responsiveWidth(5),
@@ -362,7 +362,6 @@ const styles = StyleSheet.create({
     tabs: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // marginBottom: responsiveHeight(1.2),
     },
     headingRow: {
         flexDirection: "row",
@@ -370,7 +369,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     tabItem: {
-        fontSize: responsiveFontSize(1.9),
+        fontSize: responsiveWidth(3.8),
         fontWeight: '600',
         color: colors.textSecondary || '#6b7280',
         paddingBottom: responsiveHeight(1.4),
@@ -381,22 +380,19 @@ const styles = StyleSheet.create({
     },
     tabUnderline: {
         height: responsiveHeight(0.4),
-        width: responsiveWidth(14), // approx width of "ABOUT"
+        width: responsiveWidth(14),
         backgroundColor: colors.blueAccent || '#2563eb',
         borderRadius: responsiveWidth(1),
         alignSelf: 'flex-start',
-        // marginLeft: responsiveWidth(4),
     },
     sectionCard: {
-        // backgroundColor: colors.card || '#ffffff',
         marginHorizontal: responsiveWidth(5),
         marginTop: responsiveHeight(1),
         padding: responsiveWidth(5),
         borderRadius: responsiveWidth(5),
-
     },
     sectionHeader: {
-        fontSize: responsiveFontSize(2.3),
+        fontSize: responsiveWidth(4.5),
         fontWeight: '700',
         color: colors.textPrimary || '#111827',
         marginBottom: responsiveHeight(2.2),
@@ -412,22 +408,22 @@ const styles = StyleSheet.create({
     },
     label: {
         width: responsiveWidth(34),
-        fontSize: responsiveFontSize(1.85),
+        fontSize: responsiveWidth(3.8),
         color: colors.grayDark,
         fontWeight: '500',
     },
     value: {
         flex: 1,
-        fontSize: responsiveFontSize(1.85),
+        fontSize: responsiveWidth(3.8),
         color: colors.black || '#111827',
         fontWeight: '600',
     },
     valueMultiLine: {
         flex: 1,
-        fontSize: responsiveFontSize(1.85),
+        fontSize: responsiveWidth(3.8),
         color: colors.textPrimary || '#111827',
         fontWeight: '500',
-        lineHeight: responsiveFontSize(2.2),
+        lineHeight: responsiveWidth(5),
     },
      contentPadding: {
     paddingHorizontal: responsiveWidth(4),

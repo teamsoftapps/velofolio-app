@@ -52,11 +52,13 @@ const OTPInput = ({ value, setValue, length = 4 }) => {
 export default OTPInput;
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: responsiveHeight(4),
-  },
+ row: {
+  flexDirection: 'row',
+  justifyContent: 'center', // important
+  alignItems: 'center',
+  gap: responsiveWidth(4),  // real spacing
+  marginVertical: responsiveHeight(4),
+},
 
   box: {
     width: responsiveWidth(16),

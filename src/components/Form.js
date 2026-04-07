@@ -237,7 +237,7 @@ borderColor:colors.gray
   submitText: {
     color: colors.white,
     fontSize: responsiveFontSize(2.2),
-    fontWeight: '600',
+    fontWeight: '400',
   },
   pickerContainer: {
     borderWidth: 1,

@@ -1,156 +1,113 @@
-// components/JobNotification.js
-import React, { cloneElement } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // change to your preferred default set
-import colors from '../../utils/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function NotificationCard({
-  iconName = 'movie',
-  iconSet = 'MaterialIcons',     // 'MaterialIcons' | 'Feather' | 'Ionicons' | 'MaterialCommunityIcons'
-  title = 'Job Update',
+  iconName = 'notifications-outline',
+  title = 'Notification',
   subtitle = '',
   timeAgo = 'just now',
   onPress,
-  iconColor = '#007AFF',
-  dotColor = '#007AFF',
-  showBlueDot = true,
-  iconBg,
-  iconSize = 32,
+  iconColor = '#00B1FF',
+  iconBg = '#E0F5FF',
+  isUnread = true,
 }) {
-  // Helper to get the correct icon component
-  const getIcon = () => {
-    let IconComponent;
-
-    switch (iconSet) {
-      case 'Feather':
-        IconComponent = require('react-native-vector-icons/Feather').default;
-        break;
-      case 'Ionicons':
-        IconComponent = require('react-native-vector-icons/Ionicons').default;
-        break;
-      case 'MaterialCommunityIcons':
-        IconComponent = require('react-native-vector-icons/MaterialCommunityIcons').default;
-        break;
-      case 'MaterialIcons':
-      default:
-        IconComponent = Icon;
-    }
-
-    return <IconComponent name={iconName} size={iconSize} color={iconColor} />;
-  };
-
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={onPress}
       activeOpacity={0.7}
-      disabled={!onPress}
-
     >
-        <View style={styles.topRow}>
-            <View style={[styles.left,{backgroundColor:iconBg}]}>
-                {getIcon()}
-            </View>
-                        <View style={styles.right}>
-                            <View style={styles.topContainer}>
-                            <View style={styles.titleContainer}>
-                        <View style={styles.unread}></View>
-                        <Text style={styles.title}>{title}</Text>
-                        </View>
-                         <Text style={styles.time}>{timeAgo}</Text>
-                        </View>
-                          
-<Text
-  style={styles.subtitle}
-  numberOfLines={1}
-  ellipsizeMode="tail"
->
-  {subtitle}
-</Text>
-                                                  
-                         <Text style={styles.detailAction}>View Details</Text>
-
-                    
-
-                        </View>
-
-
+      <View style={styles.contentRow}>
+        <View style={[styles.iconBox, { backgroundColor: iconBg }]}>
+          <Ionicons name={iconName} size={24} color={iconColor} />
         </View>
-     
 
-       
+        <View style={styles.textContainer}>
+          <View style={styles.headerRow}>
+            <View style={styles.titleRow}>
+              {isUnread && <View style={styles.unreadDot} />}
+              <Text style={styles.title} numberOfLines={1}>{title}</Text>
+            </View>
+            <Text style={styles.time}>{timeAgo}</Text>
+          </View>
 
+          <Text style={styles.subtitle} numberOfLines={2}>{subtitle}</Text>
+          
+          <TouchableOpacity onPress={onPress}>
+            <Text style={styles.detailsLink}>View Details</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'coloumn',
-    // alignItems: 'center',
-    padding:responsiveWidth(4),
-    // paddingHorizontal: 16,
     backgroundColor: '#ffffff',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#e0e0e0',
-    width:responsiveWidth(92),
-    borderRadius:responsiveWidth(4)
+    width: responsiveWidth(92),
+    borderRadius: responsiveWidth(4),
+    padding: responsiveWidth(4),
+    marginBottom: responsiveHeight(1.5),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 2,
   },
-  topRow:{
-    flexDirection:"row",
-    alignItems:"start",
-    gap:responsiveWidth(3)
+  contentRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
   },
-  
-  left:{
-    backgroundColor:colors.blueSecondary,
-    width:responsiveWidth(14),
-    height:responsiveHeight(6),
-    flexDirection:"column",
-    alignItems:"center",
-    justifyContent:"center",
-    borderRadius:responsiveWidth(2)
+  iconBox: {
+    width: responsiveWidth(12),
+    height: responsiveWidth(12),
+    borderRadius: responsiveWidth(2.5),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  right:{
-    flexDirection:'coloumn',
-       gap:6,
-       justifyContent:"space-between",
-       flex:1
+  textContainer: {
+    flex: 1,
+    marginLeft: responsiveWidth(3.5),
   },
-  topContainer:{
-flexDirection:'row',
-       alignItems:"center",
-       gap:2,
-       justifyContent:"space-between"
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
   },
-  titleContainer:{
-flexDirection:'row',
-       alignItems:"center",
-       gap:2,
-    
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
-  time:{
-fontSize:responsiveWidth(3.5),
-color:colors.grayDark
+  unreadDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#00B1FF',
+    marginRight: 6,
   },
-  title:{
-fontSize:responsiveWidth(4.2),
-fontWeight:"400"
+  title: {
+    fontSize: responsiveWidth(4.2),
+    fontWeight: '600',
+    color: '#1F2937',
   },
-  subtitle:{
-fontSize:responsiveWidth(4),
-color:colors.grayDark,
+  time: {
+    fontSize: responsiveWidth(3.4),
+    color: '#9CA3AF',
   },
-  detailAction:{
-fontSize:responsiveWidth(4),
-color:colors.blueAccent
+  subtitle: {
+    fontSize: responsiveWidth(3.8),
+    color: '#6B7280',
+    lineHeight: 20,
+    marginBottom: 8,
   },
-  unread:{
-    width:responsiveWidth(2),
-    height:responsiveHeight(1),
-    backgroundColor:colors.blueAccent,
-    borderRadius:responsiveWidth(50)
-  }
- 
-});
+  detailsLink: {
+    fontSize: responsiveWidth(3.8),
+    color: '#00B1FF',
+    fontWeight: '500',
+  },
+});

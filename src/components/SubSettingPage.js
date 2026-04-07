@@ -21,6 +21,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors';
 import CustomHeader from './CustomHeader';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * Reusable SubSettingsPage Component
@@ -61,7 +62,7 @@ const SubSettingsPage = ({
     titleColor: colors.titleColor || '#000000',
     backIconColor: colors.backIconColor || '#000000',
   };
-
+const navigation=useNavigation()
   const renderIcon = (item) => {
     const iconProps = {
       size: responsiveWidth(6),
@@ -165,7 +166,7 @@ const SubSettingsPage = ({
       
       {/* Header */}
             <View style={styles.headWrapper}>
-        <CustomHeader title={title} />
+        <CustomHeader title={title} onPress={()=>navigation.navigate("Settings")} />
 
       </View>
 
@@ -280,10 +281,11 @@ const styles = StyleSheet.create({
     paddingVertical: responsiveHeight(0.4),
     borderRadius: responsiveWidth(1.2),
     marginRight: responsiveWidth(2),
+    borderRadius:responsiveWidth(12)
   },
   badgeText: {
     fontSize: responsiveFontSize(1.3),
-    fontWeight: '700',
+    fontWeight: '5  00',
     letterSpacing: 0.3,
   },
   chevron: {
