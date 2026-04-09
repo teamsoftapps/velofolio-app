@@ -1,6 +1,6 @@
 // components/forms/JobForm.jsx
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Platform } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -9,7 +9,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import { Picker } from '@react-native-picker/picker';
-; // adjust path if needed
+import DateTimePicker from '@react-native-community/datetimepicker';
 import InputField from './InputField'; // adjust path
 import colors from '../utils/colors';
 
@@ -17,6 +17,8 @@ export default function JobForm({fields, onSubmit, submitText = 'Save Job',type=
   // ── Form state ────────────────────────────────────────────────
   const [formData, setFormData] = useState({  });
   const [isPassword, setisPassword] = useState(false); // for password toggle
+  const [showPicker, setShowPicker] = useState(false);
+  const [activePickerField, setActivePickerField] = useState(null);
 
   const handleChange = (name, value) => {
       console.log('changing field:', name, value); // 🔥 add this
@@ -116,15 +118,15 @@ if (field.type === 'select') {
               mode="dropdown" // Android dropdown style
             >
               <Picker.Item
-                label={field.options.find(o => !value) ? 'Select...' : ' '}
+                label={field.placeholder || "Select..."}
                 value=""
-                enabled={false} // optional: gray out placeholder
+                enabled={false}
               />
-              {field.options.map((opt) => (
+              {field.options && field.options.map((opt) => (
                 <Picker.Item
-                  key={opt.value}
-                  label={opt.label}
-                  value={opt.value}
+                  key={opt.value || opt}
+                  label={opt.label || opt}
+                  value={opt.value || opt}
                   color={Platform.OS === 'ios' ? colors.black : undefined}
                 />
               ))}
@@ -134,6 +136,7 @@ if (field.type === 'select') {
       );
     }
     if (field.type === 'date') {
+      const dateValue = value ? new Date(value) : new Date();
       return (
         <View key={field.name} style={styles.selectWrapper}>
           <Text style={styles.label}>{field.label}</Text>
@@ -141,20 +144,32 @@ if (field.type === 'select') {
           <TouchableOpacity
             style={styles.selectTouchable}
             onPress={() => {
-              // Placeholder logic – replace with real picker later
-              if (field.type === 'select') {
-                const idx = field.options.indexOf(value);
-                const next = field.options[(idx + 1) % field.options.length];
-                handleChange(field.name, next);
-              } else {
-                handleChange(field.name, '2026-07-15'); // demo
-              }
+              setActivePickerField(field.name);
+              setShowPicker(true);
             }}
           >
-            <Text style={[styles.selectText, !value && styles.placeholder]}>
-              {value || field.placeholder}
-            </Text>
+            <View style={styles.dateContent}>
+              <Text style={[styles.selectText, !value && styles.placeholder]}>
+                {value || field.placeholder}
+              </Text>
+              <Ionicons name="calendar-outline" size={20} color={colors.grayDark || '#9CA3AF'} />
+            </View>
           </TouchableOpacity>
+
+          {showPicker && activePickerField === field.name && (
+            <DateTimePicker
+              value={dateValue}
+              mode="date"
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              onChange={(event, selectedDate) => {
+                setShowPicker(Platform.OS === 'ios');
+                if (selectedDate) {
+                  const formattedDate = selectedDate.toISOString().split('T')[0];
+                  handleChange(field.name, formattedDate);
+                }
+              }}
+            />
+          )}
         </View>
       );
     }
@@ -207,6 +222,11 @@ borderRadius:responsiveWidth(3),
   inputContainer:{
 borderRadius:responsiveWidth(3),
 backgroundColor:"transparent"
+  },
+  dateContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   selectText: {
     fontSize: responsiveFontSize(2),

@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import StatsFlowHeader from '../components/Profile/StatsFlowHeader';
 import StatCard from '../components/Profile/StatCard';
 import InvoiceCard from "../components/InvoiceCard"
+import FilterModal from '../components/FilterModal';
 import colors from '../utils/colors';
 const PaymentsData = [
   {
@@ -159,6 +160,8 @@ const Payments = () => {
   const navigateToClientForm=()=>{
     navigation.navigate("AddPayments")
   }
+  const [isFilterVisible, setFilterVisible] = React.useState(false);
+
   return (
     <ScreenWrapper backgroundColor="transparent"  >
       <View style={styles.headWrapper}>
@@ -169,7 +172,7 @@ const Payments = () => {
             <SearchInput placeholder="Search Payments" />
           </View>
 
-          <TouchableOpacity style={styles.rightIcon}>
+          <TouchableOpacity style={styles.rightIcon} onPress={() => setFilterVisible(true)}>
             <Ionicons
               name="options-outline"
               size={responsiveWidth(9)}
@@ -178,6 +181,11 @@ const Payments = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <FilterModal 
+        visible={isFilterVisible} 
+        onClose={() => setFilterVisible(false)}
+        onApply={() => setFilterVisible(false)}
+      />
 
       <ScrollView  contentContainerStyle={styles.mainwrapper}
   showsVerticalScrollIndicator={false}>

@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import ViewToggle from "../components/ViewToggle"
 import JobCardBoard from "../components/JobCardBoard"
 import JobBoardView from "../components/JobBoardView"
+import FilterModal from '../components/FilterModal';
+
 const JobsData = [
   {
     tags: [
@@ -80,6 +82,7 @@ const Jobs = () => {
     navigation.navigate("AddJobs")
   }
   const [viewType, setViewType] = useState('List'); 
+  const [isFilterVisible, setFilterVisible] = useState(false);
 
   return (
     <ScreenWrapper backgroundColor="transparent" >
@@ -92,15 +95,25 @@ const Jobs = () => {
   selected={viewType}
   onSelect={setViewType}
 />
-          <TouchableOpacity style={styles.rightIcon}>
-            <Ionicons
-              name="options-outline"
-              size={responsiveWidth(9)}
-              color={colors.text}
-            />
-          </TouchableOpacity>
+          {/* We wrap the icons in a row if there's a search icon, but mapping the filter icon directly here */}
+          <View style={{ flexDirection: 'row', gap: responsiveWidth(2) }}>
+            <TouchableOpacity style={styles.rightIcon} onPress={() => setFilterVisible(true)}>
+              <Ionicons
+                name="options-outline"
+                size={responsiveWidth(7)} // Scaled down slightly to match screenshot
+                color={colors.text}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
+      
+      {/* Reusable Filter Modal */}
+      <FilterModal 
+        visible={isFilterVisible} 
+        onClose={() => setFilterVisible(false)}
+        onApply={() => setFilterVisible(false)}
+      />
   <View style={styles.listContainer}>
     { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
       alignItems: 'center',
@@ -176,7 +189,7 @@ paddingVertical:responsiveHeight(2)
     alignItems: 'center',
     paddingVertical: responsiveHeight(1.8),
     paddingHorizontal: responsiveWidth(5),
-    borderRadius: responsiveWidth(10),
+    borderRadius: responsiveWidth(3.5),
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },

@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  Dimensions,
+  Animated,
 } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
@@ -14,6 +14,24 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../utils/colors';
 
 export default function ActionModal({ setModal, modal }) {
+  const rotation = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    if (modal) {
+      rotation.setValue(0);
+      Animated.timing(rotation, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [modal, rotation]);
+
+  const spin = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['-45deg', '0deg'],
+  });
+
   return (
     <Modal
       animationType="fade"
@@ -64,7 +82,9 @@ export default function ActionModal({ setModal, modal }) {
           onPress={() => setModal(false)}
           activeOpacity={0.85}
         >
-          <Ionicons name="close" size={32} color={colors.white} />
+          <Animated.View style={{ transform: [{ rotate: spin }] }}>
+            <Ionicons name="close" size={32} color={colors.white} />
+          </Animated.View>
         </TouchableOpacity>
       </View>
     </Modal>

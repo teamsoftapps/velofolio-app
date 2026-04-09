@@ -9,6 +9,7 @@ import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
 import ClientCard from "../components/ClientCard"
 import { useNavigation } from '@react-navigation/native';
+import FilterModal from '../components/FilterModal';
 const ClientsData = [
   {
     id: 1,
@@ -69,6 +70,8 @@ const Clients = () => {
   const navigateToClientForm = () => {
     navigation.navigate("AddClients")
   }
+  const [isFilterVisible, setFilterVisible] = React.useState(false);
+
   return (
     <ScreenWrapper backgroundColor="transparent" >
       <View style={styles.headWrapper}>
@@ -79,7 +82,7 @@ const Clients = () => {
             <SearchInput placeholder="Search Clients" />
           </View>
 
-          <TouchableOpacity style={styles.rightIcon}>
+          <TouchableOpacity style={styles.rightIcon} onPress={() => setFilterVisible(true)}>
             <Ionicons
               name="options-outline"
               size={responsiveWidth(9)}
@@ -88,6 +91,11 @@ const Clients = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <FilterModal 
+        visible={isFilterVisible} 
+        onClose={() => setFilterVisible(false)}
+        onApply={() => setFilterVisible(false)}
+      />
       <View style={styles.listContainer}>
         <FlatList
           data={ClientsData}
@@ -179,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: responsiveHeight(1.8),
     paddingHorizontal: responsiveWidth(5),
-    borderRadius: responsiveWidth(10),
+    borderRadius: responsiveWidth(3.5),
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },

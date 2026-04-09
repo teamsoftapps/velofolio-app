@@ -66,6 +66,9 @@ import JobPaymentDefaults from "../screens/JobPaymentDefaults";
 import InvoiceFormatSettings from "../screens/InvoiceFormatSettings";
 import WorkflowSettings from "../screens/WorkflowSettings";
 import FilesAutomation from "../screens/FilesAutomation";
+import JobProfile from "../screens/JobProfile";
+import NewInvoice from "../screens/NewInvoice";
+import AddQuote from "../screens/AddQuote";
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 const Stack = createNativeStackNavigator();
@@ -135,6 +138,9 @@ export default function MainStack() {
       <Stack.Screen name="ReportAnalysis" component={ReportAnalysis} />
       <Stack.Screen name="ClientProfile" component={ClientProfile} />
       <Stack.Screen name="CompanyProfile" component={CompanyProfile} />
+      <Stack.Screen name="JobProfile" component={JobProfile} />
+      <Stack.Screen name="NewInvoice" component={NewInvoice} />
+      <Stack.Screen name="AddQuote" component={AddQuote} />
       <Stack.Screen name="TwoFactor" component={TwoFactorAuthScreen} />
       <Stack.Screen name="Sessions" component={Sessions} />
       <Stack.Screen name="Recovery" component={AccountRecoveryScreen} />

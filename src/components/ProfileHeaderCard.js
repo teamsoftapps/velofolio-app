@@ -23,7 +23,25 @@ const ProfileHeaderCard = ({
   statusBg = "#ecfdf5",
   onMorePress,
   onStatusPress,
+  variant = "default", // new prop
 }) => {
+  if (variant === "job") {
+    return (
+      <View style={styles.jobHeaderCard}>
+        <View style={styles.jobPill}>
+          <Image
+            source={{ uri: image }}
+            style={styles.jobAvatar}
+          />
+          <View style={styles.jobInfo}>
+            <Text style={styles.jobName}>{role}</Text>
+            <Text style={styles.jobEmail}>sarahjohnson@gmail.com</Text>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.headerCard}>
       <View style={styles.profileRow}>
@@ -48,27 +66,31 @@ const ProfileHeaderCard = ({
             </TouchableOpacity>
           </View>
 
-        {role&&  <Text style={styles.role}>{role}</Text>}
+          {role && <Text style={styles.role}>{role}</Text>}
 
           <TouchableOpacity
             style={[styles.statusBadge, { backgroundColor: statusBg }]}
             onPress={onStatusPress}
             activeOpacity={0.8}
           >
-  { status.includes("Active InActive")  &&       <View
-              style={[
-                styles.statusDot,
-                { backgroundColor: statusColor },
-              ]}
-            />}
+            {status.includes("Active InActive") && (
+              <View
+                style={[
+                  styles.statusDot,
+                  { backgroundColor: statusColor },
+                ]}
+              />
+            )}
             <Text style={[styles.statusText, { color: statusColor }]}>
               {status}
             </Text>
-{   status.includes("Active InActive")  &&    <MaterialIcons
-              name="keyboard-arrow-down"
-              size={responsiveWidth(5)}
-              color={colors.grayDark || '#6b7280'}
-            />}
+            {status.includes("Active InActive") && (
+              <MaterialIcons
+                name="keyboard-arrow-down"
+                size={responsiveWidth(5)}
+                color={colors.grayDark || '#6b7280'}
+              />
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -131,5 +153,36 @@ const styles = StyleSheet.create({
   statusText: {
     fontSize: responsiveWidth(3.8),
     fontWeight: '600',
+  },
+  jobHeaderCard: {
+    backgroundColor: colors.white,
+    paddingHorizontal: responsiveWidth(5),
+    paddingVertical: responsiveHeight(2),
+  },
+  jobPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F0F9FF', // Light cyan from screenshot
+    borderRadius: responsiveWidth(4),
+    padding: responsiveWidth(4),
+  },
+  jobAvatar: {
+    width: responsiveWidth(14),
+    height: responsiveWidth(14),
+    borderRadius: responsiveWidth(7),
+    marginRight: responsiveWidth(4),
+  },
+  jobInfo: {
+    flex: 1,
+  },
+  jobName: {
+    fontSize: responsiveWidth(4.5),
+    fontWeight: '600',
+    color: colors.textPrimary || '#111827',
+  },
+  jobEmail: {
+    fontSize: responsiveWidth(3.8),
+    color: colors.textSecondary || '#6b7280',
+    marginTop: 2,
   },
 });
