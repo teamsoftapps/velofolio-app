@@ -55,7 +55,7 @@ function SecurityPasswordScreen({ navigation }) {
   return (
     <SubSettingsPage
       title="Security & Password"
-      onBack={() => navigation.navigate("Settings")}
+      onBack={() => navigation.goBack()}
       sections={sections}
       colors={{
         background: '#f8f9fa',

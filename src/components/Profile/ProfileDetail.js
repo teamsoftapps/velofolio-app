@@ -8,70 +8,69 @@ import {
 import colors from '../../utils/colors';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import TeamAvatars from '../TeamComponent'; // Default export is TeamAvatars
 
 const ProfileDetails = ({ type = "Team" }) => {
   return (
     <>
-      {/* Personal Details */}
-      <View style={styles.sectionCard}>
-        <Text style={styles.sectionHeader}>Personal Details</Text>
+      {type !== "Job" && (
+        <View style={styles.sectionCard}>
+          <Text style={styles.sectionHeader}>Personal Details</Text>
 
         <DetailRow
           icon={<Ionicons name="person-outline" size={20} color="#64748b" />}
           label="Full Name"
           value="Sarah Lee"
         />
-
-        {type === "Client" && (
-          <>
-            <DetailRow
-              icon={<MaterialCommunityIcons name="cake-variant-outline" size={20} color="#64748b" />}
-              label="Country"
-              value="USA"
-            />
-            <DetailRow
-              icon={<MaterialCommunityIcons name="city" size={20} color="#64748b" />}
-              label="City"
-              value="New York"
-            />
-          </>
-        )}
-
-        {type === "Team" && (
-          <>
-            <DetailRow
-              icon={<MaterialCommunityIcons name="cake-variant-outline" size={20} color="#64748b" />}
-              label="Date of Birth"
-              value="January 1, 1987"
-            />
-            <DetailRow
-              icon={<MaterialCommunityIcons name="gender-female" size={20} color="#64748b" />}
-              label="Gender"
-              value="Female"
-            />
-          </>
-        )}
-
-        <DetailRow
-          icon={<Ionicons name="location-outline" size={20} color="#64748b" />}
-          label="Address"
-          value={`225 Cherry Street #24,\nNew York, NY`}
-          multiline
+       {  type==="Client"   &&<>    <DetailRow
+          icon={<MaterialCommunityIcons name="cake-variant-outline" size={20} color="#64748b" />}
+          label="Country"
+          value="USA"
         />
 
-        {type === "Team" && (
+        <DetailRow
+          icon={<MaterialCommunityIcons name="city" size={20} color="#64748b" />}
+          label="City"
+          value="New York"
+        /></>}
+
+
+
+
+
+
+
+
+
+      {  type==="Team"   &&<>    <DetailRow
+          icon={<MaterialCommunityIcons name="cake-variant-outline" size={20} color="#64748b" />}
+          label="Date of Birth"
+          value="January 1, 1987"
+        />
+
+        <DetailRow
+          icon={<MaterialCommunityIcons name="gender-female" size={20} color="#64748b" />}
+          label="Gender"
+          value="Female"
+        /></>}
+
           <DetailRow
-            icon={<MaterialIcons name="event-available" size={20} color="#64748b" />}
-            label="Joining Date"
-            value="Jan 12, 2024"
+            icon={<Ionicons name="location-outline" size={20} color="#64748b" />}
+            label="Address"
+            value={`225 Cherry Street #24,\nNew York, NY`}
+            multiline
           />
-        )}
+
+ { type==="Team"   &&   <DetailRow
+          icon={<MaterialIcons name="event-available" size={20} color="#64748b" />}
+          label="Joining Date"
+          value="Jan 12, 2024"
+        />}
       </View>
-
-      <View style={styles.separator} />
-
+<View style={styles.separator} />
       {/* Contact Details */}
       <View style={styles.sectionCard}>
         <Text style={styles.sectionHeader}>Contact Details</Text>
@@ -95,13 +94,19 @@ const ProfileDetails = ({ type = "Team" }) => {
 export default ProfileDetails;
 
 /* Reusable Row Component */
-const DetailRow = ({ icon, label, value, multiline = false }) => (
+const DetailRow = ({ icon, label, value, multiline = false, valueStyle = {}, isComponent = false }) => (
   <View style={styles.row}>
     <View style={styles.icon}>{icon}</View>
     <Text style={styles.label}>{label}</Text>
-    <Text style={multiline ? styles.valueMultiLine : styles.value}>
-      {value}
-    </Text>
+    <View style={styles.valueContainer}>
+      {isComponent ? (
+        <View>{value}</View>
+      ) : (
+        <Text style={[multiline ? styles.valueMultiLine : styles.value, valueStyle]}>
+          {value}
+        </Text>
+      )}
+    </View>
   </View>
 );
 
@@ -131,18 +136,18 @@ const styles = StyleSheet.create({
     color: colors.grayDark,
     fontWeight: '500',
   },
-  separator: {
+    separator: {
     height: 1,
     backgroundColor: colors.borderExtraLight,
   },
   value: {
-    flex: 1,
     fontSize: responsiveFontSize(1.85),
     fontWeight: '600',
+    alignSelf: 'flex-start',
   },
   valueMultiLine: {
-    flex: 1,
     fontSize: responsiveFontSize(1.85),
     lineHeight: responsiveFontSize(2.2),
+    alignSelf: 'flex-start',
   },
 });

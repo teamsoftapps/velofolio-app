@@ -9,6 +9,7 @@ import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
 import ClientCard from "../components/ClientCard"
 import { useNavigation } from '@react-navigation/native';
+import FilterModal from '../components/FilterModal';
 const ClientsData = [
   {
     id: 1,
@@ -47,6 +48,7 @@ const Clients = () => {
   const navigateToTeamForm=()=>{
     navigation.navigate("AddTeams")
   }
+  const [isFilterVisible, setFilterVisible] = React.useState(false);
   
   return (
     <ScreenWrapper backgroundColor="transparent" >
@@ -58,7 +60,7 @@ const Clients = () => {
             <SearchInput placeholder="Search by Name,Role,Email" />
           </View>
 
-          <TouchableOpacity style={styles.rightIcon}>
+          <TouchableOpacity style={styles.rightIcon} onPress={() => setFilterVisible(true)}>
             <Ionicons
               name="options-outline"
               size={responsiveWidth(9)}
@@ -67,6 +69,11 @@ const Clients = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <FilterModal 
+        visible={isFilterVisible} 
+        onClose={() => setFilterVisible(false)}
+        onApply={() => setFilterVisible(false)}
+      />
 <FlatList
   data={ClientsData}
   keyExtractor={(item) => item.id.toString()}

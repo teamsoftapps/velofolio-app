@@ -166,7 +166,13 @@ const navigation=useNavigation()
       
       {/* Header */}
             <View style={styles.headWrapper}>
-        <CustomHeader title={title} onPress={()=>navigation.navigate("Settings")} />
+        <CustomHeader title={title} onPress={() => {
+          if (onBack) {
+            onBack();
+          } else {
+            navigation.goBack();
+          }
+        }} />
 
       </View>
 

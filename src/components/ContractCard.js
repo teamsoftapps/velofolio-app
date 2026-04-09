@@ -24,15 +24,15 @@ const ContractCard = ({ contract, onMorePress }) => {
       {/* Header with Icon and Title */}
       <View style={styles.header}>
         <View style={styles.iconContainer}>
-          <MaterialIcons 
-            name="description" 
-            size={responsiveFontSize(2.5)} 
-            color={colors.blueAccent || '#3b82f6'} 
+          <MaterialIcons
+            name="description"
+            size={responsiveFontSize(2.5)}
+            color={colors.blueAccent || '#3b82f6'}
           />
         </View>
         <Text style={styles.title}>{data.title}</Text>
-        
-        <TouchableOpacity 
+
+        <TouchableOpacity
           onPress={onMorePress}
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
         >
@@ -49,10 +49,10 @@ const ContractCard = ({ contract, onMorePress }) => {
         {/* Type Row */}
         <View style={styles.row}>
           <View style={styles.labelContainer}>
-            <MaterialIcons 
-              name="description" 
-              size={responsiveFontSize(2.5)} 
-              color={colors.grayDark || '#6b7280'} 
+            <MaterialIcons
+              name="description"
+              size={responsiveFontSize(2.5)}
+              color={colors.grayDark || '#6b7280'}
               style={styles.rowIcon}
             />
             <Text style={styles.label}>Type</Text>
@@ -63,10 +63,10 @@ const ContractCard = ({ contract, onMorePress }) => {
         {/* Uploaded By Row */}
         <View style={styles.row}>
           <View style={styles.labelContainer}>
-            <Feather 
-              name="upload" 
-              size={responsiveFontSize(2.5)} 
-              color={colors.grayDark || '#6b7280'} 
+            <Feather
+              name="upload"
+              size={responsiveFontSize(2.5)}
+              color={colors.grayDark || '#6b7280'}
               style={styles.rowIcon}
             />
             <Text style={styles.label}>Uploaded By</Text>
@@ -77,10 +77,10 @@ const ContractCard = ({ contract, onMorePress }) => {
         {/* Date Row */}
         <View style={styles.row}>
           <View style={styles.labelContainer}>
-            <MaterialIcons 
-              name="calendar-today" 
-              size={responsiveFontSize(2.5)} 
-              color={colors.grayDark || '#6b7280'} 
+            <MaterialIcons
+              name="calendar-today"
+              size={responsiveFontSize(2.5)}
+              color={colors.grayDark || '#6b7280'}
               style={styles.rowIcon}
             />
             <Text style={styles.label}>Date</Text>
@@ -91,10 +91,10 @@ const ContractCard = ({ contract, onMorePress }) => {
         {/* Status Row */}
         <View style={styles.row}>
           <View style={styles.labelContainer}>
-            <MaterialIcons 
-              name="loop" 
-              size={responsiveFontSize(2.5)} 
-              color={colors.grayDark || '#6b7280'} 
+            <MaterialIcons
+              name="loop"
+              size={responsiveFontSize(2.5)}
+              color={colors.grayDark || '#6b7280'}
               style={styles.rowIcon}
             />
             <Text style={styles.label}>Status</Text>
@@ -117,20 +117,14 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(4),
     borderRadius: responsiveWidth(3),
     marginBottom: responsiveHeight(2),
-    // Shadow for iOS
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    // Shadow for Android
-    elevation: 3,
+
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: responsiveHeight(2),
-    backgroundColor:colors.blueSecondary,
-    padding:responsiveWidth(1.9)
+    backgroundColor: colors.blueSecondary,
+    padding: responsiveWidth(1.9)
   },
   iconContainer: {
     width: responsiveWidth(8),

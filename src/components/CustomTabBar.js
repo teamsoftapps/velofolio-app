@@ -8,6 +8,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../utils/colors';
 import CustomText from './CustomText';
+import Feather from 'react-native-vector-icons/Feather';
 
 const CustomTabBar = ({ state, navigation, setModal, modal }) => {
 
@@ -21,13 +22,13 @@ const CustomTabBar = ({ state, navigation, setModal, modal }) => {
 
     switch (name) {
       case 'Home':
-        return <Ionicons name={isFocused ? "home" : "home-outline"} size={size} color={color} />;
+        return <Feather name={isFocused ? "home" : "home"} size={size} color={color} />;
       case 'Jobs':
         return <Ionicons name={isFocused ? "briefcase" : "briefcase-outline"} size={size} color={color} />;
       case 'Clients':
         return <Ionicons name={isFocused ? "people" : "people-outline"} size={size} color={color} />;
       case 'Calendar':
-        return <Ionicons name={isFocused ? "calendar" : "calendar-outline"} size={size} color={color} />;
+        return <Ionicons name={isFocused ? "calendar-clear" : "calendar-clear-outline"} size={size} color={color} />;
       default:
         return null;
     }
@@ -88,9 +89,9 @@ export default CustomTabBar;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: colors.white, // ✅ themed
+    backgroundColor: colors.white,
     borderTopWidth: 1,
-    borderTopColor: colors.borderLight, // ✅ themed
+    borderTopColor: colors.borderLight,
     height: responsiveHeight(9.5),
     justifyContent: 'space-between',
     paddingHorizontal: responsiveWidth(6),
@@ -121,10 +122,10 @@ const styles = StyleSheet.create({
     width: responsiveWidth(16),
     height: responsiveWidth(16),
     borderRadius: responsiveWidth(8),
-    backgroundColor: colors.blueAccent, // ✅ themed
+    backgroundColor: colors.blueAccent,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: colors.shadow, // ✅ themed
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,

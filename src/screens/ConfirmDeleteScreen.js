@@ -35,7 +35,7 @@ const ConfirmDeleteScreen = ({ navigation }) => {
 
   const handleCloseModal = () => {
     setShowSuccessModal(false);
-    navigation.navigate("Settings");
+    navigation.goBack();
   };
 
   return (

@@ -231,9 +231,14 @@ const getConfig = (title) => {
 
 /* ================= COMPONENT ================= */
 
-const CustomHeader = ({ title = "", onPress }) => {
+const CustomHeader = ({ title = "", onPress, showMore = false, onMorePress, showAddButton }) => {
   const navigation = useNavigation();
-  const config = getConfig(title);
+  const config = { ...getConfig(title) };
+  
+  // Override config if prop is explicitly passed
+  if (showAddButton !== undefined) {
+    config.showAddButton = showAddButton;
+  }
 
   const handlePress = () => {
     if (typeof onPress === 'function') {
@@ -267,7 +272,7 @@ const CustomHeader = ({ title = "", onPress }) => {
           <Ionicons name="arrow-back-outline" size={26} color={colors.text} />
         </TouchableOpacity>
 
-        <View style={config.center ? styles.centerTitle : null}>
+        <View style={[config.center ? styles.centerTitle : styles.titleWrapper]}>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>
       </View>
@@ -283,8 +288,19 @@ const CustomHeader = ({ title = "", onPress }) => {
         </View>
       )}
 
-      {/* ADD BUTTON */}
-      {config.showAddButton && (
+      {/* RIGHT SIDE (MORE OPTIONS) */}
+      {showMore && (
+        <TouchableOpacity style={styles.moreButton} onPress={onMorePress}>
+          <Ionicons
+            name="ellipsis-vertical"
+            size={responsiveWidth(6)}
+            color={colors.black || '#000'}
+          />
+        </TouchableOpacity>
+      )}
+
+      {/* ADD BUTTON (Original) */}
+      {config.showAddButton && !showMore && (
         <View style={styles.sideContainer}>
           <ButtonSimple
             title={getAddTitle()}
@@ -312,12 +328,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: responsiveWidth(4),
     paddingHorizontal: responsiveWidth(2),
+    minHeight: responsiveWidth(15), // Ensure enough space for alignment
   },
 
   headerTitle: {
-    fontSize: responsiveWidth(6),
-    fontWeight: '400',
-    color: colors.textPrimary,
+    fontSize: responsiveWidth(4.8),
+    fontWeight: '600',
+    color: colors.textPrimary || '#111827',
+    flex: 1, 
+    flexWrap: 'wrap', 
+    textAlignVertical: 'center', // Android centering
+    includeFontPadding: false,   // Remove internal padding
+    lineHeight: responsiveWidth(6), // Maintain consistent line height
   },
 
   centerTitle: {
@@ -332,13 +354,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: responsiveWidth(4),
+    flex: 1, // Let it grow to take up center space
+    marginRight: responsiveWidth(2),
   },
 
   leftIcon: {
-    width: responsiveWidth(12),
-    height: responsiveWidth(12),
-    borderColor: colors.inputBorder,
-    borderWidth: 2,
+    width: responsiveWidth(11),
+    height: responsiveWidth(11),
+    borderColor: '#E5E7EB', // Lighter border from screenshot
+    borderWidth: 1.5,
     borderRadius: responsiveWidth(3),
     justifyContent: 'center',
     alignItems: 'center',
@@ -380,5 +404,17 @@ const styles = StyleSheet.create({
     fontSize: responsiveWidth(4),
     fontWeight: '600',
     marginLeft: responsiveWidth(2),
+  },
+  moreButton: {
+    width: responsiveWidth(11),
+    height: responsiveWidth(11),
+    borderRadius: responsiveWidth(5.5),
+    backgroundColor: '#F3F4F6', // Light gray from screenshot
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

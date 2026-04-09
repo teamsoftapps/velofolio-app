@@ -14,15 +14,17 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ActionButtons from './ActionButton';
 import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-// Your JobsData
+import { useNavigation } from '@react-navigation/native';
 
 const JobCard = ({ job, tab }) => {
-  // For simplicity, take the first job
-  // const job = JobsData[0];
+  const navigation = useNavigation();
 
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() =>
+        tab !== 'task' && navigation.navigate('JobProfile', { job })
+      }
       style={[
         styles.card,
         {
@@ -126,7 +128,7 @@ const JobCard = ({ job, tab }) => {
           </View>
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -135,7 +137,6 @@ export default JobCard;
 const styles = StyleSheet.create({
   card: {
     width: responsiveWidth(90),
-    height: responsiveHeight(31),
     backgroundColor: colors.yellowSecondary,
     padding: responsiveWidth(4),
     borderRadius: responsiveWidth(3),
@@ -188,15 +189,6 @@ const styles = StyleSheet.create({
   progressbar: {
     height: responsiveHeight(2.2),
     marginTop: 8,
-  },
-  progressContainer: {
-    marginVertical: responsiveWidth(4),
-    width: '100%',
-    padding: responsiveWidth(0.4),
-    paddingHorizontal: responsiveWidth(2),
-    borderRadius: responsiveWidth(10),
-    height: responsiveHeight(2),
-    backgroundColor: colors.white,
   },
   detailConatiner: {
     flexDirection: 'row',
