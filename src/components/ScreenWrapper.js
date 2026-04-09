@@ -24,9 +24,12 @@ import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import colors from '../utils/colors';
 
-const ScreenWrapper = ({ children, backgroundColor = colors.white, style }) => {
+const ScreenWrapper = ({ children, backgroundColor = colors.white, style, edges }) => {
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor }, style]}>
+    <SafeAreaView
+      edges={edges}
+      style={[styles.container, { backgroundColor }, style]}
+    >
       {children}
     </SafeAreaView>
   );

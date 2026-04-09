@@ -1,6 +1,13 @@
 // components/forms/JobForm.jsx
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  Platform,
+} from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -8,52 +15,58 @@ import {
 } from 'react-native-responsive-dimensions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { Picker } from '@react-native-picker/picker';
-; // adjust path if needed
+import { Picker } from '@react-native-picker/picker'; // adjust path if needed
 import InputField from './InputField'; // adjust path
 import colors from '../utils/colors';
 
-export default function JobForm({fields, onSubmit, submitText = 'Save Job',type="" }) {
+export default function JobForm({
+  fields,
+  onSubmit,
+  submitText = 'Save Job',
+  type = '',
+}) {
   // ── Form state ────────────────────────────────────────────────
-  const [formData, setFormData] = useState({  });
+  const [formData, setFormData] = useState({});
   const [isPassword, setisPassword] = useState(false); // for password toggle
 
   const handleChange = (name, value) => {
-      console.log('changing field:', name, value); // 🔥 add this
+    console.log('changing field:', name, value); // 🔥 add this
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = () => {
-  const allowedKeys = fields.map(f => f.name);
+  const handleSubmit = () => {
+    const allowedKeys = fields.map(f => f.name);
 
-  const filteredData = Object.keys(formData).reduce((acc, key) => {
-    if (allowedKeys.includes(key)) {
-      acc[key] = formData[key];
+    const filteredData = Object.keys(formData).reduce((acc, key) => {
+      if (allowedKeys.includes(key)) {
+        acc[key] = formData[key];
+      }
+      return acc;
+    }, {});
+    if (
+      !Object.values(filteredData).every(
+        v => v !== undefined && v !== null && v.toString().trim() !== '',
+      )
+    ) {
+      return;
     }
-    return acc;
-  }, {});
-if (!Object.values(filteredData).every(
-  v => v !== undefined && v !== null && v.toString().trim() !== ''
-)) {
-  return;
-}
 
-  onSubmit?.(filteredData);
-};
+    onSubmit?.(filteredData);
+  };
 
   // ── Render helper ─────────────────────────────────────────────
-  const renderField = (field) => {
+  const renderField = field => {
     const value = formData[field.name] ?? '';
 
-  if (field.type === 'password') {
-    return (
+    if (field.type === 'password') {
+      return (
         <InputField
           key={field.name}
           label={field.label}
           placeholder={field.placeholder}
           value={value}
-          onChangeText={(text) => handleChange(field.name, text)}
+          onChangeText={text => handleChange(field.name, text)}
           keyboardType={field.keyboardType}
           autoCapitalize={field.autoCapitalize}
           multiline={field.multiline}
@@ -61,36 +74,34 @@ if (!Object.values(filteredData).every(
           labelStyle={styles.label}
           containerStyle={styles.inputContainer}
           isPassword={isPassword}
-          
         />
       );
-  }
-    if (field.type === 'text' ) {
+    }
+    if (field.type === 'text') {
       return (
         <InputField
           key={field.name}
           label={field.label}
           placeholder={field.placeholder}
           value={value}
-          onChangeText={(text) => handleChange(field.name, text)}
+          onChangeText={text => handleChange(field.name, text)}
           keyboardType={field.keyboardType}
           autoCapitalize={field.autoCapitalize}
           multiline={field.multiline}
           numberOfLines={field.numberOfLines}
           labelStyle={styles.label}
           containerStyle={styles.inputContainer}
-          
         />
       );
     }
-    if (field.type === 'textarea' ) {
+    if (field.type === 'textarea') {
       return (
         <InputField
           key={field.name}
           label={field.label}
           placeholder={field.placeholder}
           value={value}
-          onChangeText={(text) => handleChange(field.name, text)}
+          onChangeText={text => handleChange(field.name, text)}
           keyboardType={field.keyboardType}
           autoCapitalize={field.autoCapitalize}
           multiline={field.multiline}
@@ -98,11 +109,10 @@ if (!Object.values(filteredData).every(
           labelStyle={styles.label}
           containerStyle={styles.texrarea}
           style={styles.texrareaInput}
-       
         />
       );
     }
-if (field.type === 'select') {
+    if (field.type === 'select') {
       return (
         <View key={field.name} style={styles.fieldWrapper}>
           <Text style={styles.label}>{field.label}</Text>
@@ -110,7 +120,7 @@ if (field.type === 'select') {
           <View style={styles.pickerContainer}>
             <Picker
               selectedValue={value}
-              onValueChange={(itemValue) => handleChange(field.name, itemValue)}
+              onValueChange={itemValue => handleChange(field.name, itemValue)}
               style={styles.picker}
               dropdownIconColor={colors.iconSecondary}
               mode="dropdown" // Android dropdown style
@@ -120,7 +130,7 @@ if (field.type === 'select') {
                 value=""
                 enabled={false} // optional: gray out placeholder
               />
-              {field.options.map((opt) => (
+              {field.options.map(opt => (
                 <Picker.Item
                   key={opt.value}
                   label={opt.label}
@@ -165,20 +175,21 @@ if (field.type === 'select') {
   return (
     <View style={styles.formContainer}>
       {fields.map(renderField)}
-{submitText!=='CompanyProfile' &&<>    <TouchableOpacity
-        style={styles.Button}
-        onPress={handleSubmit}
-      >
-        <Text style={styles.submitText}>{submitText}</Text>
-      </TouchableOpacity>
-     {type!=="passsave" &&   <TouchableOpacity
-        style={[styles.Button,styles.cancel]}
-        // onPress={() => onSubmit?.(formData)}
-      >
-      <Text style={styles.cancelText}>Cancel </Text>
-      </TouchableOpacity>}
-      </>}
-  
+      {submitText !== 'CompanyProfile' && (
+        <View>
+          <TouchableOpacity style={styles.Button} onPress={handleSubmit}>
+            <Text style={styles.submitText}>{submitText}</Text>
+          </TouchableOpacity>
+          {type !== 'passsave' && (
+            <TouchableOpacity
+              style={[styles.Button, styles.cancel]}
+              // onPress={() => onSubmit?.(formData)}
+            >
+              <Text style={styles.cancelText}>Cancel </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      )}
     </View>
   );
 }
@@ -199,14 +210,14 @@ const styles = StyleSheet.create({
     height: responsiveHeight(7.5),
     borderWidth: 1,
     borderColor: colors.inputBorder,
-borderRadius:responsiveWidth(3),
+    borderRadius: responsiveWidth(3),
     paddingHorizontal: responsiveWidth(4),
     justifyContent: 'center',
     backgroundColor: 'transparent',
   },
-  inputContainer:{
-borderRadius:responsiveWidth(3),
-backgroundColor:"transparent"
+  inputContainer: {
+    borderRadius: responsiveWidth(3),
+    backgroundColor: 'transparent',
   },
   selectText: {
     fontSize: responsiveFontSize(2),
@@ -218,18 +229,18 @@ backgroundColor:"transparent"
   Button: {
     marginTop: responsiveHeight(2),
     backgroundColor: colors.blueAccent,
-    paddingVertical:responsiveHeight(2),
-   
+    paddingVertical: responsiveHeight(2),
+
     borderRadius: responsiveWidth(50),
     justifyContent: 'center',
     alignItems: 'center',
   },
-  cancel:{
-backgroundColor:"transparent",
-borderWidth:responsiveWidth(0.6),
-borderColor:colors.gray
+  cancel: {
+    backgroundColor: 'transparent',
+    borderWidth: responsiveWidth(0.6),
+    borderColor: colors.gray,
   },
-  cancelText:{
+  cancelText: {
     color: colors.black,
     fontSize: responsiveFontSize(2.2),
     fontWeight: '600',
@@ -245,7 +256,7 @@ borderColor:colors.gray
     borderRadius: responsiveWidth(3),
     backgroundColor: 'transparent',
     overflow: 'hidden', // clean corners
-    marginBottom:responsiveHeight(2)
+    marginBottom: responsiveHeight(2),
   },
   picker: {
     height: responsiveHeight(7.5),
@@ -253,19 +264,18 @@ borderColor:colors.gray
     color: colors.black,
     fontSize: responsiveFontSize(2),
   },
-texrarea: {
-  height: responsiveHeight(14),
-  borderRadius: responsiveWidth(3),
-  backgroundColor: "transparent",
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'flex-start',
-  paddingVertical: responsiveHeight(1),
-},
+  texrarea: {
+    height: responsiveHeight(14),
+    borderRadius: responsiveWidth(3),
+    backgroundColor: 'transparent',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    paddingVertical: responsiveHeight(1),
+  },
 
-texrareaInput: {
-  height: responsiveHeight(12),
-  textAlignVertical: 'top', // 🔥 VERY IMPORTANT
-}
-
+  texrareaInput: {
+    height: responsiveHeight(12),
+    textAlignVertical: 'top', // 🔥 VERY IMPORTANT
+  },
 });

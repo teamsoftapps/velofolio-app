@@ -1,37 +1,33 @@
 import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import ScreenWrapper from '../components/ScreenWrapper';
 import CustomText from '../components/CustomText';
 import ButtonSimple from '../components/Button';
 import InputField from '../components/InputField';
+import AuthGradient from '../components/AuthGradient';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import colors from '../utils/colors';
 import { loginWithEmail, loginWithGoogle } from '../services/firebaseAuth';
+import ToastService from '../utils/ToastService';
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
-  const [isLoading,setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+  
   return (
-    <ScreenWrapper backgroundColor="transparent">
-      <ImageBackground
-        source={require('../assets/authbg.png')}
-        style={styles.bg}
-        resizeMode="cover"
-      >
-        <View style={styles.container}>
+    <ScreenWrapper backgroundColor="transparent" edges={[]}>
+      <AuthGradient style={styles.bg}>
+        <View style={[styles.container, { paddingTop: insets.top + (responsiveHeight(2) || 20) }]}>
           {/* LOGO */}
           <View style={styles.logoRow}>
             <Image
@@ -87,21 +83,19 @@ const LoginScreen = () => {
             {/* Sign In Button */}
             <ButtonSimple
               textStyle={{ color: colors.white }}
-              title={isLoading?"Signing In...":"Sign In"}
+              title={isLoading ? 'Signing In...' : 'Sign In'}
               backgroundColor={colors.black}
               onPress={async () => {
                 try {
-                  setIsLoading(true)
+                  setIsLoading(true);
                   await loginWithEmail(email, password);
-                                    setIsLoading(false)
-
+                  setIsLoading(false);
+                  ToastService.success('Success', 'Welcome back!');
                 } catch (e) {
-
-                  alert(e.message);
-                  setIsLoading(false)
+                  ToastService.error('Login Error', e.message);
+                  setIsLoading(false);
                 }
               }}
-        
             />
 
             {/* OR */}
@@ -120,8 +114,9 @@ const LoginScreen = () => {
               onPress={async () => {
                 try {
                   await loginWithGoogle();
+                  ToastService.success('Success', 'Signed in with Google!');
                 } catch (e) {
-                  alert(e.message);
+                  ToastService.error('Google Login Error', e.message);
                 }
               }}
             />
@@ -138,12 +133,13 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-      </ImageBackground>
+      </AuthGradient>
     </ScreenWrapper>
   );
 };
 
 export default LoginScreen;
+
 const styles = StyleSheet.create({
   bg: {
     flex: 1,
@@ -152,17 +148,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: responsiveWidth(7),
-    paddingTop: responsiveHeight(4),
   },
 
   logoRow: {
-    // alignItems: 'center',
     marginBottom: responsiveHeight(3),
   },
 
   logo: {
-    width: responsiveWidth(30),
-    height: responsiveHeight(8),
+    width: responsiveWidth(35),
+    height: responsiveHeight(10),
   },
 
   title: {

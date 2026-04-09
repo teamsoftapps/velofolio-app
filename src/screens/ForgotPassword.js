@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   ScrollView,
-  Alert,
 } from 'react-native';
 
 import {
@@ -20,45 +18,41 @@ import CustomText from '../components/CustomText';
 import InputField from '../components/InputField';
 import ButtonSimple from '../components/Button';
 
+import AuthGradient from '../components/AuthGradient';
 import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
-import { Color } from 'react-native/types_generated/Libraries/Animated/AnimatedExports';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { forgotPassword } from '../services/firebaseAuth';
+import ToastService from '../utils/ToastService';
 
 const ForgotPassword = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
-const [loading,setLoading]=useState(false)
-// const [message,setMessage]=useState('')
-const handleReset = async () => {
+  const [loading, setLoading] = useState(false);
+  const insets = useSafeAreaInsets();
+
+  const handleReset = async () => {
     setLoading(true);
- 
     try {
-      const response = await forgotPassword(email.trim());
-      
-      Alert.alert('Success', 'Reset link sent — check your email!');
-      navigation.goBack(); // or navigate to login
+      await forgotPassword(email.trim());
+      ToastService.success('Success', 'Reset link sent — check your email!');
+      navigation.goBack();
     } catch (err) {
-      Alert.alert('Error', err.message);
+      ToastService.error('Error', err.message);
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
-    <ScreenWrapper backgroundColor="transparent">
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        <ImageBackground
-          source={require('../assets/authbg.png')}
-          resizeMode="cover"
-          style={styles.bg}
+    <ScreenWrapper backgroundColor="transparent" edges={[]}>
+      <AuthGradient style={styles.bg}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
         >
-          <View style={styles.container}>
+          <View style={[styles.container, { paddingTop: insets.top + (responsiveHeight(2) || 20), paddingBottom: Math.max(insets.bottom, responsiveHeight(4)) }]}>
             {/* Back Button */}
             <TouchableOpacity
               style={styles.backBtn}
@@ -104,13 +98,14 @@ const handleReset = async () => {
               />
             </View>
           </View>
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </AuthGradient>
     </ScreenWrapper>
   );
 };
 
 export default ForgotPassword;
+
 const styles = StyleSheet.create({
   bg: {
     flex: 1,
@@ -120,8 +115,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: responsiveWidth(7),
-    paddingTop: responsiveHeight(4),
-    paddingBottom: responsiveHeight(8),
   },
 
   backBtn: {

@@ -24,10 +24,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomHeader from '../components/CustomHeader';
 import ProfileTabs from "../components/Profile/ProfileTabs"
-import ProfileDetails from  "../components/Profile/ProfileDetail"
+import ProfileDetails from "../components/Profile/ProfileDetail"
 import WorkloadOverview from '../components/Profile/WorkloadOverview';
 import JobList from "../components/Profile/JobnTaskLIst"
 import Availibility from "../components/Profile/Availibility"
+import ScreenWrapper from '../components/ScreenWrapper';
 
 
 const JobsData = [
@@ -155,11 +156,13 @@ const UserProfileScreen = () => {
     const [activeTab, setActiveTab] = useState('ABOUT');
 
   return (
-    <View
+    <ScreenWrapper
       style={styles.container}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.contentContainer}
     >
+      <View
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainer}
+      >
         <View style={styles.headWrapper}>
         <CustomHeader title="Profile" onPress={""} />
    <View style={styles.headerCard}>
@@ -219,7 +222,8 @@ const UserProfileScreen = () => {
 
 
       {/* <View style={{ height: responsiveHeight(6) }} /> */}
-    </View>
+      </View>
+    </ScreenWrapper>
   );
 };
 

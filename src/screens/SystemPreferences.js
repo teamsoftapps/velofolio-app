@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import {
   responsiveWidth,
   responsiveHeight,
@@ -48,11 +43,23 @@ const SystemPreferences = ({ navigation }) => {
     },
   ];
 
-  const renderIcon = (option) => {
+  const renderIcon = option => {
     if (option.iconType === 'Ion') {
-      return <Ionicons name={option.icon} size={22} color={colors.textPrimary || '#222222'} />;
+      return (
+        <Ionicons
+          name={option.icon}
+          size={22}
+          color={colors.textPrimary || '#222222'}
+        />
+      );
     }
-    return <MaterialCommunityIcons name={option.icon} size={22} color={colors.textPrimary || '#222222'} />;
+    return (
+      <MaterialCommunityIcons
+        name={option.icon}
+        size={22}
+        color={colors.textPrimary || '#222222'}
+      />
+    );
   };
 
   return (
@@ -61,24 +68,33 @@ const SystemPreferences = ({ navigation }) => {
         <CustomHeader title="System Preferences" />
       </View>
 
-      <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+      >
         <CustomText style={styles.sectionTitle}>System</CustomText>
-        
+
         <View style={styles.optionsCard}>
           {options.map((option, index) => (
             <React.Fragment key={option.id}>
               <TouchableOpacity
                 style={styles.optionRow}
-                onPress={() => option.screen && navigation.navigate(option.screen)}
+                onPress={() =>
+                  option.screen && navigation.navigate(option.screen)
+                }
                 activeOpacity={0.7}
               >
                 <View style={styles.optionLeft}>
-                  <View style={styles.iconCircle}>
-                    {renderIcon(option)}
-                  </View>
-                  <CustomText style={styles.optionTitle}>{option.title}</CustomText>
+                  <View style={styles.iconCircle}>{renderIcon(option)}</View>
+                  <CustomText style={styles.optionTitle}>
+                    {option.title}
+                  </CustomText>
                 </View>
-                <Ionicons name="chevron-forward" size={20} color={colors.grayDark || '#999999'} />
+                <Ionicons
+                  name="chevron-forward"
+                  size={20}
+                  color={colors.grayDark || '#999999'}
+                />
               </TouchableOpacity>
               {index < options.length - 1 && <View style={styles.divider} />}
             </React.Fragment>

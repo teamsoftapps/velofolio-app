@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import {
-  ImageBackground,
   View,
   Image,
   StyleSheet,
   TouchableOpacity,
   Modal,
-  StatusBar,
 } from 'react-native';
 import {
   responsiveHeight,
@@ -14,23 +12,22 @@ import {
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 
+import AuthGradient from '../components/AuthGradient';
 import ScreenWrapper from '../components/ScreenWrapper';
 import ButtonSimple from '../components/Button';
 import CustomText from '../components/CustomText';
 import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const WelcomeScreen = () => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const insets = useSafeAreaInsets();
 
   return (
-    <ScreenWrapper>
-      <ImageBackground
-        source={require('../assets/welcome-gradient.png')}
-        resizeMode="cover"
-        style={styles.background}
-      >
+    <ScreenWrapper edges={[]}>
+      <AuthGradient style={styles.background}>
         <View style={styles.iconsContainer}>
           <Image
             source={require('../assets/welcome-icons.png')}
@@ -39,7 +36,7 @@ const WelcomeScreen = () => {
           />
         </View>
 
-        <View style={styles.bottomContainer}>
+        <View style={[styles.bottomContainer, { paddingBottom: Math.max(insets.bottom, responsiveHeight(4)) }]}>
           <CustomText
             style={styles.title}
             fontWeight="600"
@@ -60,7 +57,7 @@ const WelcomeScreen = () => {
             textStyle={styles.buttonText}
           />
         </View>
-      </ImageBackground>
+      </AuthGradient>
 
       <Modal
         visible={modalVisible}
@@ -148,7 +145,6 @@ const styles = StyleSheet.create({
 
   bottomContainer: {
     paddingHorizontal: responsiveWidth(4),
-    paddingBottom: responsiveHeight(4),
     alignItems: 'center',
   },
 

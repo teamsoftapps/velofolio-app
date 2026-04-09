@@ -1,0 +1,12 @@
+{
+  "rules": {
+    "users": {
+      ".indexOn": ["email"],
+      ".read": "auth != null",
+      "$uid": {
+        ".read": "$uid === auth.uid",
+        ".write": "$uid === auth.uid || (data.exists() && data.child('email').val() === auth.token.email)"
+      }
+    }
+  }
+}

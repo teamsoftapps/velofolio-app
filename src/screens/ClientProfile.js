@@ -33,6 +33,7 @@ import ContractCard from '../components/ContractCard';
 import FollowUpCard from '../components/FollowUpCard';
 import SearchFilterComponent from '../components/SearchFilterComponent';
 import AddButton from "../components/AddButton"
+import ScreenWrapper from '../components/ScreenWrapper';
 const JobsData = [
     {
         tags: [
@@ -181,11 +182,13 @@ const ClientProfile = () => {
 const tabs = ['ABOUT', 'OVERVIEW','JOBS', 'CONTRACTS & DOCS','MAIL',"INVOICES & PAYMENTS"];
 
     return (
-        <View
+        <ScreenWrapper
             style={styles.container}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.contentContainer}
         >
+            <View
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.contentContainer}
+            >
             <View style={styles.headWrapper}>
                 <CustomHeader title="Profile" onPress={""} />
              <ProfileHeaderCard
@@ -273,7 +276,8 @@ const tabs = ['ABOUT', 'OVERVIEW','JOBS', 'CONTRACTS & DOCS','MAIL',"INVOICES & 
 
 
             {/* <View style={{ height: responsiveHeight(6) }} /> */}
-        </View>
+            </View>
+        </ScreenWrapper>
     );
 };
 

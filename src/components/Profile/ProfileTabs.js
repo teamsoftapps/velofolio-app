@@ -1,47 +1,3 @@
-// // components/ProfileTabs.tsx
-// import React from 'react';
-// import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-// import {
-//   responsiveHeight,
-//   responsiveWidth,
-//   responsiveFontSize,
-// } from 'react-native-responsive-dimensions';
-// import colors from '../utils/colors';
-
-
-// const tabs = ['ABOUT', 'OVERVIEW', 'JOBS', 'TASKS', 'AVAILABILITY'];
-
-// const ProfileTabs = ({ activeTab, onTabPress }) => {
-//       const activeIndex = tabs.findIndex(tab => tab === activeTab);
-
-//   return (
-//     <ScrollView style={styles.tabsWrapper}>
-//       <View style={styles.tabs}>
-//         {tabs.map(tab => (
-//           <TouchableOpacity key={tab} onPress={() => onTabPress(tab)}>
-//             <Text
-//               style={[
-//                 styles.tabItem,
-//                 activeTab === tab && styles.activeTab,
-//               ]}
-//             >
-//               {tab}
-//             </Text>
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-
-//       <View   style={[
-//           styles.tabUnderline,
-//           {
-//             left: `${activeIndex * 23}%`, // 100% / 5 tabs = 20%
-//           },
-//         ]} />
-//     </ScrollView>
-//   );
-// };
-
-// export default ProfileTabs;
 import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
@@ -60,30 +16,21 @@ import colors from '../../utils/colors';
 
 const defaulttabs = ['ABOUT', 'OVERVIEW', 'JOBS', 'TASKS', 'AVAILABILITY'];
 
-const ProfileTabs = ({ activeTab, onTabPress ,tabs={defaulttabs}}) => {
-  
-
-
-
+const ProfileTabs = ({ activeTab, onTabPress, tabs = defaulttabs }) => {
   return (
     <View style={styles.tabsWrapper}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-
-      >
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {tabs.map((tab, index) => (
           <TouchableOpacity
             key={tab}
             onPress={() => onTabPress(tab)}
-          
-            style={[styles.tabButton,{borderBottomWidth:activeTab===tab?responsiveWidth(1):0}]}
+            style={[
+              styles.tabButton,
+              { borderBottomWidth: activeTab === tab ? responsiveWidth(1) : 0 },
+            ]}
           >
             <Text
-              style={[
-                styles.tabItem,
-                activeTab === tab && styles.activeTab,
-              ]}
+              style={[styles.tabItem, activeTab === tab && styles.activeTab]}
             >
               {tab}
             </Text>
@@ -91,12 +38,7 @@ const ProfileTabs = ({ activeTab, onTabPress ,tabs={defaulttabs}}) => {
         ))}
       </ScrollView>
 
-      <Animated.View
-        style={[
-          styles.tabUnderline,
-         
-        ]}
-      />
+      <Animated.View style={[styles.tabUnderline]} />
     </View>
   );
 };
@@ -110,7 +52,7 @@ const styles = StyleSheet.create({
 
   tabButton: {
     paddingHorizontal: responsiveWidth(4),
-    borderBottomColor:colors.blueAccent
+    borderBottomColor: colors.blueAccent,
   },
 
   tabItem: {

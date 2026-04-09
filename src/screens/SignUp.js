@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   Image,
   ScrollView,
@@ -20,47 +19,50 @@ import InputField from '../components/InputField';
 import ButtonSimple from '../components/Button';
 import CheckBoxSimple from '../components/CheckBoxSimple';
 
+import AuthGradient from '../components/AuthGradient';
 import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { loginWithGoogle, signupWithEmail } from '../services/firebaseAuth';
+import ToastService from '../utils/ToastService';
+
 const SignUpScreen = () => {
-  const [isLoading,setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
   const [agree, setAgree] = useState(false);
-  const [email,setEmail]=useState('')
-  const [name, setName] = useState ('');
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const handleSignup=async () => {
+  const insets = useSafeAreaInsets();
+
+  const handleSignup = async () => {
     if (!name || !email || !password) {
-      alert('Please fill all fields');
+      ToastService.error('Missing Fields', 'Please fill all fields');
       return;
     }
 
     if (!agree) {
-      alert('Please accept terms & conditions');
+      ToastService.error('Terms & Conditions', 'Please accept terms & conditions');
       return;
     }
-setIsLoading(true)
+
+    setIsLoading(true);
     try {
-
       await signupWithEmail(email, password, name);
-      setIsLoading(false)
-      navigation.replace('Home');
+      setIsLoading(false);
+      ToastService.success('Success', 'Account created successfully!');
+      // Navigation is handled automatically by RootNavigator's onAuthStateChanged
     } catch (e) {
-      alert(e.message);
-            setIsLoading(false)
-
+      ToastService.error('Sign Up Error', e.message);
+      setIsLoading(false);
     }
-  }
+  };
+
   return (
-    <ScreenWrapper backgroundColor="transparent">
-      <ImageBackground
-        source={require('../assets/authbg.png')}
-        style={styles.bg}
-        resizeMode="cover"
-      >
+    <ScreenWrapper backgroundColor="transparent" edges={[]}>
+      <AuthGradient style={styles.bg}>
         <ScrollView
-          contentContainerStyle={styles.container}
+          contentContainerStyle={[styles.container, { paddingTop: insets.top + (responsiveHeight(2) || 20), paddingBottom: Math.max(insets.bottom, responsiveHeight(4)) }]}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -90,14 +92,20 @@ setIsLoading(true)
             />
 
             <InputField
-            value={email}
-            onChangeText={setEmail}
+              value={email}
+              onChangeText={setEmail}
               label="Email Address"
               placeholder="e.g. noah@gmail.com"
               keyboardType="email-address"
             />
 
-            <InputField value={password} onChangeText={setPassword} label="Password" placeholder="********" isPassword />
+            <InputField
+              value={password}
+              onChangeText={setPassword}
+              label="Password"
+              placeholder="********"
+              isPassword
+            />
 
             {/* Terms */}
             <View style={styles.termsRow}>
@@ -117,13 +125,12 @@ setIsLoading(true)
             </View>
 
             {/* Button */}
-           <ButtonSimple
-  textStyle={{ color: colors.white }}
-  title={isLoading?"Signing Up...":"Sign Up"}
-  backgroundColor={colors.black}
-  onPress={handleSignup}
-/>
-
+            <ButtonSimple
+              textStyle={{ color: colors.white }}
+              title={isLoading ? 'Signing Up...' : 'Sign Up'}
+              backgroundColor={colors.black}
+              onPress={handleSignup}
+            />
 
             {/* OR */}
             <View style={styles.orRow}>
@@ -139,13 +146,14 @@ setIsLoading(true)
               textStyle={{ color: colors.black }}
               leftIcon={require('../assets/Google.png')}
               style={styles.googleBtn}
-                onPress={async () => {
-                              try {
-                                await loginWithGoogle();
-                              } catch (e) {
-                                alert(e.message);
-                              }
-                            }}
+              onPress={async () => {
+                try {
+                  await loginWithGoogle();
+                  ToastService.success('Success', 'Signed in with Google!');
+                } catch (e) {
+                  ToastService.error('Google Sign In Error', e.message);
+                }
+              }}
             />
 
             {/* Sign In */}
@@ -160,7 +168,7 @@ setIsLoading(true)
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </ImageBackground>
+      </AuthGradient>
     </ScreenWrapper>
   );
 };
@@ -171,10 +179,8 @@ const styles = StyleSheet.create({
   bg: { flex: 1, width: '100%' },
 
   container: {
-    flexGrow: 1, // ⭐⭐⭐ IMPORTANT
+    flexGrow: 1,
     paddingHorizontal: responsiveWidth(7),
-    paddingTop: responsiveHeight(4),
-    paddingBottom: responsiveHeight(8),
   },
 
   logo: {

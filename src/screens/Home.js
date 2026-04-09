@@ -17,7 +17,6 @@ import ScreenWrapper from '../components/ScreenWrapper';
 import DashboardHeader from '../components/DashboardHeader';
 import CustomText from '../components/CustomText';
 import colors from '../utils/colors';
-import { logoutUser } from '../services/firebaseAuth';
 import auth from "@react-native-firebase/auth";
 import database from '@react-native-firebase/database';
 import Feather from 'react-native-vector-icons/Feather';
@@ -25,6 +24,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import UpcomingJobsSection from '../components/UpcomingJobsSection';
+import ToastService from '../utils/ToastService';
+import { logoutUser, parseError } from '../services/firebaseAuth';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -35,20 +36,25 @@ const Home = () => {
     { id: '3', title: 'Team Member' },
   ];
 
-
   useEffect(() => {
     const uid = auth().currentUser?.uid;
     if (!uid) return;
 
     const userRef = database().ref(`/users/${uid}`);
 
-    const listener = userRef.on('value', snapshot => {
-      setUserData(snapshot.val());
-    });
+    const listener = userRef.on(
+      'value',
+      snapshot => {
+        setUserData(snapshot.val());
+      },
+      error => {
+        console.error(error);
+        ToastService.error('Database Error', parseError(error));
+      }
+    );
 
     return () => userRef.off('value', listener);
   }, []);
-  console.log(userData)
 
   const recentActivity = [
     {
@@ -76,19 +82,6 @@ const Home = () => {
       iconBg: colors.warning,
     },
   ];
-
-  const renderItem = item => (
-    <TouchableOpacity style={styles.button}>
-      <Image
-        source={require('../assets/plus-outline.png')}
-        style={styles.plusIcon}
-        resizeMode="contain"
-      />
-      <CustomText style={styles.buttonText} fontWeight="500">
-        {item.title}
-      </CustomText>
-    </TouchableOpacity>
-  );
 
   const renderActivityItem = ({ item }) => (
     <View style={[styles.activityCard, { backgroundColor: item.bgColor }]}>
@@ -213,8 +206,6 @@ const Home = () => {
             </View>
           </View>
 
-
-
           <View
             style={{
               display: 'flex',
@@ -235,7 +226,7 @@ const Home = () => {
               renderItem={renderActivityItem}
               keyExtractor={item => item.id}
               showsVerticalScrollIndicator={false}
-              scrollEnabled={false} // or true if you want scroll
+              scrollEnabled={false}
             />
           </View>
           <UpcomingJobsSection />
@@ -253,10 +244,8 @@ const styles = StyleSheet.create({
   todayTitle: {
     fontSize: responsiveFontSize(2.8),
     color: colors.black,
-    // marginBottom: responsiveHeight(3),
     paddingLeft: responsiveWidth(1),
   },
-
   twoColumn: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -266,15 +255,12 @@ const styles = StyleSheet.create({
   column: {
     flex: 1,
   },
-
   card: {
     width: '100%',
-    backgroundColor: colors.cardBackground, // ✅
+    backgroundColor: colors.cardBackground,
     borderRadius: responsiveWidth(5),
     padding: responsiveWidth(3),
     marginBottom: responsiveHeight(2),
-
-
     position: 'relative',
   },
   revenueCard: {
@@ -301,7 +287,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
   },
-
   icon: {
     marginBottom: responsiveHeight(1.5),
   },
@@ -327,36 +312,10 @@ const styles = StyleSheet.create({
     right: responsiveWidth(4),
     opacity: 0.8,
   },
-  ActionContainer: {
-    paddingVertical: responsiveHeight(2),
-    backgroundColor: colors.screenBackground,
-  },
-  listContent: {
-    paddingHorizontal: responsiveWidth(5),
-  },
-  button: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.gray,
-    paddingHorizontal: responsiveWidth(5),
-    paddingVertical: responsiveHeight(1.3),
-    borderRadius: responsiveWidth(10),
-  },
-  plusIcon: {
-    width: responsiveWidth(5),
-    height: responsiveWidth(5),
-    marginRight: responsiveWidth(2.5),
-    tintColor: colors.textDark,
-  },
-  buttonText: {
-    fontSize: responsiveFontSize(2),
-    color: colors.textDark,
-  },
   activityContainer: {
     marginVertical: responsiveHeight(2),
     paddingHorizontal: responsiveWidth(1),
   },
-
   activityCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -364,13 +323,11 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(2),
     marginBottom: responsiveHeight(1.5),
   },
-
   activityLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
   },
-
   activityIconContainer: {
     width: responsiveWidth(12),
     height: responsiveWidth(12),
@@ -379,23 +336,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: responsiveWidth(4),
   },
-
   activityIcon: {
     width: responsiveWidth(7),
     height: responsiveWidth(7),
-    // tintColor: 'white',
   },
-
   activityText: {
     flex: 1,
   },
-
   activityTitle: {
     fontSize: responsiveFontSize(2.1),
     color: colors.black,
     marginBottom: responsiveHeight(0.5),
   },
-
   activitySubtitle: {
     fontSize: responsiveFontSize(1.6),
     lineHeight: responsiveHeight(2.8),
