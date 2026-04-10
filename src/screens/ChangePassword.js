@@ -24,9 +24,9 @@ const ChangePassword = () => {
   ];
 
   return (
-    <ScreenWrapper backgroundColor="transparent">
+    <ScreenWrapper backgroundColor="transparent" edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
-        <CustomHeader title="Change Password" onPress={() => navigation.goBack()} />
+        <CustomHeader title="Change Password" />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>

@@ -62,6 +62,7 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { useNavigation } from '@react-navigation/native';
 import CustomHeader from '../components/CustomHeader';
 import JobForm from '../components/Form'; // ← new import
 
@@ -131,19 +132,24 @@ import JobForm from '../components/Form'; // ← new import
   ];
 
 const AddJobs = () => {
+  const navigation = useNavigation();
   const handleSubmit = (data) => {
     console.log('Form submitted:', data);
     // → API call, navigation, toast, reset form, etc.
   };
 
   return (
-    <ScreenWrapper backgroundColor="transparent">
+    <ScreenWrapper backgroundColor="transparent" edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
         <CustomHeader title="Add Jobs" />
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <JobForm fields={fields} onSubmit={handleSubmit} />
+        <JobForm
+          fields={fields}
+          onSubmit={handleSubmit}
+          onCancel={() => navigation.goBack()}
+        />
       </ScrollView>
     </ScreenWrapper>
   );

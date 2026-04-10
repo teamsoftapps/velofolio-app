@@ -1,79 +1,90 @@
-import { FlatList, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import React from 'react';
 import ScreenWrapper from '../components/ScreenWrapper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import {
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import CustomHeader from '../components/CustomHeader';
 import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
-import ClientCard from "../components/ClientCard"
+import ClientCard from '../components/ClientCard';
 import { useNavigation } from '@react-navigation/native';
 import FilterModal from '../components/FilterModal';
 const ClientsData = [
   {
     id: 1,
-    clientName: "Sarah Johnson",
-    email: "sarahjohnson@gmail.com",
-    status: "Active",
+    clientName: 'Sarah Johnson',
+    email: 'sarahjohnson@gmail.com',
+    status: 'Active',
     itemsCount: 3,
     totalAmount: 2400,
     paidAmount: 1800,
-    avatarUri: "https://i.pravatar.cc/150?u=sarah",
+    avatarUri: 'https://i.pravatar.cc/150?u=sarah',
   },
   {
     id: 2,
-    clientName: "Willow Studio",
-    email: "hello@willowstudio.com",
-    status: "Completed",
+    clientName: 'Willow Studio',
+    email: 'hello@willowstudio.com',
+    status: 'Completed',
     itemsCount: 3,
     totalAmount: 2400,
     paidAmount: 1800,
-    avatarUri: "https://i.pravatar.cc/150?u=willow",
+    avatarUri: 'https://i.pravatar.cc/150?u=willow',
   },
   {
     id: 3,
-    clientName: "Mark & Jess",
-    email: "markjess@email.com",
-    status: "Active",
+    clientName: 'Mark & Jess',
+    email: 'markjess@email.com',
+    status: 'Active',
     itemsCount: 5,
     totalAmount: 4200,
     paidAmount: 3000,
-    avatarUri: "https://i.pravatar.cc/150?img=14",
+    avatarUri: 'https://i.pravatar.cc/150?img=14',
   },
   {
     id: 4,
-    clientName: "Emma Watson",
-    email: "emma@email.com",
-    status: "In Progress",
+    clientName: 'Emma Watson',
+    email: 'emma@email.com',
+    status: 'In Progress',
     itemsCount: 2,
     totalAmount: 1260,
     paidAmount: 800,
-    avatarUri: "https://i.pravatar.cc/150?img=10",
+    avatarUri: 'https://i.pravatar.cc/150?img=10',
   },
   {
     id: 5,
-    clientName: "Peter Parker",
-    email: "peterparker@gmail.com",
-    status: "Overdue",
+    clientName: 'Peter Parker',
+    email: 'peterparker@gmail.com',
+    status: 'Overdue',
     itemsCount: 3,
     totalAmount: 2400,
     paidAmount: 1800,
-    avatarUri: "https://i.pravatar.cc/150?u=peter",
+    avatarUri: 'https://i.pravatar.cc/150?u=peter',
   },
 ];
 
-
-
 const Clients = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const navigateToClientForm = () => {
-    navigation.navigate("AddClients")
-  }
+    navigation.navigate('AddClients');
+  };
   const [isFilterVisible, setFilterVisible] = React.useState(false);
 
   return (
-    <ScreenWrapper backgroundColor="transparent" >
+    <ScreenWrapper
+      backgroundColor="transparent"
+      edges={['bottom', 'left', 'right']}
+    >
       <View style={styles.headWrapper}>
         <CustomHeader title="Clients" />
 
@@ -82,7 +93,10 @@ const Clients = () => {
             <SearchInput placeholder="Search Clients" />
           </View>
 
-          <TouchableOpacity style={styles.rightIcon} onPress={() => setFilterVisible(true)}>
+          <TouchableOpacity
+            style={styles.rightIcon}
+            onPress={() => setFilterVisible(true)}
+          >
             <Ionicons
               name="options-outline"
               size={responsiveWidth(9)}
@@ -91,20 +105,20 @@ const Clients = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <FilterModal 
-        visible={isFilterVisible} 
+      <FilterModal
+        visible={isFilterVisible}
         onClose={() => setFilterVisible(false)}
         onApply={() => setFilterVisible(false)}
       />
       <View style={styles.listContainer}>
         <FlatList
           data={ClientsData}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={item => item.id.toString()}
           style={styles.mainwrapper}
           renderItem={({ item }) => (
             <ClientCard
               job={item}
-              onPress={() => navigation.navigate("ClientProfile")}
+              onPress={() => navigation.navigate('ClientProfile')}
               onMenuPress={() => console.log('Menu', item.id)}
             />
           )}
@@ -119,14 +133,15 @@ const Clients = () => {
         />
 
         {/* FAB */}
-        <TouchableOpacity style={styles.fab} onPress={navigateToClientForm} activeOpacity={0.8}>
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={navigateToClientForm}
+          activeOpacity={0.8}
+        >
           <Ionicons name="add" size={responsiveWidth(6)} color={colors.white} />
           <Text style={styles.fabText}>Add Client</Text>
         </TouchableOpacity>
       </View>
-
-
-
     </ScreenWrapper>
   );
 };
@@ -136,14 +151,14 @@ export default Clients;
 const styles = StyleSheet.create({
   mainwrapper: {
     paddingHorizontal: responsiveWidth(3),
-    paddingVertical: responsiveHeight(2)
+    paddingVertical: responsiveHeight(2),
   },
   headWrapper: {
     backgroundColor: colors.white,
     borderBottomLeftRadius: responsiveWidth(6),
     borderBottomRightRadius: responsiveWidth(6),
     paddingVertical: responsiveWidth(3),
-    paddingHorizontal: responsiveWidth(3)
+    paddingHorizontal: responsiveWidth(3),
   },
   cardContainer: {
     marginTop: responsiveWidth(4),
@@ -151,7 +166,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: responsiveWidth(3),
     // alignItems:"center"
-
   },
   searchContainer: {
     flexDirection: 'row',

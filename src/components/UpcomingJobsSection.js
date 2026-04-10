@@ -3,6 +3,8 @@ import { View, StyleSheet, FlatList, Image } from 'react-native';
 import CustomText from './CustomText';
 import colors from '../utils/colors';
 import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const MOCK_JOBS = [
   {
@@ -31,14 +33,20 @@ const MOCK_JOBS = [
 ];
 
 const UpcomingJobCard = ({
+  id,
   title,
   date,
   progress,
   tagText,
   avatars = [],
 }) => {
+  const navigation = useNavigation();
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => navigation.navigate('JobProfile', { job: { id, title, date, progress, tagText, avatars } })}
+      style={styles.card}
+    >
       <CustomText style={styles.title} fontWeight="500">{title}</CustomText>
 
       <View style={styles.dateProgressContainer}>
@@ -69,7 +77,7 @@ const UpcomingJobCard = ({
           <CustomText style={styles.tagText}>{tagText}</CustomText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -87,6 +95,7 @@ export default function UpcomingJobsSection() {
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <UpcomingJobCard
+            id={item.id}
             title={item.title}
             date={item.date}
             progress={item.progress}

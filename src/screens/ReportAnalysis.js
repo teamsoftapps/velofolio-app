@@ -63,7 +63,7 @@ const Payments = () => {
     navigation.navigate("AddPayments")
   }
   return (
-    <ScreenWrapper backgroundColor="transparent"  >
+    <ScreenWrapper backgroundColor="transparent" edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
         <CustomHeader title="Report & Analysis" onPress={navigateToClientForm}/>
 

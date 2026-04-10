@@ -7,12 +7,14 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import { useNavigation } from '@react-navigation/native';
 import CustomHeader from '../components/CustomHeader';
 import JobForm from '../components/Form'; // ← new import
 import Tag from '../components/Tag';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AddClients = () => {
+  const navigation = useNavigation();
   const handleSubmit = (data) => {
     console.log('Form submitted:', data);
     // → API call, navigation, toast, reset form, etc.
@@ -126,7 +128,7 @@ const AddClients = () => {
   ];
 
   return (
-    <ScreenWrapper backgroundColor="transparent">
+    <ScreenWrapper backgroundColor="transparent" edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
         <CustomHeader title="Add Clients" />
         <View style={styles.actionContainer}>
@@ -138,7 +140,12 @@ const AddClients = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <JobForm fields={fields} submitText='Save Client' onSubmit={handleSubmit} />
+        <JobForm
+          fields={fields}
+          submitText="Save Client"
+          onSubmit={handleSubmit}
+          onCancel={() => navigation.goBack()}
+        />
       </ScrollView>
     </ScreenWrapper>
   );

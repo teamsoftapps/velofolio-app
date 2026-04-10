@@ -11,9 +11,11 @@ import { BlurView } from '@react-native-community/blur';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
 import colors from '../utils/colors';
 
 export default function ActionModal({ setModal, modal }) {
+  const navigation = useNavigation();
   const rotation = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -54,7 +56,13 @@ export default function ActionModal({ setModal, modal }) {
 
       {/* The White List Container */}
       <View style={styles.modalContainer}>
-        <TouchableOpacity style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => {
+            setModal(false);
+            navigation.navigate('AddJobs');
+          }}
+        >
           <Feather name="plus" size={responsiveWidth(5)} color={colors.black} />
           <Text style={styles.optionText}>Add New Job</Text>
         </TouchableOpacity>
@@ -64,12 +72,24 @@ export default function ActionModal({ setModal, modal }) {
           <Text style={styles.optionText}>Add New Lead</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => {
+            setModal(false);
+            navigation.navigate('AddClients');
+          }}
+        >
           <Feather name="plus" size={responsiveWidth(5)} color={colors.black} />
           <Text style={styles.optionText}>Add New Client</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.option, { marginBottom: 0 }]}>
+        <TouchableOpacity
+          style={[styles.option, { marginBottom: 0 }]}
+          onPress={() => {
+            setModal(false);
+            navigation.navigate('AddTeams');
+          }}
+        >
           <Feather name="plus" size={responsiveWidth(5)} color={colors.black} />
           <Text style={styles.optionText}>Add New Member</Text>
         </TouchableOpacity>

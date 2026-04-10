@@ -191,7 +191,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import { responsiveHeight, responsiveWidth, responsiveFontSize } from 'react-native-responsive-dimensions';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 
@@ -200,42 +200,45 @@ import bannerImage from '../assets/cpl.png';
 import avatar2 from '../assets/Ellipse63.png';
 import avatar3 from '../assets/Ellipse63.png';
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, onPress }) => {
   const mainTag = job?.tags?.[0] || {
-    title: 'Sarah Johnson',
+    title: 'SARAH JOHNSON',
     bgColor: colors.blueSecondary,
     color: colors.blueAccent,
   };
 
-  const dateTag = job?.dateTag || { title: '12 Feb 2026', bgColor: colors.yellowSecondary, color: colors.yellowAccent };
+  const dateTag = job?.dateTag || { title: 'OCT 7, 2025', bgColor: colors.yellowSecondary, color: colors.yellowAccent };
 
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       style={styles.card}
-      onPress={() => console.log("Open job:", job?.title)}
+      onPress={onPress}
     >
-      {/* Top Overlay: Title + Tags */}
-      <View style={styles.topOverlay}>
+      {/* Title Section */}
+      <View style={styles.contentPadding}>
         <Text style={styles.title} numberOfLines={2}>
           {job?.title || 'Wedding Film – Mark & Jess'}
         </Text>
 
+        {/* Tags Section */}
         <View style={styles.tagsRow}>
-          <View style={[styles.tagPill, { backgroundColor: mainTag.bgColor }]}>
-            <Text style={[styles.tagText, { color: mainTag.color }]}>{mainTag.title}</Text>
+          <View style={[styles.tagPill, { backgroundColor: mainTag.bgColor || '#E2F5FF' }]}>
+            <Text style={[styles.tagText, { color: mainTag.color || colors.blueAccent }]}>{mainTag.title}</Text>
           </View>
-          <View style={[styles.tagPill, { backgroundColor: dateTag.bgColor }]}>
-            <Text style={[styles.tagText, { color: dateTag.color }]}>{dateTag.title}</Text>
+          <View style={[styles.tagPill, { backgroundColor: dateTag.bgColor || '#FFF2F2' }]}>
+            <Text style={[styles.tagText, { color: dateTag.color || colors.red }]}>{dateTag.title}</Text>
           </View>
         </View>
+
+        {/* Description Snippet */}
+        <Text style={styles.description} numberOfLines={2}>
+          Footage received from the videographer. Editor to create a 3-minute highlight...
+        </Text>
       </View>
 
-      {/* Banner Image + Description */}
-      <View style={styles.middleOverlay}>
-        <Text style={styles.bannerText}>
-          Footage received from the videographer. Editor
-        </Text>
+      {/* Image Banner */}
+      <View style={styles.bannerContainer}>
         <Image
           source={bannerImage}
           style={styles.banner}
@@ -243,23 +246,27 @@ const JobCard = ({ job }) => {
         />
       </View>
 
-      {/* Bottom Row: Avatars + Stats */}
-      <View style={styles.bottomOverlay}>
-        <View style={styles.bottomRow}>
-          <View style={styles.avatarsContainer}>
-            <Image source={avatar2} style={styles.avatar} />
-            <Image source={avatar3} style={[styles.avatar, { marginLeft: -12 }]} />
-          </View>
+      {/* Footer: Avatars + Stats */}
+      <View style={[styles.contentPadding, styles.bottomRow]}>
+        <View style={styles.avatarsContainer}>
+          <Image 
+            source={{ uri: 'https://i.pravatar.cc/150?u=a' }} 
+            style={styles.avatar} 
+          />
+          <Image 
+            source={{ uri: 'https://i.pravatar.cc/150?u=b' }} 
+            style={[styles.avatar, { marginLeft: -12 }]} 
+          />
+        </View>
 
-          <View style={styles.stats}>
-            <View style={styles.statItem}>
-              <Entypo name="attachment" size={responsiveWidth(6)} color={colors.grayDark} />
-              <Text style={styles.statText}>4</Text>
-            </View>
-            <View style={styles.statItem}>
-              <Ionicons name="chatbubble-ellipses-outline" size={responsiveWidth(6)} color={colors.grayDark} />
-              <Text style={styles.statText}>2</Text>
-            </View>
+        <View style={styles.stats}>
+          <View style={styles.statItem}>
+            <Entypo name="attachment" size={16} color={colors.grayDark} />
+            <Text style={styles.statText}>2</Text>
+          </View>
+          <View style={styles.statItem}>
+            <Ionicons name="chatbubble-ellipses-outline" size={16} color={colors.grayDark} />
+            <Text style={styles.statText}>4</Text>
           </View>
         </View>
       </View>
@@ -271,83 +278,87 @@ export default JobCard;
 
 const styles = StyleSheet.create({
   card: {
-    width: responsiveWidth(94),
-    height: responsiveHeight(40),
-    marginBottom: responsiveHeight(2.2),
-    borderRadius: responsiveWidth(5),
-    overflow: 'hidden',
+    width: responsiveWidth(82),
     backgroundColor: colors.white,
+    borderRadius: 16,
+    paddingVertical: responsiveHeight(2),
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+    marginRight: responsiveWidth(4),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  topOverlay: {
-    padding: responsiveWidth(4),
-    paddingTop: responsiveHeight(2),
-  },
-  middleOverlay: {
+  contentPadding: {
     paddingHorizontal: responsiveWidth(4),
-    paddingTop: responsiveHeight(1),
-  },
-  bottomOverlay: {
-    paddingHorizontal: responsiveWidth(4),
-    paddingBottom: responsiveHeight(1),
-    paddingTop: responsiveHeight(1),
   },
   title: {
-    color: colors.black,
-    fontSize: responsiveWidth(5.1),
+    fontSize: responsiveFontSize(2.2),
     fontWeight: '700',
-    marginBottom: responsiveHeight(1.2),
-    lineHeight: responsiveHeight(3.2),
+    color: colors.black,
+    marginBottom: 10,
   },
   tagsRow: {
     flexDirection: 'row',
-    gap: responsiveWidth(2),
+    gap: 10,
+    marginBottom: 12,
   },
   tagPill: {
-    paddingHorizontal: responsiveWidth(3),
-    paddingVertical: responsiveHeight(0.6),
-    borderRadius: responsiveWidth(6),
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 8,
   },
   tagText: {
-    fontSize: responsiveWidth(3.4),
-    fontWeight: '600',
+    fontSize: 10,
+    fontWeight: 'bold',
   },
-  bannerText: {
+  description: {
+    fontSize: 12,
     color: colors.grayDark,
-    marginBottom: responsiveHeight(1),
+    lineHeight: 18,
+    marginBottom: 12,
+  },
+  bannerContainer: {
+    width: '100%',
+    paddingHorizontal: responsiveWidth(4),
+    marginBottom: 12,
   },
   banner: {
-    borderRadius: responsiveWidth(4),
     width: '100%',
     height: responsiveHeight(16),
+    borderRadius: 12,
   },
   bottomRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 4,
   },
   avatarsContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   avatar: {
-    width: responsiveWidth(8),
-    height: responsiveWidth(8),
-    borderRadius: responsiveWidth(4),
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     borderWidth: 2,
-    borderColor: colors.grayDark,
+    borderColor: colors.white,
   },
   stats: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: responsiveWidth(4),
+    gap: 15,
   },
   statItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: responsiveWidth(1.2),
+    gap: 4,
   },
   statText: {
+    fontSize: 12,
     color: colors.grayDark,
-    fontSize: responsiveWidth(4),
     fontWeight: '500',
   },
 });

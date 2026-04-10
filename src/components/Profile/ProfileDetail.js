@@ -1,3 +1,4 @@
+// components/ProfileDetails.tsx
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {
@@ -227,6 +228,7 @@ const DetailRow = ({
 
 const styles = StyleSheet.create({
   sectionCard: {
+    // marginHorizontal: responsiveWidth(5),
     marginTop: responsiveHeight(1),
     padding: responsiveWidth(5),
     borderRadius: responsiveWidth(5),
@@ -257,6 +259,7 @@ const styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: colors.borderExtraLight,
+    // marginVertical: responsiveHeight(1),
   },
   value: {
     fontSize: responsiveFontSize(1.85),

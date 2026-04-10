@@ -109,7 +109,7 @@ const Home = () => {
   );
 
   return (
-    <ScreenWrapper backgroundColor={colors.screenBackground}>
+    <ScreenWrapper backgroundColor={colors.screenBackground} edges={['bottom', 'left', 'right']}>
       <ScrollView>
         <DashboardHeader name={(userData?.displayName || userData?.name) || "User"} onMenuPress={() => navigation.openDrawer()} />
 

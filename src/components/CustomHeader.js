@@ -144,8 +144,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import colors from '../utils/colors';
 import ButtonSimple from './Button';
@@ -233,6 +234,8 @@ const getConfig = (title) => {
 
 const CustomHeader = ({ title = "", onPress, showMore = false, onMorePress, showAddButton }) => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const insets = useSafeAreaInsets();
   const config = { ...getConfig(title) };
   
   // Override config if prop is explicitly passed
@@ -241,7 +244,11 @@ const CustomHeader = ({ title = "", onPress, showMore = false, onMorePress, show
   }
 
   const handlePress = () => {
-    if (typeof onPress === 'function') {
+    if (route.params?.fromDrawer) {
+      // If entered from drawer, always go back to Home screen
+      navigation.navigate('Tabs', { screen: 'AppTabs', params: { screen: 'Home' } });
+    } else if (typeof onPress === 'function' && !config.showAddButton) {
+      // Only use onPress for back arrow when it's NOT meant for the Add button
       onPress();
     } else {
       navigation.goBack();
@@ -264,6 +271,7 @@ const CustomHeader = ({ title = "", onPress, showMore = false, onMorePress, show
       style={[
         styles.header,
         { backgroundColor: config.transparent ? 'transparent' : colors.white },
+        { paddingTop: insets.top || responsiveWidth(4) }
       ]}
     >
       {/* LEFT SIDE */}
@@ -326,7 +334,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: responsiveWidth(4),
     paddingHorizontal: responsiveWidth(2),
     minHeight: responsiveWidth(15), // Ensure enough space for alignment
   },

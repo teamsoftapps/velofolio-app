@@ -34,7 +34,7 @@ export default function SettingsScreen({ navigation }) {
   );
 
   return (
-    <ScreenWrapper style={styles.container}>
+    <ScreenWrapper style={styles.container} edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
         <CustomHeader
           title="Settings"

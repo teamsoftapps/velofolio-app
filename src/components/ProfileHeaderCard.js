@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -18,21 +12,18 @@ const ProfileHeaderCard = ({
   image,
   name,
   role,
-  status = "Active",
-  statusColor = "#10b981",
-  statusBg = "#ecfdf5",
+  status = 'Active',
+  statusColor = '#10b981',
+  statusBg = '#ecfdf5',
   onMorePress,
   onStatusPress,
-  variant = "default", // new prop
+  variant = 'default', // new prop
 }) => {
-  if (variant === "job") {
+  if (variant === 'job') {
     return (
       <View style={styles.jobHeaderCard}>
         <View style={styles.jobPill}>
-          <Image
-            source={{ uri: image }}
-            style={styles.jobAvatar}
-          />
+          <Image source={{ uri: image }} style={styles.jobAvatar} />
           <View style={styles.jobInfo}>
             <Text style={styles.jobName}>{role}</Text>
             <Text style={styles.jobEmail}>sarahjohnson@gmail.com</Text>
@@ -45,10 +36,7 @@ const ProfileHeaderCard = ({
   return (
     <View style={styles.headerCard}>
       <View style={styles.profileRow}>
-        <Image
-          source={{ uri: image }}
-          style={styles.avatar}
-        />
+        <Image source={{ uri: image }} style={styles.avatar} />
 
         <View style={styles.infoContainer}>
           <View style={styles.headingRow}>
@@ -73,18 +61,19 @@ const ProfileHeaderCard = ({
             onPress={onStatusPress}
             activeOpacity={0.8}
           >
-            {status.includes("Active InActive") && (
+            {['Active', 'InActive', 'Completed', 'Overdue', 'In Progress'].includes(
+              status
+            ) && (
               <View
-                style={[
-                  styles.statusDot,
-                  { backgroundColor: statusColor },
-                ]}
+                style={[styles.statusDot, { backgroundColor: statusColor }]}
               />
             )}
             <Text style={[styles.statusText, { color: statusColor }]}>
               {status}
             </Text>
-            {status.includes("Active InActive") && (
+            {['Active', 'InActive', 'Completed', 'Overdue', 'In Progress'].includes(
+              status
+            ) && (
               <MaterialIcons
                 name="keyboard-arrow-down"
                 size={responsiveWidth(5)}
@@ -121,9 +110,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headingRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   name: {
     fontSize: responsiveWidth(5.5),
@@ -185,4 +174,4 @@ const styles = StyleSheet.create({
     color: colors.textSecondary || '#6b7280',
     marginTop: 2,
   },
-});
+});

@@ -14,7 +14,7 @@ const Notifications = () => {
 const [activeTab, setActiveTab] = useState('All');
 
   return (
-        <ScreenWrapper backgroundColor="transparent" >
+        <ScreenWrapper backgroundColor="transparent" edges={['bottom', 'left', 'right']}>
           <View style={styles.headWrapper}>
         <CustomHeader title="Notifications"  />
 

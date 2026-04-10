@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import CustomHeader from '../components/CustomHeader';
@@ -8,6 +8,8 @@ import colors from '../utils/colors';
 import SearchInput from '../components/SearchInput';
 import CalendarDropDown from "../components/CalendarDropDown"
 import ScreenWrapper from '../components/ScreenWrapper';
+import { formatDate } from '../utils/formateDate';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const JobsData = [
   { date: '2026-02-13', name: 'Wedding Film – Mark & Jess', tags: [ 'In Progress'],client:"Marks", startTime : '10:00',
@@ -40,31 +42,51 @@ const JobsData = [
 ];
 
 const TAG_COLORS = {
-
- 
   Completed: colors.yellowAccent,
   'In Progress': colors.blueAccent,
 };
 
+const CALENDAR_THEME = {
+  textSectionTitleColor: colors.gray,
+  selectedDayBackgroundColor: colors.blueSecondary,
+  selectedDayTextColor: colors.white,
+  todayTextColor: colors.bluePrimary,
+  dayTextColor: colors.black,
+  textDisabledColor: '#d9e1e8',
+  dotColor: colors.bluePrimary,
+  selectedDotColor: colors.white,
+  arrowColor: colors.bluePrimary,
+  monthTextColor: colors.black,
+  indicatorColor: 'blue',
+  textDayFontWeight: '500',
+  textMonthFontWeight: 'bold',
+  textDayHeaderFontWeight: '600',
+  textDayFontSize: 14,
+  textMonthFontSize: 18,
+  textDayHeaderFontSize: 12,
+};
 
 const SimpleCalendarScreen = () => {
   const [selectedDate, setSelectedDate] = useState("");
 
-  const buildMarkedDates = () => {
+  const handleDayPress = useCallback((day) => {
+    if (selectedDate !== day.dateString) {
+      setSelectedDate(day.dateString);
+    }
+  }, [selectedDate]);
+
+  const markedDates = useMemo(() => {
     const marked = {};
 
     JobsData.forEach(event => {
-      // Use the first tag color as the circle color
       const circleColor = TAG_COLORS[event.tags[0]];
-      const textColor=event.status==="In Progress"?colors.white:colors.black
+      const textColor = event.status === "In Progress" ? colors.white : colors.black
 
       marked[event.date] = {
         customStyles: {
           container: {
             backgroundColor: circleColor,
             borderRadius: 20,
-           
-           
           },
           text: {
             color: textColor,
@@ -74,73 +96,78 @@ const SimpleCalendarScreen = () => {
       };
     });
 
-    // Highlight selected date (blue)
-      if (selectedDate && !marked[selectedDate]) {
-    marked[selectedDate] = {
-      customStyles: {
-        container: {
-          backgroundColor: colors.blueSecondary,
-          borderRadius: 20,
+    if (selectedDate && !marked[selectedDate]) {
+      marked[selectedDate] = {
+        customStyles: {
+          container: {
+            backgroundColor: colors.blueSecondary,
+            borderRadius: 20,
+          },
+          text: {
+            color: colors.white,
+            fontWeight: 'bold',
+          },
         },
-        text: {
-          color: 'white',
-          fontWeight: 'bold',
-        },
-      },
-    };
-  }
+      };
+    }
 
-  return marked;
-};
+    return marked;
+  }, [selectedDate]);
 
+  const eventsToShow = useMemo(() => {
+    return selectedDate
+      ? JobsData.filter(event => event.date === selectedDate)
+      : JobsData;
+  }, [selectedDate]);
 
-
-const eventsToShow = selectedDate
-  ? JobsData.filter(event => event.date === selectedDate) 
-  : JobsData;
-
+  const theme = useMemo(() => ({
+    ...CALENDAR_THEME,
+    backgroundColor: colors.white,
+    calendarBackground: colors.white,
+  }), []);
 
   return (
-    <ScreenWrapper  >
+    <ScreenWrapper edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
-      <CustomHeader title="Calendar" />
-<CalendarDropDown
+        <CustomHeader title="Calendar" />
+        <View style={styles.filterWrapper}>
+          <CalendarDropDown
+            selectedDate={selectedDate}
+            onDateChange={setSelectedDate}
+          />
+        </View>
+      </View>
 
-        selectedDate={selectedDate} 
-        onDateChange={setSelectedDate} 
-    
-/>
-    </View>
-      <Calendar
-        markingType="custom"
-        onDayPress={(day) => setSelectedDate(day.dateString)}
-        markedDates={buildMarkedDates()}
-        theme={{
-          todayTextColor: '#0066ff',
-          arrowColor: '#0066ff',
-          
-        }}
-      />
+      <ScrollView 
+        style={styles.container}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
+        <Calendar
+          markingType="custom"
+          onDayPress={handleDayPress}
+          markedDates={markedDates}
+          theme={theme}
+          style={styles.calendar}
+        />
 
-      {selectedDate && (
-        <>
-       
-          <ScrollView style={styles.container}
-          contentContainerStyle={{
-            alignItems: 'center',
-            paddingBottom: responsiveHeight(2),
-          }}
-          >
-            {eventsToShow.length > 0 ? (
-              eventsToShow.map((event, index) => (
-                <EventCard key={index} event={event} />
-              ))
-            ) : (
-              <Text style={styles.noEventText}>No events</Text>
-            )}
-          </ScrollView>
-        </>
-      )}
+        <View style={styles.eventListHeader}>
+          <Text style={styles.eventTitle}>
+            {selectedDate ? `Events for ${formatDate(selectedDate)}` : 'All Upcoming Events'}
+          </Text>
+        </View>
+
+        {eventsToShow.length > 0 ? (
+          eventsToShow.map((event, index) => (
+            <EventCard key={index} event={event} />
+          ))
+        ) : (
+          <View style={styles.noEventContainer}>
+             <Ionicons name="calendar-clear-outline" size={responsiveWidth(15)} color={colors.gray} />
+             <Text style={styles.noEventText}>No events scheduled for this day</Text>
+          </View>
+        )}
+      </ScrollView>
     </ScreenWrapper>
   );
 };
@@ -149,24 +176,52 @@ export default SimpleCalendarScreen;
 
 const styles = StyleSheet.create({
   container: {
-
-
+    flex: 1,
     backgroundColor: "transparent",
   },
-   headWrapper: {
-     backgroundColor: colors.white,
-     borderBottomLeftRadius: responsiveWidth(6),
-     borderBottomRightRadius: responsiveWidth(6),
-     paddingVertical: responsiveWidth(3),
-     paddingHorizontal:responsiveWidth(3)
-   },
-
- 
+  scrollContent: {
+    paddingBottom: responsiveHeight(12), // Space for fab/tab bar
+  },
+  headWrapper: {
+    backgroundColor: colors.white,
+    borderBottomLeftRadius: responsiveWidth(6),
+    borderBottomRightRadius: responsiveWidth(6),
+    paddingBottom: responsiveHeight(2),
+    // Shadow for header elevation
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  filterWrapper: {
+    paddingHorizontal: responsiveWidth(4),
+  },
+  calendar: {
+    marginHorizontal: responsiveWidth(2),
+    marginTop: responsiveHeight(1),
+    borderRadius: 15,
+  },
+  eventListHeader: {
+    paddingHorizontal: responsiveWidth(5),
+    paddingVertical: responsiveHeight(2),
+  },
+  eventTitle: {
+    fontSize: responsiveFontSize(2.2),
+    fontWeight: 'bold',
+    color: colors.black,
+  },
+  noEventContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: responsiveHeight(5),
+    paddingHorizontal: responsiveWidth(10),
+  },
   noEventText: {
     textAlign: 'center',
-    marginTop: responsiveHeight(3),
+    marginTop: responsiveHeight(2),
     color: colors.gray,
-    fontSize: responsiveFontSize(3),
-    fontStyle: 'italic',
+    fontSize: responsiveFontSize(2),
+    fontWeight: '500',
   },
 });

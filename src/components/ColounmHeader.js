@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-import colors from '../utils/colors'; // ← your colors file
+import colors from '../utils/colors';
 
 const ColumnHeader = ({ title, count, onAddPress }) => {
   return (
@@ -10,10 +10,9 @@ const ColumnHeader = ({ title, count, onAddPress }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
           {title}{' '}
-          
-          <Text style={styles.count}>
-            ({count})
-          </Text>
+          <View style={styles.countBadge}>
+            <Text style={styles.countText}>{count}</Text>
+          </View>
         </Text>
       </View>
 
@@ -24,8 +23,8 @@ const ColumnHeader = ({ title, count, onAddPress }) => {
       >
         <Ionicons 
           name="add" 
-          size={responsiveWidth(7)} 
-          color={colors.black || '#007AFF'} // or your accent color
+          size={24} 
+          color={colors.black} 
         />
       </TouchableOpacity>
     </View>
@@ -40,31 +39,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: responsiveWidth(4),
-    paddingVertical: responsiveHeight(1.8),
-  
-    borderBottomWidth: 1,
-    borderBottomColor: colors.grayBorder || '#e5e7eb',
+    paddingVertical: responsiveHeight(1.5),
+    marginBottom: 5,
   },
   titleContainer: {
     flex: 1,
   },
   title: {
-    fontSize: responsiveWidth(5),
+    fontSize: 18,
     fontWeight: '700',
-    color: colors.textDark || '#1f2937',
+    color: colors.black,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  count: {
-    fontSize: responsiveWidth(4.1),
-    fontWeight: '500',
-    color: colors.textLight || '#6b7280', // lighter gray for the number
+  countBadge: {
+    backgroundColor: '#F3F4F6',
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    marginLeft: 8,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
+  },
+  countText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.grayDark,
   },
   addButton: {
-    width: responsiveWidth(9),
-    height: responsiveWidth(9),
-    borderRadius: responsiveWidth(4.5),
-    backgroundColor:colors.gray, // subtle blue tint (adjust to your theme)
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F3F4F6',
     justifyContent: 'center',
     alignItems: 'center',
-
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
 });

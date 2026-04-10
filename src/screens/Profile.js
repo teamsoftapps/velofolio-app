@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   View,
@@ -14,6 +13,7 @@ import {
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors'; // your colors file
+import ScreenWrapper from '../components/ScreenWrapper';
 
 // ────────────────────────────────────────────────
 // Import icons from react-native-vector-icons
@@ -23,24 +23,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomHeader from '../components/CustomHeader';
-import ProfileTabs from "../components/Profile/ProfileTabs"
-import ProfileDetails from "../components/Profile/ProfileDetail"
+import ProfileTabs from '../components/Profile/ProfileTabs';
+import ProfileDetails from '../components/Profile/ProfileDetail';
 import WorkloadOverview from '../components/Profile/WorkloadOverview';
-import JobList from "../components/Profile/JobnTaskLIst"
-import Availibility from "../components/Profile/Availibility"
-import ScreenWrapper from '../components/ScreenWrapper';
-
+import JobList from '../components/Profile/JobnTaskLIst';
+import Availibility from '../components/Profile/Availibility';
+import ProfileHeaderCard from '../components/ProfileHeaderCard';
 
 const JobsData = [
   {
     tags: [
-      { title: "Wedding", color: colors.white, bgColor: colors.blueAccent },
-      { title: "In Progress", color: colors.black, bgColor: colors.purpleLight },
+      { title: 'Wedding', color: colors.white, bgColor: colors.blueAccent },
+      {
+        title: 'In Progress',
+        color: colors.black,
+        bgColor: colors.purpleLight,
+      },
     ],
-    title: "Wedding Film Mark & Jess",
+    title: 'Wedding Film Mark & Jess',
     details: [
-      { label: "Event Date", value: "12 Nov 2025" },
-      { label: "Location", value: "New York" },
+      { label: 'Event Date', value: '12 Nov 2025' },
+      { label: 'Location', value: 'New York' },
     ],
     progress: {
       colors: colors.yellowAccent,
@@ -49,13 +52,13 @@ const JobsData = [
   },
   {
     tags: [
-      { title: "Corporate", color: colors.white, bgColor: colors.greenAccent },
-      { title: "Pending", color: colors.white, bgColor: colors.greenAccent },
+      { title: 'Corporate', color: colors.white, bgColor: colors.greenAccent },
+      { title: 'Pending', color: colors.white, bgColor: colors.greenAccent },
     ],
-    title: "Annual Report Video",
+    title: 'Annual Report Video',
     details: [
-      { label: "Event Date", value: "22 Dec 2025" },
-      { label: "Location", value: "San Francisco" },
+      { label: 'Event Date', value: '22 Dec 2025' },
+      { label: 'Location', value: 'San Francisco' },
     ],
     progress: {
       colors: colors.greenAccent,
@@ -64,13 +67,13 @@ const JobsData = [
   },
   {
     tags: [
-      { title: "Birthday", color: colors.white, bgColor: colors.blueAccent},
-      { title: "Completed", color: colors.white, bgColor: colors.greenAccent }
+      { title: 'Birthday', color: colors.white, bgColor: colors.blueAccent },
+      { title: 'Completed', color: colors.white, bgColor: colors.greenAccent },
     ],
     title: "Emma's 30th Birthday Party",
     details: [
-      { label: "Event Date", value: "05 Jan 2026" },
-      { label: "Location", value: "Los Angeles" },
+      { label: 'Event Date', value: '05 Jan 2026' },
+      { label: 'Location', value: 'Los Angeles' },
     ],
     progress: {
       colors: colors.pinkAccent,
@@ -79,13 +82,17 @@ const JobsData = [
   },
   {
     tags: [
-      { title: "Festival", color: colors.black, bgColor: colors.purpleLight },
-      { title: "In Progress", color: colors.white, bgColor: colors.greenAccent },
+      { title: 'Festival', color: colors.black, bgColor: colors.purpleLight },
+      {
+        title: 'In Progress',
+        color: colors.white,
+        bgColor: colors.greenAccent,
+      },
     ],
-    title: "Music Festival Promo",
+    title: 'Music Festival Promo',
     details: [
-      { label: "Event Date", value: "18 Feb 2026" },
-      { label: "Location", value: "Miami" },
+      { label: 'Event Date', value: '18 Feb 2026' },
+      { label: 'Location', value: 'Miami' },
     ],
     progress: {
       colors: colors.purpleAccent,
@@ -94,14 +101,11 @@ const JobsData = [
   },
 ];
 
-
 const taskData = [
   {
-    tags: [
-      { title: "High", color: colors.white, bgColor: colors.red },
-    ],
-    title: "Pre Wedding Shoot",
-    name: "Sarah & John",
+    tags: [{ title: 'High', color: colors.white, bgColor: colors.red }],
+    title: 'Pre Wedding Shoot',
+    name: 'Sarah & John',
     progress: {
       colors: colors.yellowAccent,
       percent: 70,
@@ -109,32 +113,28 @@ const taskData = [
   },
   {
     tags: [
-      { title: "Medium", color: colors.white, bgColor: colors.tealPrimary  },
+      { title: 'Medium', color: colors.white, bgColor: colors.tealPrimary },
     ],
-    title: "Corporate Interview Editing",
-    name: "Tech Summit 2026",
+    title: 'Corporate Interview Editing',
+    name: 'Tech Summit 2026',
     progress: {
       colors: colors.orange,
       percent: 40,
     },
   },
   {
-    tags: [
-      { title: "Low", color: colors.white, bgColor: colors.blueAccent },
-    ],
-    title: "Social Media Promo Cut",
-    name: "Brand Campaign",
+    tags: [{ title: 'Low', color: colors.white, bgColor: colors.blueAccent }],
+    title: 'Social Media Promo Cut',
+    name: 'Brand Campaign',
     progress: {
       colors: colors.blueAccent,
       percent: 55,
     },
   },
   {
-    tags: [
-      { title: "Urgent", color: colors.white, bgColor: colors.red },
-    ],
-    title: "Event Highlight Reel",
-    name: "Music Festival 2026",
+    tags: [{ title: 'Urgent', color: colors.white, bgColor: colors.red }],
+    title: 'Event Highlight Reel',
+    name: 'Music Festival 2026',
     progress: {
       colors: colors.red,
       percent: 10,
@@ -142,10 +142,14 @@ const taskData = [
   },
   {
     tags: [
-      { title: "In Progress", color: colors.white, bgColor: colors.greenAccent },
+      {
+        title: 'In Progress',
+        color: colors.white,
+        bgColor: colors.greenAccent,
+      },
     ],
-    title: "Wedding Teaser Video",
-    name: "Emma & Liam",
+    title: 'Wedding Teaser Video',
+    name: 'Emma & Liam',
     progress: {
       colors: colors.greenAccent,
       percent: 85,
@@ -153,76 +157,41 @@ const taskData = [
   },
 ];
 const UserProfileScreen = () => {
-    const [activeTab, setActiveTab] = useState('ABOUT');
+  const [activeTab, setActiveTab] = useState('ABOUT');
 
   return (
     <ScreenWrapper
-      style={styles.container}
+      backgroundColor={colors.white}
+      edges={['bottom', 'left', 'right']}
     >
-      <View
+      <View style={styles.headWrapper}>
+        <CustomHeader title="Profile" onPress={''} />
+        <ProfileHeaderCard
+          image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+          name="Sarah Lee"
+          role="Lead Photographer"
+          status="Active"
+          statusColor={colors.greenAccent}
+          statusBg={colors.successLight || '#ecfdf5'}
+          onMorePress={() => console.log('More pressed')}
+          onStatusPress={() => console.log('Status pressed')}
+        />
+        <ProfileTabs activeTab={activeTab} onTabPress={setActiveTab} />
+      </View>
+
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.tabsData}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.headWrapper}>
-        <CustomHeader title="Profile" onPress={""} />
-   <View style={styles.headerCard}>
-        <View style={styles.profileRow}>
-          <Image
-            source={{
-              uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400',
-            }} // ← replace with real image
-            style={styles.avatar}
-          />
-
-          <View style={styles.infoContainer}>
-            <View style={styles.headingRow}>
-            <Text style={styles.name}>Sarah Lee</Text>
-               <TouchableOpacity hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
-            <Feather
-              name="more-horizontal"
-              size={responsiveFontSize(2.8)}
-              color={colors.grayDark || '#6b7280'}
-            />
-          </TouchableOpacity>
-            </View>
-            <Text style={styles.title}>Lead Photographer</Text>
-
-            <View style={styles.statusBadge}>
-              <View style={styles.statusDot} />
-              <Text style={styles.statusText}>Active</Text>
-              <MaterialIcons
-                name="keyboard-arrow-down"
-                size={responsiveFontSize(2.3)}
-                color={colors.grayDark || '#6b7280'}
-              />
-            </View>
-          </View>
-
-       
-        </View>
-      </View>
- <ProfileTabs
-        activeTab={activeTab}
-        onTabPress={setActiveTab}
-      />
-      
-      </View>
-   
-<ScrollView
-  style={{ flex: 1 }}
-  contentContainerStyle={styles.tabsData}
-  showsVerticalScrollIndicator={false}
->
-  {activeTab === 'ABOUT' && <ProfileDetails />}
-  {activeTab === 'OVERVIEW' && <WorkloadOverview />}
-  {activeTab === 'JOBS' && <JobList Data={JobsData} />}
-  {activeTab === 'TASKS' && <JobList tab="task" Data={taskData} />}
-  {activeTab==="AVAILABILITY"&& <Availibility/>}
-</ScrollView>
-
+        {activeTab === 'ABOUT' && <ProfileDetails type="Team" />}
+        {activeTab === 'OVERVIEW' && <WorkloadOverview />}
+        {activeTab === 'JOBS' && <JobList Data={JobsData} />}
+        {activeTab === 'TASKS' && <JobList tab="task" Data={taskData} />}
+        {activeTab === 'AVAILABILITY' && <Availibility />}
+      </ScrollView>
 
       {/* <View style={{ height: responsiveHeight(6) }} /> */}
-      </View>
     </ScreenWrapper>
   );
 };
@@ -230,7 +199,6 @@ const UserProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  
   },
   contentContainer: {
     paddingBottom: responsiveHeight(4),
@@ -238,7 +206,7 @@ const styles = StyleSheet.create({
   headerCard: {
     backgroundColor: colors.white,
     paddingHorizontal: responsiveWidth(5),
-    paddingTop: responsiveHeight(3),
+
     paddingBottom: responsiveHeight(2.5),
 
     // marginBottom: responsiveHeight(1),
@@ -257,41 +225,9 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 1,
   },
-  tabsData:{
- flexGrow: 1,   // 🔥 THIS IS THE KEY FIX
-  paddingBottom: responsiveHeight(5),
-  },
-  name: {
-    fontSize: responsiveFontSize(2.8),
-    fontWeight: '700',
-    color: colors.textPrimary || '#111827',
-    marginBottom: responsiveHeight(0.4),
-  },
-  title: {
-    fontSize: responsiveFontSize(2.0),
-    color: colors.textSecondary || '#6b7280',
-    marginBottom: responsiveHeight(0.8),
-  },
-  statusBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.successLight || '#ecfdf5',
-    paddingHorizontal: responsiveWidth(3),
-    paddingVertical: responsiveHeight(0.6),
-    borderRadius: responsiveWidth(10),
-    alignSelf: 'flex-start',
-  },
-  statusDot: {
-    width: responsiveWidth(2.4),
-    height: responsiveWidth(2.4),
-    borderRadius: responsiveWidth(1.2),
-    backgroundColor: '#10b981',
-    marginRight: responsiveWidth(2),
-  },
-  statusText: {
-    fontSize: responsiveFontSize(1.8),
-    fontWeight: '600',
-    color: '#065f46',
+  headWrapper: {
+    backgroundColor: colors.white,
+    paddingBottom: responsiveHeight(2.5),
   },
   tabsWrapper: {
     backgroundColor: colors.card || '#ffffff',
@@ -303,10 +239,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // marginBottom: responsiveHeight(1.2),
   },
-  headingRow:{
-flexDirection:"row",
-justifyContent:"space-between",
-alignItems:"center"
+  headingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   tabItem: {
     fontSize: responsiveFontSize(1.9),
@@ -315,7 +251,7 @@ alignItems:"center"
     paddingBottom: responsiveHeight(1.4),
   },
   activeTab: {
-    color: colors.black ,
+    color: colors.black,
     fontWeight: '700',
   },
   tabUnderline: {
@@ -332,7 +268,6 @@ alignItems:"center"
     marginTop: responsiveHeight(1),
     padding: responsiveWidth(5),
     borderRadius: responsiveWidth(5),
-   
   },
   sectionHeader: {
     fontSize: responsiveFontSize(2.3),

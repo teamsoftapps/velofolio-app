@@ -5,13 +5,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import CustomHeader from '../components/CustomHeader';
 import colors from '../utils/colors';
-import SearchInput from '../components/SearchInput';
 import JobCard from '../components/JobCard';
 import { useNavigation } from '@react-navigation/native';
 import ViewToggle from "../components/ViewToggle"
-import JobCardBoard from "../components/JobCardBoard"
 import JobBoardView from "../components/JobBoardView"
 import FilterModal from '../components/FilterModal';
+import JobDetailModal from '../components/JobDetailModal';
 
 const JobsData = [
   {
@@ -77,42 +76,56 @@ const JobsData = [
 ];
 
 const Jobs = () => {
-  const navigation=useNavigation()
-  const navigatetoJobForm=()=>{
-    navigation.navigate("AddJobs")
-  }
-  const [viewType, setViewType] = useState('List'); 
+  const navigation = useNavigation();
+  const navigatetoJobForm = () => {
+    navigation.navigate("AddJobs");
+  };
+  const [viewType, setViewType] = useState('Board'); // Default to Board as per request
   const [isFilterVisible, setFilterVisible] = useState(false);
+  const [isDetailVisible, setDetailVisible] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const handleJobPress = (job) => {
+    setSelectedJob(job);
+    setDetailVisible(true);
+  };
 
   return (
-    <ScreenWrapper backgroundColor="transparent" >
+    <ScreenWrapper backgroundColor="#F9FAFB" edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
         <CustomHeader title="Jobs" />
 
-        <View style={styles.searchContainer}>
-<ViewToggle
-  options={['List', 'Board']}
-  selected={viewType}
-  onSelect={setViewType}
-/>
-          {/* We wrap the icons in a row if there's a search icon, but mapping the filter icon directly here */}
-          <View style={{ flexDirection: 'row', gap: responsiveWidth(2) }}>
-            <TouchableOpacity style={styles.rightIcon} onPress={() => setFilterVisible(true)}>
-              <Ionicons
-                name="options-outline"
-                size={responsiveWidth(7)} // Scaled down slightly to match screenshot
-                color={colors.text}
-              />
+        <View style={styles.headerActions}>
+          <ViewToggle
+            options={['List', 'Board']}
+            selected={viewType}
+            onSelect={setViewType}
+          />
+          <View style={styles.iconGroup}>
+            <TouchableOpacity style={styles.headerIconButton}>
+              <Ionicons name="search-outline" size={24} color={colors.black} />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.headerIconButton} 
+              onPress={() => setFilterVisible(true)}
+            >
+              <Ionicons name="options-outline" size={24} color={colors.black} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
       
-      {/* Reusable Filter Modal */}
+      {/* Modals */}
       <FilterModal 
         visible={isFilterVisible} 
         onClose={() => setFilterVisible(false)}
         onApply={() => setFilterVisible(false)}
+      />
+
+      <JobDetailModal
+        visible={isDetailVisible}
+        onClose={() => setDetailVisible(false)}
+        job={selectedJob}
       />
   <View style={styles.listContainer}>
     { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
@@ -120,15 +133,15 @@ const Jobs = () => {
       paddingBottom: responsiveHeight(15),
     }}>
          {JobsData.map((job, index) => (
-          <JobCard key={index} job={job} />
+          <JobCard key={index} job={job} onPress={() => handleJobPress(job)} />
          
         ))}
         </ScrollView>}
-  {viewType==="Board"&&<JobBoardView/>}
+  {viewType==="Board"&&<JobBoardView onJobPress={handleJobPress} />}
 
     {/* FAB */}
     <TouchableOpacity style={styles.fab} onPress={navigatetoJobForm} activeOpacity={0.8}>
-      <Ionicons name="add" size={responsiveWidth(6)} color={colors.white} />
+      <Ionicons name="add" size={24} color={colors.white} />
       <Text style={styles.fabText}>Add Job</Text>
     </TouchableOpacity>
   </View>
@@ -139,43 +152,36 @@ const Jobs = () => {
 export default Jobs;
 
 const styles = StyleSheet.create({
-  mainwrapper:{
-paddingHorizontal:responsiveWidth(3),
-paddingVertical:responsiveHeight(2)
+  mainwrapper: {
+    paddingHorizontal: responsiveWidth(3),
+    paddingVertical: responsiveHeight(2)
   },
   headWrapper: {
     backgroundColor: colors.white,
-    borderBottomLeftRadius: responsiveWidth(6),
-    borderBottomRightRadius: responsiveWidth(6),
-    paddingVertical: responsiveWidth(3),
-    paddingHorizontal:responsiveWidth(3)
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    paddingBottom: responsiveHeight(2),
+    paddingHorizontal: responsiveWidth(4),
   },
-  cardContainer: {
-    marginTop: responsiveWidth(4),
-    flex: 1,
-    gap:responsiveWidth(3),
-  },
-  searchContainer: {
+  headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: responsiveWidth(3),
-    justifyContent:"space-between"
+    justifyContent: 'space-between',
+    marginTop: responsiveHeight(1),
   },
-
-  inputWrapper: {
-    flex: 1,
-    marginVertical: responsiveWidth(4),
+  iconGroup: {
+    flexDirection: 'row',
+    gap: 10,
   },
-
-  rightIcon: {
-    width: responsiveWidth(14),
-    height: responsiveWidth(14),
-    borderRadius: responsiveWidth(3),
+  headerIconButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
     borderWidth: 1,
-    borderColor: colors.inputBorder,
+    borderColor: '#E5E7EB',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: responsiveWidth(1),
+    backgroundColor: colors.white,
   },
   listContainer: {
     flex: 1,
@@ -184,12 +190,12 @@ paddingVertical:responsiveHeight(2)
     position: 'absolute',
     bottom: responsiveHeight(4),
     right: responsiveWidth(5),
-    backgroundColor: '#000',
+    backgroundColor: colors.black,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: responsiveHeight(1.8),
-    paddingHorizontal: responsiveWidth(5),
-    borderRadius: responsiveWidth(3.5),
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 14,
     elevation: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
@@ -198,19 +204,8 @@ paddingVertical:responsiveHeight(2)
   },
   fabText: {
     color: colors.white,
-    fontSize: responsiveWidth(3.8),
+    fontSize: 15,
     fontWeight: '600',
-    marginLeft: 4,
+    marginLeft: 6,
   },
-  toggleWrapper:{
-    width:responsiveWidth(40),
-    backgroundColor:colors.gray3,
-    height:responsiveHeight(5),
-    paddingHorizontal:responsiveWidth(2),
-    paddingVertical:responsiveHeight(3.2),
-    borderRadius:responsiveWidth(12)
-  },
-  toggleText:{
-    color:colors.black
-  }
 });

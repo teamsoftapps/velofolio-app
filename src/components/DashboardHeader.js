@@ -10,12 +10,14 @@ import CustomText from './CustomText';
 import colors from '../utils/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top || responsiveHeight(2) }]}>
       {/* Left: Profile + Greeting */}
       <View style={styles.leftSection}>
         <TouchableOpacity onPress={onMenuPress}>
@@ -59,7 +61,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: responsiveWidth(5),
-    paddingTop: responsiveHeight(2),
     paddingBottom: responsiveHeight(3),
     backgroundColor: colors.white,
     borderBottomLeftRadius: responsiveWidth(6),
