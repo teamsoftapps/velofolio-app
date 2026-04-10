@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/Home';
@@ -8,25 +7,20 @@ import CalendarScreen from '../screens/Calendar';
 import Teams from '../screens/Teams';
 import CustomTabBar from '../components/CustomTabBar';
 import ActonModal from '../components/ActionModal';
-import VelofolioSidebar from '../components/Sidebar';
 
 const Tab = createBottomTabNavigator();
 
-const AppTabsNavigator = () => {
+const BottomTabNavigator = () => {
   const [modal, setModal] = useState(false);
-  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   return (
     <>
       <ActonModal modal={modal} setModal={setModal} />
-      <VelofolioSidebar visible={sidebarVisible} onClose={() => setSidebarVisible(false)} />
       <Tab.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <CustomTabBar {...props} setModal={setModal} modal={modal} />}
       >
-        <Tab.Screen name="Home">
-          {props => <HomeScreen {...props} setSidebarVisible={setSidebarVisible} />}
-        </Tab.Screen>
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Jobs" component={JobsScreen} />
         <Tab.Screen name="Teams" component={Teams} />
         <Tab.Screen name="Clients" component={ClientsScreen} />
@@ -36,4 +30,4 @@ const AppTabsNavigator = () => {
   );
 };
 
-export default AppTabsNavigator;
+export default BottomTabNavigator;

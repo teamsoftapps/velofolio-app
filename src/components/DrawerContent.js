@@ -33,8 +33,16 @@ export default function DrawerContent(props) {
 
   const navigate = screen => {
     navigation.closeDrawer();
-    // Navigate directly using screen name and pass fromDrawer param
-    navigation.navigate(screen, { fromDrawer: true });
+
+    const tabScreens = ['Home', 'Jobs', 'Teams', 'Clients', 'Calendar'];
+
+    if (tabScreens.includes(screen)) {
+      // Correct path for nested tabs
+      navigation.navigate('AppTabs', { screen, params: { fromDrawer: true } });
+    } else {
+      // Bubble up to parent (MainStack) for global screens
+      navigation.getParent()?.navigate(screen, { fromDrawer: true });
+    }
   };
 
   return (
