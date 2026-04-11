@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { logoutUser } from '../services/firebaseAuth';
 import colors from '../utils/colors';
 import CustomText from './CustomText';
-import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function DrawerContent(props) {
   const { navigation } = props;
+  const insets = useSafeAreaInsets();
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -33,14 +30,10 @@ export default function DrawerContent(props) {
 
   const navigate = screen => {
     navigation.closeDrawer();
-
     const tabScreens = ['Home', 'Jobs', 'Teams', 'Clients', 'Calendar'];
-
     if (tabScreens.includes(screen)) {
-      // Correct path for nested tabs
       navigation.navigate('AppTabs', { screen, params: { fromDrawer: true } });
     } else {
-      // Bubble up to parent (MainStack) for global screens
       navigation.getParent()?.navigate(screen, { fromDrawer: true });
     }
   };
@@ -53,9 +46,12 @@ export default function DrawerContent(props) {
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* Profile Header Card */}
-        <View style={styles.headerWrapper}>
-          <View style={styles.profileHeader}>
+        <View style={[styles.headerWrapper, { paddingTop: Math.max(insets.top, responsiveHeight(2)) }]}>
+          <TouchableOpacity 
+            style={styles.profileHeader}
+            onPress={() => navigate('Profile')}
+            activeOpacity={0.8}
+          >
             <View style={styles.avatarWrapper}>
               <Image
                 source={require('../assets/Profile.png')}
@@ -63,203 +59,88 @@ export default function DrawerContent(props) {
                 resizeMode="cover"
               />
             </View>
+            
+            <CustomText style={styles.studioName} fontWeight="500">
+              {userData?.name || 'Lumiere Studio'}
+            </CustomText>
 
-            <TouchableOpacity
-              style={styles.profileInfoArea}
-              onPress={() => navigate('Profile')}
-              activeOpacity={0.7}
-            >
-              <CustomText style={styles.studioName} fontWeight="600">
-                {userData?.name || 'Lumiere Studio'}
-              </CustomText>
-              <View style={styles.chevronContainer}>
-                <Feather
-                  name="chevron-up"
-                  size={responsiveWidth(3.5)}
-                  color={colors.textSecondary}
-                  style={{ marginBottom: -4 }}
-                />
-                <Feather
-                  name="chevron-down"
-                  size={responsiveWidth(3.5)}
-                  color={colors.textSecondary}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
+            <View style={styles.chevronContainer}>
+              <MaterialCommunityIcons 
+                name="unfold-more-horizontal" 
+                size={responsiveWidth(5)} 
+                color={colors.textLight || '#9CA3AF'} 
+              />
+            </View>
+          </TouchableOpacity>
         </View>
 
-        {/* Categories */}
         <View style={styles.menuContainer}>
           {/* BUSINESS & MANAGEMENT */}
           <View style={styles.section}>
-            <CustomText style={styles.sectionTitle} fontWeight="500">
+            <CustomText style={styles.sectionTitle} fontWeight="400">
               BUSINESS & MANAGEMENT
             </CustomText>
             
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Home')}
-            >
-              <Feather
-                name="grid"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
-              <CustomText style={styles.itemText}>Dashboard</CustomText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Calendar')}
-            >
-              <Feather
-                name="calendar"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
-              <CustomText style={styles.itemText}>Calendar</CustomText>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Teams')}
-            >
-              <Feather
-                name="users"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Teams')}>
+              <Feather name="users" size={responsiveWidth(5)} color="#9CA3AF" />
               <CustomText style={styles.itemText}>Team Members</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Clients')}
-            >
-              <MaterialCommunityIcons
-                name="bullseye"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Clients')}>
+              <Feather name="target" size={responsiveWidth(5)} color="#9CA3AF" />
               <CustomText style={styles.itemText}>Leads</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Payments')}
-            >
-              <Feather
-                name="credit-card"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
-              <CustomText style={styles.itemText}>
-                Payments & Invoices
-              </CustomText>
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Payments')}>
+              <Feather name="credit-card" size={responsiveWidth(5)} color="#9CA3AF" />
+              <CustomText style={styles.itemText}>Payments & Invoices</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('ReportAnalysis')}
-            >
-              <Feather
-                name="bar-chart-2"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
-              <CustomText style={styles.itemText}>
-                Reports & Analytics
-              </CustomText>
+            <TouchableOpacity style={styles.item} onPress={() => navigate('ReportAnalysis')}>
+              <Feather name="bar-chart-2" size={responsiveWidth(5)} color="#9CA3AF" />
+              <CustomText style={styles.itemText}>Reports & Analytics</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('GoalsReports')}
-            >
-              <MaterialCommunityIcons
-                name="bullseye-arrow"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
-              <CustomText style={styles.itemText}>
-                Goals & Performance
-              </CustomText>
+            <TouchableOpacity style={styles.item} onPress={() => navigate('GoalsReports')}>
+              <Feather name="trending-up" size={responsiveWidth(5)} color="#9CA3AF" />
+              <CustomText style={styles.itemText}>Goals & Performance</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Jobs')}
-            >
-              <Feather
-                name="layout"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Jobs')}>
+              <Feather name="sidebar" size={responsiveWidth(5)} color="#9CA3AF" />
               <CustomText style={styles.itemText}>Production Board</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Settings')}
-            >
-              <Feather
-                name="sliders"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Settings')}>
+              <Feather name="sliders" size={responsiveWidth(5)} color="#9CA3AF" />
               <CustomText style={styles.itemText}>Settings</CustomText>
             </TouchableOpacity>
           </View>
 
           {/* SUPPORT & SYSTEM */}
           <View style={styles.section}>
-            <CustomText style={styles.sectionTitle} fontWeight="500">
+            <CustomText style={styles.sectionTitle} fontWeight="400">
               SUPPORT & SYSTEM
             </CustomText>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Settings')}
-            >
-              <Feather
-                name="info"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Settings')}>
+              <Feather name="help-circle" size={responsiveWidth(5)} color="#9CA3AF" />
               <CustomText style={styles.itemText}>Help Center / FAQ</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigation.closeDrawer()}
-            >
-              <Feather
-                name="headphones"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
+            <TouchableOpacity style={styles.item} onPress={() => navigation.closeDrawer()}>
+              <Feather name="headphones" size={responsiveWidth(5)} color="#9CA3AF" />
               <CustomText style={styles.itemText}>Contact Support</CustomText>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.item}
-              onPress={() => navigate('Notifications')}
-            >
-              <Feather
-                name="refresh-cw"
-                size={responsiveWidth(5)}
-                color={colors.textSecondary}
-              />
-              <CustomText style={styles.itemText}>
-                App Updates / What's New
-              </CustomText>
+            <TouchableOpacity style={styles.item} onPress={() => navigate('Notifications')}>
+              <Feather name="refresh-cw" size={responsiveWidth(5)} color="#9CA3AF" />
+              <CustomText style={styles.itemText}>App Updates / What's New</CustomText>
             </TouchableOpacity>
           </View>
         </View>
       </DrawerContentScrollView>
 
-      {/* Log Out Footer */}
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.logoutButton}
@@ -268,14 +149,8 @@ export default function DrawerContent(props) {
             navigation.closeDrawer();
           }}
         >
-          <Feather
-            name="log-out"
-            size={responsiveWidth(5.5)}
-            color={colors.textSecondary}
-          />
-          <CustomText style={styles.logoutText} fontWeight="500">
-            Log Out
-          </CustomText>
+          <Feather name="log-out" size={responsiveWidth(5.5)} color="#9CA3AF" />
+          <CustomText style={styles.logoutText} fontWeight="500">Log Out</CustomText>
         </TouchableOpacity>
       </View>
     </View>
@@ -289,16 +164,15 @@ const styles = StyleSheet.create({
   },
   headerWrapper: {
     paddingHorizontal: responsiveWidth(5),
-    paddingTop: responsiveHeight(7),
     paddingBottom: responsiveHeight(2),
   },
   profileHeader: {
     backgroundColor: '#F3F4F6',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: responsiveHeight(1),
+    paddingVertical: responsiveHeight(1.2),
     paddingHorizontal: responsiveWidth(3),
-    borderRadius: responsiveWidth(3),
+    borderRadius: responsiveWidth(4),
   },
   avatarWrapper: {
     backgroundColor: '#FFF',
@@ -307,18 +181,13 @@ const styles = StyleSheet.create({
     marginRight: responsiveWidth(3),
   },
   avatar: {
-    width: responsiveWidth(10),
-    height: responsiveWidth(10),
-    borderRadius: responsiveWidth(5),
-  },
-  profileInfoArea: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    width: responsiveWidth(8),
+    height: responsiveWidth(8),
+    borderRadius: responsiveWidth(4),
   },
   studioName: {
-    fontSize: responsiveFontSize(1.9),
+    flex: 1,
+    fontSize: responsiveFontSize(2),
     color: '#111827',
   },
   chevronContainer: {
@@ -334,25 +203,26 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: responsiveFontSize(1.6),
-    color: '#9CA3AF',
-    marginBottom: responsiveHeight(2.5),
-    letterSpacing: 0.5,
+    color: '#D1D5DB', // Very light gray as in image
+    marginBottom: responsiveHeight(2),
+    letterSpacing: 0.8,
   },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: responsiveHeight(1.5),
+    paddingVertical: responsiveHeight(1.2),
     marginBottom: 4,
     gap: responsiveWidth(4),
   },
   itemText: {
     fontSize: responsiveFontSize(2),
-    color: '#374151',
+    color: '#6B7280', // Darker gray for items
   },
   footer: {
     paddingHorizontal: responsiveWidth(6),
     paddingVertical: responsiveHeight(3),
     backgroundColor: '#FFF',
+    borderTopWidth: 0,
   },
   logoutButton: {
     flexDirection: 'row',
@@ -361,6 +231,6 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     fontSize: responsiveFontSize(2),
-    color: colors.textSecondary,
+    color: '#6B7280',
   },
 });

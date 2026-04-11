@@ -47,7 +47,15 @@ const ButtonSimple = ({
         <ActivityIndicator color={colors.white} /> // ✅ themed
       ) : (
         <View style={styles.content}>
-          {leftIcon && <Image source={leftIcon} style={styles.icon} />}
+          {leftIcon && (
+            <View style={styles.iconContainer}>
+              {React.isValidElement(leftIcon) ? (
+                leftIcon
+              ) : (
+                <Image source={leftIcon} style={styles.icon} />
+              )}
+            </View>
+          )}
 
           <CustomText style={[styles.text, textStyle]}>{title}</CustomText>
         </View>
@@ -80,6 +88,11 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
 
+  iconContainer: {
+    marginRight: responsiveWidth(2.5),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     fontSize: responsiveFontSize(2.2),
     // color: titleColor, // ✅ themed

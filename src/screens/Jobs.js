@@ -14,93 +14,85 @@ import JobDetailModal from '../components/JobDetailModal';
 
 const JobsData = [
   {
+    id: 1,
     tags: [
-      { title: "Wedding", color: colors.white, bgColor: colors.blueAccent },
-      { title: "In Progress", color: colors.black, bgColor: colors.purpleLight },
+      { title: "Wedding", color: colors.black, bgColor: 'transparent', borderColor: '#D1D5DB' },
+      { title: "In Progress", color: colors.white, bgColor: colors.statusInProgress },
     ],
-    title: "Wedding Film Mark & Jess",
-    details: [
-      { label: "Event Date", value: "12 Nov 2025" },
-      { label: "Location", value: "New York" },
+    title: "Wedding Film – Mark & Jess",
+    clientName: "Sarah Johnson",
+    eventDate: "12 Nov 2025",
+    cardColor: colors.cardBlue,
+    progress: null, // Shows "ADD TASKS TO TRACK PROGRESS"
+  },
+  {
+    id: 2,
+    tags: [
+      { title: "Music Video", color: colors.black, bgColor: 'transparent', borderColor: '#D1D5DB' },
+      { title: "Review", color: colors.white, bgColor: colors.statusReview },
     ],
+    title: "Music Video – Willow Studio",
+    clientName: "Willow Studio",
+    eventDate: "10 Nov 2025",
+    cardColor: colors.cardYellow,
     progress: {
-      colors: colors.yellowAccent,
-      percent: 70,
+      percent: 90,
+      currentTask: 3,
+      totalTasks: 4
     },
   },
   {
+    id: 3,
     tags: [
-      { title: "Corporate", color: colors.white, bgColor: colors.greenAccent },
-      { title: "Pending", color: colors.white, bgColor: colors.greenAccent },
+      { title: "Pre-Wedding", color: colors.black, bgColor: 'transparent', borderColor: '#D1D5DB' },
+      { title: "Completed", color: colors.white, bgColor: colors.statusCompleted },
     ],
-    title: "Annual Report Video",
-    details: [
-      { label: "Event Date", value: "22 Dec 2025" },
-      { label: "Location", value: "San Francisco" },
-    ],
+    title: "Pre-Wedding – Linda & Tom",
+    clientName: "Emily Davis",
+    eventDate: "15 Jan 2026",
+    cardColor: colors.cardGreen,
     progress: {
-      colors: colors.greenAccent,
-      percent: 45,
-    },
-  },
-  {
-    tags: [
-      { title: "Birthday", color: colors.white, bgColor: colors.blueAccent},
-      { title: "Completed", color: colors.white, bgColor: colors.greenAccent }
-    ],
-    title: "Emma's 30th Birthday Party",
-    details: [
-      { label: "Event Date", value: "05 Jan 2026" },
-      { label: "Location", value: "Los Angeles" },
-    ],
-    progress: {
-      colors: colors.pinkAccent,
       percent: 100,
-    },
-  },
-  {
-    tags: [
-      { title: "Festival", color: colors.black, bgColor: colors.purpleLight },
-      { title: "In Progress", color: colors.white, bgColor: colors.greenAccent },
-    ],
-    title: "Music Festival Promo",
-    details: [
-      { label: "Event Date", value: "18 Feb 2026" },
-      { label: "Location", value: "Miami" },
-    ],
-    progress: {
-      colors: colors.purpleAccent,
-      percent: 30,
+      currentTask: 5,
+      totalTasks: 5
     },
   },
 ];
 
 const Jobs = () => {
   const navigation = useNavigation();
-  const navigatetoJobForm = () => {
-    navigation.navigate("AddJobs");
-  };
-  const [viewType, setViewType] = useState('Board'); // Default to Board as per request
+  const [viewType, setViewType] = useState('List');
   const [isFilterVisible, setFilterVisible] = useState(false);
   const [isDetailVisible, setDetailVisible] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
 
+  const navigatetoJobForm = () => {
+    navigation.navigate("AddJobs");
+  };
+
   const handleJobPress = (job) => {
-    setSelectedJob(job);
-    setDetailVisible(true);
+    if (viewType === 'List') {
+      navigation.navigate('JobProfile', { job });
+    } else {
+      setSelectedJob(job);
+      setDetailVisible(true);
+    }
   };
 
   return (
-    <ScreenWrapper backgroundColor="#F9FAFB" edges={['bottom', 'left', 'right']}>
+    <ScreenWrapper backgroundColor="#FFFFFF" edges={['bottom', 'left', 'right']}>
       <View style={styles.headWrapper}>
         <CustomHeader title="Jobs" />
 
         <View style={styles.headerActions}>
-          <ViewToggle
-            options={['List', 'Board']}
-            selected={viewType}
-            onSelect={setViewType}
-          />
+          <View style={styles.toggleContainer}>
+            <ViewToggle
+              options={['List', 'Board']}
+              selected={viewType}
+              onSelect={setViewType}
+            />
+          </View>
+          
           <View style={styles.iconGroup}>
             <TouchableOpacity style={styles.headerIconButton}>
               <Ionicons name="search-outline" size={24} color={colors.black} />
@@ -115,7 +107,6 @@ const Jobs = () => {
         </View>
       </View>
       
-      {/* Modals */}
       <FilterModal 
         visible={isFilterVisible} 
         onClose={() => setFilterVisible(false)}
@@ -127,24 +118,30 @@ const Jobs = () => {
         onClose={() => setDetailVisible(false)}
         job={selectedJob}
       />
-  <View style={styles.listContainer}>
-    { viewType==="List"&&   <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
-      alignItems: 'center',
-      paddingBottom: responsiveHeight(15),
-    }}>
-         {JobsData.map((job, index) => (
-          <JobCard key={index} job={job} onPress={() => handleJobPress(job)} />
-         
-        ))}
-        </ScrollView>}
-  {viewType==="Board"&&<JobBoardView onJobPress={handleJobPress} />}
 
-    {/* FAB */}
-    <TouchableOpacity style={styles.fab} onPress={navigatetoJobForm} activeOpacity={0.8}>
-      <Ionicons name="add" size={24} color={colors.white} />
-      <Text style={styles.fabText}>Add Job</Text>
-    </TouchableOpacity>
-  </View>
+      <View style={styles.listContainer}>
+        {viewType === "List" && (
+          <ScrollView 
+            style={styles.mainwrapper} 
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}
+          >
+            {JobsData.map((job) => (
+              <JobCard 
+                key={job.id} 
+                job={job} 
+                onPress={() => handleJobPress(job)} 
+              />
+            ))}
+          </ScrollView>
+        )}
+        {viewType === "Board" && <JobBoardView onJobPress={handleJobPress} />}
+
+        <TouchableOpacity style={styles.fab} onPress={navigatetoJobForm} activeOpacity={0.8}>
+          <Ionicons name="add" size={24} color={colors.white} />
+          <Text style={styles.fabText}>Add Job</Text>
+        </TouchableOpacity>
+      </View>
     </ScreenWrapper>
   );
 };
@@ -152,32 +149,29 @@ const Jobs = () => {
 export default Jobs;
 
 const styles = StyleSheet.create({
-  mainwrapper: {
-    paddingHorizontal: responsiveWidth(3),
-    paddingVertical: responsiveHeight(2)
-  },
   headWrapper: {
     backgroundColor: colors.white,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
     paddingBottom: responsiveHeight(2),
-    paddingHorizontal: responsiveWidth(4),
+    paddingHorizontal: responsiveWidth(5),
   },
   headerActions: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: responsiveHeight(1),
+  },
+  toggleContainer: {
+    flex: 1,
+    marginRight: responsiveWidth(4),
   },
   iconGroup: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
   },
   headerIconButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    borderWidth: 1,
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    borderWidth: 1.5,
     borderColor: '#E5E7EB',
     justifyContent: 'center',
     alignItems: 'center',
@@ -186,26 +180,33 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
   },
+  mainwrapper: {
+    paddingHorizontal: responsiveWidth(5),
+  },
+  scrollContent: {
+    paddingBottom: responsiveHeight(15),
+    paddingTop: responsiveHeight(1),
+  },
   fab: {
     position: 'absolute',
-    bottom: responsiveHeight(4),
+    bottom: responsiveHeight(3),
     right: responsiveWidth(5),
-    backgroundColor: colors.black,
+    backgroundColor: '#000000',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    elevation: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 22,
+    borderRadius: 16,
+    elevation: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
   },
   fabText: {
     color: colors.white,
-    fontSize: 15,
-    fontWeight: '600',
-    marginLeft: 6,
+    fontSize: 16,
+    fontWeight: '700',
+    marginLeft: 8,
   },
 });

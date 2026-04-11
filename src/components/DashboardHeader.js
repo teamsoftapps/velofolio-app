@@ -17,7 +17,12 @@ const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top || responsiveHeight(2) }]}>
+    <View
+      style={[
+        styles.container,
+        { paddingTop: insets.top || responsiveHeight(2) },
+      ]}
+    >
       {/* Left: Profile + Greeting */}
       <View style={styles.leftSection}>
         <TouchableOpacity onPress={onMenuPress}>
@@ -29,11 +34,9 @@ const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
         </TouchableOpacity>
 
         <View style={styles.greeting}>
-          <CustomText style={styles.subtitle}>
-            Welcome Back! 👋
-          </CustomText>
+          <CustomText style={styles.subtitle}>Welcome Back! 👋</CustomText>
           <CustomText style={styles.hiText} fontWeight="bold">
-            {name}
+            {name.split(' ')[0]}
           </CustomText>
         </View>
       </View>
@@ -41,12 +44,23 @@ const DashboardHeader = ({ name = 'Akshay', onMenuPress }) => {
       {/* Right: Buttons */}
       <View style={styles.rightSection}>
         <TouchableOpacity style={styles.iconButton}>
-          <Ionicons name='search-outline' size={responsiveWidth(6.5)} color={colors.black} />
+          <Ionicons
+            name="search-outline"
+            size={responsiveWidth(6.5)}
+            color={colors.black}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Notifications")} style={styles.iconButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Notifications')}
+          style={styles.iconButton}
+        >
           <View style={styles.unread}></View>
-          <Ionicons name='notifications-outline' size={responsiveWidth(6.5)} color={colors.black} />
+          <Ionicons
+            name="notifications-outline"
+            size={responsiveWidth(6.5)}
+            color={colors.black}
+          />
         </TouchableOpacity>
       </View>
     </View>

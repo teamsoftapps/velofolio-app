@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 
@@ -11,14 +10,13 @@ import {
   responsiveWidth,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import ScreenWrapper from '../components/ScreenWrapper';
 import CustomText from '../components/CustomText';
 import InputField from '../components/InputField';
 import ButtonSimple from '../components/Button';
-
 import AuthGradient from '../components/AuthGradient';
+import CustomHeader from '../components/CustomHeader';
 import colors from '../utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -52,20 +50,8 @@ const ForgotPassword = () => {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={[styles.container, { paddingTop: insets.top + (responsiveHeight(2) || 20), paddingBottom: Math.max(insets.bottom, responsiveHeight(4)) }]}>
-            {/* Back Button */}
-            <TouchableOpacity
-              style={styles.backBtn}
-              onPress={() => navigation.goBack()}
-              activeOpacity={0.8}
-            >
-              <Ionicons
-                name="arrow-back-outline"
-                size={responsiveFontSize(2.8)}
-                color={colors.black}
-              />
-            </TouchableOpacity>
-
+          <CustomHeader title=" " transparent={true} />
+          <View style={[styles.container, { paddingBottom: Math.max(insets.bottom, responsiveHeight(4)) }]}>
             {/* Title */}
             <CustomText style={styles.title} fontWeight="700">
               Forgot Password
@@ -115,22 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: responsiveWidth(7),
-  },
-
-  backBtn: {
-    width: responsiveWidth(11),
-    height: responsiveWidth(11),
-    borderColor: colors.black,
-    borderWidth: responsiveWidth(0.5),
-    borderRadius: responsiveWidth(4),
-    // backgroundColor: colors.white,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: responsiveHeight(3),
-  },
-
-  backIcon: {
-    fontSize: responsiveFontSize(5),
+    paddingTop: responsiveHeight(2),
   },
 
   title: {

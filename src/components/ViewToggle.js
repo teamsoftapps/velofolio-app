@@ -1,11 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { responsiveWidth, responsiveHeight } from 'react-native-responsive-dimensions';
+import { responsiveWidth } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors';
 
-
-
-const SegmentToggle= ({ options, selected, onSelect }) => {
+const SegmentToggle = ({ options, selected, onSelect }) => {
   return (
     <View style={styles.container}>
       {options?.map((option) => {
@@ -15,6 +13,7 @@ const SegmentToggle= ({ options, selected, onSelect }) => {
             key={option}
             onPress={() => onSelect(option)}
             style={[styles.button, isSelected && styles.selectedButton]}
+            activeOpacity={0.8}
           >
             <Text style={[styles.text, isSelected && styles.selectedText]}>{option}</Text>
           </TouchableOpacity>
@@ -29,30 +28,29 @@ export default SegmentToggle;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#E0E0E0', // grey background
-    borderRadius: responsiveWidth(12),
-    overflow: 'hidden',
-    width: responsiveWidth(48),
-    height: responsiveHeight(6),
-    padding:responsiveWidth(1),
-    justifyContent:"space-between"
+    backgroundColor: colors.white,
+    borderRadius: 14,
+    borderWidth: 1.5,
+    borderColor: '#E5E7EB',
+    height: 52,
+    padding: 4,
   },
   button: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
   },
   selectedButton: {
-    backgroundColor: colors.blueAccent, // active color,
-    borderRadius:responsiveWidth(12),
-    
+    backgroundColor: colors.blueAccent, 
   },
   text: {
-    color: '#555',
+    color: '#374151',
     fontWeight: '500',
+    fontSize: 15,
   },
   selectedText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: colors.white,
+    fontWeight: '700',
   },
 });

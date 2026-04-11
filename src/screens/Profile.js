@@ -28,136 +28,65 @@ import ProfileDetails from '../components/Profile/ProfileDetail';
 import WorkloadOverview from '../components/Profile/WorkloadOverview';
 import JobList from '../components/Profile/JobnTaskLIst';
 import Availibility from '../components/Profile/Availibility';
+import PerformanceTab from '../components/Profile/PerformanceTab';
 import ProfileHeaderCard from '../components/ProfileHeaderCard';
 
 const JobsData = [
   {
     tags: [
-      { title: 'Wedding', color: colors.white, bgColor: colors.blueAccent },
-      {
-        title: 'In Progress',
-        color: colors.black,
-        bgColor: colors.purpleLight,
-      },
+      { title: 'Wedding', color: colors.white, bgColor: '#3B82F6' },
     ],
-    title: 'Wedding Film Mark & Jess',
-    details: [
-      { label: 'Event Date', value: '12 Nov 2025' },
-      { label: 'Location', value: 'New York' },
-    ],
+    title: 'Wedding Film – Mark & Jess',
+    eventDate: '12 Nov 2025',
+    clientName: 'Mark & Jess',
+    cardColor: '#E0F2FE',
     progress: {
-      colors: colors.yellowAccent,
-      percent: 70,
+      percent: 90,
     },
   },
   {
     tags: [
-      { title: 'Corporate', color: colors.white, bgColor: colors.greenAccent },
-      { title: 'Pending', color: colors.white, bgColor: colors.greenAccent },
+      { title: 'Music Video', color: colors.black, bgColor: colors.white },
+      { title: 'Review', color: colors.white, bgColor: '#F59E0B' },
     ],
-    title: 'Annual Report Video',
-    details: [
-      { label: 'Event Date', value: '22 Dec 2025' },
-      { label: 'Location', value: 'San Francisco' },
-    ],
+    title: 'Music Video – Willow Studio',
+    eventDate: '10 Nov 2025',
+    clientName: 'Willow Studio',
+    cardColor: '#FFFBEB',
     progress: {
-      colors: colors.greenAccent,
-      percent: 45,
-    },
-  },
-  {
-    tags: [
-      { title: 'Birthday', color: colors.white, bgColor: colors.blueAccent },
-      { title: 'Completed', color: colors.white, bgColor: colors.greenAccent },
-    ],
-    title: "Emma's 30th Birthday Party",
-    details: [
-      { label: 'Event Date', value: '05 Jan 2026' },
-      { label: 'Location', value: 'Los Angeles' },
-    ],
-    progress: {
-      colors: colors.pinkAccent,
-      percent: 100,
-    },
-  },
-  {
-    tags: [
-      { title: 'Festival', color: colors.black, bgColor: colors.purpleLight },
-      {
-        title: 'In Progress',
-        color: colors.white,
-        bgColor: colors.greenAccent,
-      },
-    ],
-    title: 'Music Festival Promo',
-    details: [
-      { label: 'Event Date', value: '18 Feb 2026' },
-      { label: 'Location', value: 'Miami' },
-    ],
-    progress: {
-      colors: colors.purpleAccent,
-      percent: 30,
+      percent: 90,
     },
   },
 ];
 
 const taskData = [
   {
-    tags: [{ title: 'High', color: colors.white, bgColor: colors.red }],
-    title: 'Pre Wedding Shoot',
-    name: 'Sarah & John',
-    progress: {
-      colors: colors.yellowAccent,
-      percent: 70,
-    },
+    priority: 'HIGH',
+    priorityColor: '#EF4444',
+    title: 'Pre-Wedding Shoot',
+    assignee: 'Sarah & John',
+    progress: { percent: 90 },
+    dueDate: 'Oct 12, 2025',
+    status: 'In Progress',
+    statusBg: '#E0F2FE',
+    statusColor: '#00B1E7',
   },
   {
-    tags: [
-      { title: 'Medium', color: colors.white, bgColor: colors.tealPrimary },
-    ],
-    title: 'Corporate Interview Editing',
-    name: 'Tech Summit 2026',
-    progress: {
-      colors: colors.orange,
-      percent: 40,
-    },
-  },
-  {
-    tags: [{ title: 'Low', color: colors.white, bgColor: colors.blueAccent }],
-    title: 'Social Media Promo Cut',
-    name: 'Brand Campaign',
-    progress: {
-      colors: colors.blueAccent,
-      percent: 55,
-    },
-  },
-  {
-    tags: [{ title: 'Urgent', color: colors.white, bgColor: colors.red }],
-    title: 'Event Highlight Reel',
-    name: 'Music Festival 2026',
-    progress: {
-      colors: colors.red,
-      percent: 10,
-    },
-  },
-  {
-    tags: [
-      {
-        title: 'In Progress',
-        color: colors.white,
-        bgColor: colors.greenAccent,
-      },
-    ],
-    title: 'Wedding Teaser Video',
-    name: 'Emma & Liam',
-    progress: {
-      colors: colors.greenAccent,
-      percent: 85,
-    },
+    priority: 'LOW',
+    priorityColor: '#9CA3AF',
+    title: 'Wedding Ceremony',
+    assignee: 'Sarah & John',
+    progress: { percent: 100 },
+    dueDate: 'Oct 12, 2025',
+    status: 'Completed',
+    statusBg: '#DCFCE7',
+    statusColor: '#22C55E',
   },
 ];
+
 const UserProfileScreen = () => {
   const [activeTab, setActiveTab] = useState('ABOUT');
+  const tabs = ['ABOUT', 'OVERVIEW', 'JOBS', 'TASKS', 'AVAILABILITY', 'PERFORMANCE'];
 
   return (
     <ScreenWrapper
@@ -165,7 +94,7 @@ const UserProfileScreen = () => {
       edges={['bottom', 'left', 'right']}
     >
       <View style={styles.headWrapper}>
-        <CustomHeader title="Profile" onPress={''} />
+        <CustomHeader title="Team Profile" showAddButton={false} />
         <ProfileHeaderCard
           image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
           name="Sarah Lee"
@@ -176,7 +105,7 @@ const UserProfileScreen = () => {
           onMorePress={() => console.log('More pressed')}
           onStatusPress={() => console.log('Status pressed')}
         />
-        <ProfileTabs activeTab={activeTab} onTabPress={setActiveTab} />
+        <ProfileTabs activeTab={activeTab} onTabPress={setActiveTab} tabs={tabs} />
       </View>
 
       <ScrollView
@@ -189,6 +118,7 @@ const UserProfileScreen = () => {
         {activeTab === 'JOBS' && <JobList Data={JobsData} />}
         {activeTab === 'TASKS' && <JobList tab="task" Data={taskData} />}
         {activeTab === 'AVAILABILITY' && <Availibility />}
+        {activeTab === 'PERFORMANCE' && <PerformanceTab />}
       </ScrollView>
 
       {/* <View style={{ height: responsiveHeight(6) }} /> */}

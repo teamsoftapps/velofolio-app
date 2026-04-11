@@ -114,7 +114,7 @@
 //     padding: responsiveWidth(4),
 //     // marginHorizontal: responsiveWidth(4),
 //     marginVertical: responsiveHeight(1),
- 
+
 //     borderWidth: 1,
 //     borderColor: colors.borderExtraLight,
 //   },
@@ -196,12 +196,7 @@
 //   },
 // });
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../utils/colors';
 import {
@@ -220,9 +215,8 @@ const InvoiceCard = ({
   status = 'PENDING',
   onPress,
 }) => {
-
   // Determine status color
-  const getStatusColor = (statusText) => {
+  const getStatusColor = statusText => {
     const upperStatus = statusText.toUpperCase();
 
     switch (upperStatus) {
@@ -272,11 +266,14 @@ const InvoiceCard = ({
 
       {/* Details */}
       <View style={styles.detailsContainer}>
-
         {/* Invoice ID */}
         <View style={styles.detailRow}>
           <View style={styles.labelContainer}>
-            <Icon name="file-document-outline" size={16} color={colors.textMuted} />
+            <Icon
+              name="file-document-outline"
+              size={16}
+              color={colors.textMuted}
+            />
             <Text style={styles.label}>Invoice ID</Text>
           </View>
           <Text style={styles.value}>{invoiceId}</Text>
@@ -294,7 +291,11 @@ const InvoiceCard = ({
         {/* Paid */}
         <View style={styles.detailRow}>
           <View style={styles.labelContainer}>
-            <Icon name="arrow-down-circle-outline" size={16} color={colors.textMuted} />
+            <Icon
+              name="arrow-down-circle-outline"
+              size={16}
+              color={colors.textMuted}
+            />
             <Text style={styles.label}>Paid</Text>
           </View>
           <Text style={styles.value}>{paid}</Text>
@@ -303,7 +304,11 @@ const InvoiceCard = ({
         {/* Status */}
         <View style={styles.detailRow}>
           <View style={styles.labelContainer}>
-            <Icon name="information-outline" size={16} color={colors.textMuted} />
+            <Icon
+              name="information-outline"
+              size={16}
+              color={colors.textMuted}
+            />
             <Text style={styles.label}>Status</Text>
           </View>
 
@@ -314,17 +319,11 @@ const InvoiceCard = ({
               { backgroundColor: statusColor + '20' }, // light background
             ]}
           >
-            <Text
-              style={[
-                styles.statusText,
-                { color: statusColor },
-              ]}
-            >
+            <Text style={[styles.statusText, { color: statusColor }]}>
               {status.toUpperCase()}
             </Text>
           </View>
         </View>
-
       </View>
     </TouchableOpacity>
   );

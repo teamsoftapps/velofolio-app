@@ -59,6 +59,12 @@ const colors = {
   greenLight:"#dcfce7",
   emred:"#2BCB37",
   grayDark12:"#666666",
+  cardBlue: '#E0F2FE',
+  cardYellow: '#FFFBEB',
+  cardGreen: '#F0FDF4',
+  statusInProgress: '#00B1E7',
+  statusReview: '#F59E0B',
+  statusCompleted: '#10B981',
 };
 
 export default colors;

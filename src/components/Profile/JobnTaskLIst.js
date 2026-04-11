@@ -1,11 +1,11 @@
 // import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import JobCard from "../JobCard"
+import TaskCard from "../TaskCard"
 import React from 'react'
 import colors from '../../utils/colors';
 import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import SearchInput from '../SearchInput';
 import { FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-// import React from 'react';
 import ScreenWrapper from '../ScreenWrapper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -26,10 +26,13 @@ const JobsLIst = ({tab="job",Data}) => {
         <ScrollView style={styles.mainwrapper}  contentContainerStyle={{
     alignItems: 'center',
   }}>
-       {Data.map((job, index) => (
-        <JobCard key={index} job={job}  tab={tab}/>
-       
-      ))}
+        {Data.map((item, index) => (
+          tab === "task" ? (
+            <TaskCard key={index} task={item} />
+          ) : (
+            <JobCard key={index} job={item} onPress={() => console.log("Job selected")} />
+          )
+        ))}
       </ScrollView>
     </View>
   )

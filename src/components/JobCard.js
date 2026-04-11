@@ -1,132 +1,82 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../utils/colors';
 import Tag from './Tag';
-import DetailItem from './DetailItem';
 import ProgressBar from './ProgressBar';
 import TeamComponent from './TeamComponent';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import ActionButtons from './ActionButton';
-import Feather from 'react-native-vector-icons/Feather';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native';
 
-const JobCard = ({ job, tab }) => {
-  const navigation = useNavigation();
+const JobCard = ({ job, onPress }) => {
+  const hasProgress = job.progress !== null;
 
   return (
     <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() =>
-        tab !== 'task' && navigation.navigate('JobProfile', { job })
-      }
-      style={[
-        styles.card,
-        {
-          backgroundColor:
-            tab === 'task' || tab === 'clientjob'
-              ? colors.white
-              : colors.yellowSecondary,
-          height: tab === 'task' ? 'auto' : '',
-        },
-      ]}
+      activeOpacity={0.9}
+      onPress={onPress}
+      style={[styles.card, { backgroundColor: job.cardColor || colors.cardBlue }]}
     >
-      {/* Tags */}
-      <View style={styles.tagsWrapper}>
+      {/* Header: Tags & Menu */}
+      <View style={styles.cardHeader}>
         <View style={styles.tagsContainer}>
-          {job.tags.map((tag, index) => (
+          {job.tags?.map((tag, index) => (
             <Tag
               key={index}
               color={tag.color}
               bgColor={tag.bgColor}
               text={tag.title}
+              borderColor={tag.borderColor}
             />
           ))}
         </View>
-        <TouchableOpacity
-          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-        >
-          <Feather
-            name="more-horizontal"
-            size={responsiveFontSize(4.8)}
-            color={colors.grayDark || '#6b7280'}
-          />
+        <TouchableOpacity style={styles.menuButton}>
+          <Feather name="more-horizontal" size={24} color={colors.textSecondary} />
         </TouchableOpacity>
       </View>
 
       {/* Title */}
-      <View style={styles.textContainer}>
-        <Text style={styles.heading}>{job.title}</Text>
-        {tab === 'task' && (
-          <View style={styles.row}>
-            <Feather
-              name="user"
-              size={responsiveFontSize(2.2)}
-              color={colors.grayDark || '#6b7280'}
-            />
-            <Text style={styles.user}>{job.name || 'User'}</Text>
+      <Text style={styles.jobTitle}>{job.title}</Text>
+
+      {/* Details Grid */}
+      <View style={styles.detailsGrid}>
+        <View style={styles.detailItem}>
+          <Text style={styles.detailLabel}>Event Date</Text>
+          <Text style={styles.detailValue}>{job.eventDate}</Text>
+        </View>
+        <View style={styles.detailItem}>
+          <Text style={styles.detailLabel}>Client Name</Text>
+          <Text style={styles.detailValue}>{job.clientName}</Text>
+        </View>
+      </View>
+
+      {/* Tasks Tracking / Progress */}
+      <View style={styles.progressSection}>
+        {!hasProgress ? (
+          <TouchableOpacity style={styles.addTasksButton}>
+            <Text style={styles.addTasksText}>ADD TASKS TO TRACK PROGRESS</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.progressWrapper}>
+            <View style={styles.progressRow}>
+              <View style={styles.progressBarWrapper}>
+                <ProgressBar progress={job.progress.percent / 100} height={8} />
+              </View>
+              <Text style={styles.progressPercent}>{job.progress.percent}%</Text>
+            </View>
           </View>
         )}
       </View>
 
-      {tab !== 'task' && (
-        <View
-          style={[
-            styles.detailConatiner,
-            {
-              backgroundColor: tab === 'clientjob' ? colors.blueSecondary : '',
-              padding:
-                tab === 'clientjob' ? responsiveWidth(2) : responsiveWidth(0),
-              justifyContent: tab === 'clientjob' ? 'space-between' : '',
-            },
-          ]}
-        >
-          {job.details.map((detail, index) => (
-            <DetailItem key={index} label={detail.label} text={detail.value} />
-          ))}
+      {/* Footer: Team & Checkmark */}
+      <View style={styles.cardFooter}>
+        <View style={styles.teamSection}>
+          <TeamComponent />
         </View>
-      )}
-
-      {/* Progress Bar (keep as is) */}
-      {tab !== 'clientjob' && (
-        <View style={styles.progressbar}>
-          <ProgressBar tab={tab} />
-        </View>
-      )}
-
-      {/* {tab==="clientjob" && <Text>Team</Text>} */}
-      <View style={styles.bottomConatiner}>
-        {tab === 'task' && (
-          <>
-            <View style={styles.date}>
-              <Icon name="calendar-today" color={colors.grayDark} size={18} />
-              <Text style={styles.label}>
-                Due Date: <Text style={styles.dateValue}>Oct 12,2025</Text>
-              </Text>
-            </View>
-
-            <Tag
-              key={1}
-              // color={tag.color}
-              bgColor={colors.yellowAccent}
-              text={'Pending'}
-            />
-          </>
-        )}
-
-        {tab !== 'task' && (
-          <View>
-            <View style={styles.teamContainer}>
-              <TeamComponent />
-            </View>
-            {tab !== 'clientjob' && <ActionButtons direction="row-reverse" />}
-          </View>
-        )}
+        
+        <TouchableOpacity style={styles.checkButton}>
+          <Ionicons name="checkmark-circle-outline" size={30} color="#9CA3AF" />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -136,79 +86,97 @@ export default JobCard;
 
 const styles = StyleSheet.create({
   card: {
-    width: responsiveWidth(90),
-    backgroundColor: colors.yellowSecondary,
-    padding: responsiveWidth(4),
-    borderRadius: responsiveWidth(3),
-    marginBottom: responsiveHeight(2),
+    width: '100%',
+    padding: responsiveWidth(5),
+    borderRadius: 20,
+    marginBottom: responsiveHeight(2.5),
+    elevation: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
   },
-  row: {
+  cardHeader: {
     flexDirection: 'row',
-    gap: responsiveWidth(2),
-    alignItems: 'center',
-    marginTop: responsiveHeight(1),
-  },
-  user: {
-    color: colors.grayDark,
-    fontSize: responsiveFontSize(1.9),
-  },
-  actionConatiner: {
-    width: responsiveWidth(10),
-    height: responsiveHeight(5),
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: responsiveWidth(50),
-    backgroundColor: colors.white,
-  },
-  bottomConatiner: {
-    flexDirection: 'row',
-    gap: responsiveWidth(2),
-    alignContent: 'center',
-    marginTop: responsiveHeight(2.4),
     justifyContent: 'space-between',
-  },
-  date: {
-    flexDirection: 'row',
-    gap: responsiveWidth(2),
     alignItems: 'center',
-  },
-  label: {
-    color: colors.grayDark,
-  },
-  dateValue: {
-    color: colors.red,
-    fontWeight: '500',
-  },
-  teamContainer: {
-    backgroundColor: colors.white,
-    padding: responsiveWidth(1),
-    borderRadius: responsiveWidth(30),
-    borderColor: colors.yellowAccent,
-    borderWidth: 1,
-  },
-  progressbar: {
-    height: responsiveHeight(2.2),
-    marginTop: 8,
-  },
-  detailConatiner: {
-    flexDirection: 'row',
-    gap: responsiveWidth(13),
+    marginBottom: responsiveHeight(1.5),
   },
   tagsContainer: {
     flexDirection: 'row',
-    gap: responsiveWidth(2),
-    alignItems: 'center',
+    gap: 8,
   },
-  tagsWrapper: {
+  menuButton: {
+    padding: 4,
+  },
+  jobTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111827',
+    marginBottom: responsiveHeight(2.5),
+  },
+  detailsGrid: {
+    flexDirection: 'row',
+    marginBottom: responsiveHeight(2.5),
+  },
+  detailItem: {
+    flex: 1,
+  },
+  detailLabel: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginBottom: 4,
+  },
+  detailValue: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+  },
+  progressSection: {
+    marginBottom: responsiveHeight(2),
+  },
+  addTasksButton: {
+    paddingVertical: 4,
+  },
+  addTasksText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#111827',
+    textDecorationLine: 'underline',
+  },
+  progressWrapper: {
+    marginTop: responsiveHeight(1),
+  },
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: responsiveWidth(3),
+  },
+  progressBarWrapper: {
+    flex: 1,
+  },
+  progressPercent: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#111827',
+  },
+  cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: responsiveHeight(2.5),
   },
-  textContainer: {
-    marginVertical: responsiveWidth(3),
+  teamSection: {
+    flex: 1,
   },
-  heading: {
-    fontSize: responsiveWidth(5),
-    fontWeight: '500',
+  checkButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
 });

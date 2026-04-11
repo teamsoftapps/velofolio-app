@@ -9,10 +9,8 @@ import {
 import {
   responsiveHeight,
   responsiveWidth,
-  responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors';
-
 import ScreenWrapper from '../components/ScreenWrapper';
 import CustomHeader from '../components/CustomHeader';
 import ProfileTabs from '../components/Profile/ProfileTabs';
@@ -25,6 +23,7 @@ import TaskCard from '../components/TaskCard';
 import WorkflowTimeline from '../components/Profile/WorkflowTimeline';
 import QuoteCard from '../components/QuoteCard';
 import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const taskData = [
   {
@@ -42,158 +41,104 @@ const taskData = [
 const JobProfile = ({ navigation, route }) => {
   const job = route?.params?.job || { title: 'Wedding Film – Mark & Jess' };
   const [activeTab, setActiveTab] = useState('ABOUT');
-  const tabs = [
-    'ABOUT',
-    'TASKS',
-    'WORKFLOW',
-    'INVOICES',
-    'QUOTES',
-    'CONTRACTS',
-  ];
-
+  const tabs = ['ABOUT', 'TASKS', 'WORKFLOW', 'INVOICES', 'QUOTES'];
+  
   return (
     <ScreenWrapper
-      backgroundColor="#f8f9fa"
+      backgroundColor={colors.white}
       edges={['bottom', 'left', 'right']}
     >
-      <View style={styles.headWrapper}>
-        <CustomHeader
-          title={job.title}
-          onPress={() => navigation.goBack()}
-          showMore={true}
-          showAddButton={false}
-          onMorePress={() => console.log('More options pressed')}
-        />
-        <ProfileHeaderCard
-          variant="job"
-          image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
-          role="Sarah Johnson"
-        />
-        <ProfileTabs
-          activeTab={activeTab}
-          onTabPress={setActiveTab}
-          tabs={tabs}
-        />
-      </View>
+    <View style={styles.headerArea}>
+      <CustomHeader
+        title={job.title}
+        showMore={true}
+        onMorePress={() => console.log('More options')}
+      />
 
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          style={{ flex: 1 }}
-          contentContainerStyle={styles.tabsData}
-          showsVerticalScrollIndicator={false}
-        >
-          {activeTab === 'ABOUT' && <ProfileDetails type="Job" />}
+      <ProfileHeaderCard
+        variant="job"
+        image="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
+        role="Sarah Johnson"
+      />
+      <ProfileTabs
+        activeTab={activeTab}
+        onTabPress={setActiveTab}
+        tabs={tabs}
+      />
+    </View>
 
-          {activeTab === 'TASKS' && (
-            <View style={{ flex: 1, paddingBottom: 100 }}>
-              <SearchFilterComponent
-                colors={colors}
-                placeholder="Search Tasks"
-              />
-              <View style={{ paddingHorizontal: responsiveWidth(5) }}>
-                {taskData.map((task, index) => (
-                  <TaskCard key={index} task={task} />
-                ))}
-              </View>
-            </View>
-          )}
-
-          {activeTab === 'WORKFLOW' && (
-            <View style={{ flex: 1, paddingVertical: responsiveHeight(2) }}>
-              <WorkflowTimeline />
-            </View>
-          )}
-
-          {activeTab === 'INVOICES' && (
-            <View>
-              <SearchFilterComponent
-                colors={colors}
-                placeholder="Search Invoices"
-              />
-              <View style={styles.contentPadding}>
-                <InvoiceCard />
-                <InvoiceCard />
-              </View>
-            </View>
-          )}
-
-          {activeTab === 'QUOTES' && (
-            <View style={{ flex: 1 }}>
-              <SearchFilterComponent
-                colors={colors}
-                placeholder="Search Quotes"
-              />
-              <View style={styles.contentPadding}>
-                <QuoteCard />
-              </View>
-            </View>
-          )}
-
-          {activeTab === 'CONTRACTS' && (
-            <View style={{ flex: 1 }}>
-              <SearchFilterComponent
-                colors={colors}
-                placeholder="Search Contracts"
-              />
-              <View style={styles.contentPadding}>
-                <ContractCard />
-              </View>
-            </View>
-          )}
-        </ScrollView>
+    <View style={{ flex: 1 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={styles.tabsData}
+        showsVerticalScrollIndicator={false}
+      >
+        {activeTab === 'ABOUT' && <ProfileDetails type="Job" />}
 
         {activeTab === 'TASKS' && (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => console.log('Add Task')}
-          >
-            <Feather name="plus" size={20} color={colors.white} />
-            <Text style={styles.fabText}>Add More Task</Text>
-          </TouchableOpacity>
+          <View style={{ flex: 1, paddingBottom: 100 }}>
+            <SearchFilterComponent colors={colors} placeholder="Search Tasks" />
+            <View style={{ paddingHorizontal: responsiveWidth(5) }}>
+              {taskData.map((task, index) => (
+                <TaskCard key={index} task={task} />
+              ))}
+            </View>
+          </View>
         )}
 
         {activeTab === 'WORKFLOW' && (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => console.log('Add Workflow')}
-          >
-            <Feather name="plus" size={20} color={colors.white} />
-            <Text style={styles.fabText}>Add Workflow</Text>
-          </TouchableOpacity>
+          <View style={{ flex: 1, paddingVertical: responsiveHeight(2) }}>
+            <WorkflowTimeline />
+          </View>
         )}
 
         {activeTab === 'INVOICES' && (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => navigation.navigate('NewInvoice')}
-          >
-            <Feather name="plus" size={20} color={colors.white} />
-            <Text style={styles.fabText}>Add Invoice</Text>
-          </TouchableOpacity>
+          <View>
+            <SearchFilterComponent
+              colors={colors}
+              placeholder="Search Invoices"
+            />
+            <View style={styles.contentPadding}>
+              <InvoiceCard />
+              <InvoiceCard />
+            </View>
+          </View>
         )}
 
         {activeTab === 'QUOTES' && (
-          <TouchableOpacity
-            style={styles.fab}
-            onPress={() => navigation.navigate('AddQuote')}
-          >
-            <Feather name="plus" size={20} color={colors.white} />
-            <Text style={styles.fabText}>Add Quote</Text>
-          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            <SearchFilterComponent
+              colors={colors}
+              placeholder="Search Quotes"
+            />
+            <View style={styles.contentPadding}>
+              <QuoteCard />
+            </View>
+          </View>
         )}
-      </View>
-    </ScreenWrapper>
+      </ScrollView>
+
+      {activeTab !== 'ABOUT' && (
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => console.log('Action')}
+        >
+          <Feather name="plus" size={20} color={colors.white} />
+          <Text style={styles.fabText}>
+            Add {activeTab === 'TASKS' ? 'Task' : activeTab.slice(0, -1)}
+          </Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  </ScreenWrapper>
   );
 };
 
+export default JobProfile;
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  headWrapper: {
+  headerArea: {
     backgroundColor: colors.white,
-    paddingBottom: responsiveHeight(1),
   },
   tabsData: {
     flexGrow: 1,
@@ -203,34 +148,24 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    bottom: responsiveHeight(2),
+    bottom: responsiveHeight(3),
     right: responsiveWidth(5),
-    backgroundColor: colors.black || '#000',
+    backgroundColor: '#000000',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: responsiveHeight(1.6),
-    paddingHorizontal: responsiveWidth(6),
-    borderRadius: responsiveWidth(3.5),
-    elevation: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 22,
+    borderRadius: 16,
+    elevation: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
   },
   fabText: {
     color: colors.white,
-    fontSize: responsiveWidth(3.8),
+    fontSize: 16,
     fontWeight: '700',
     marginLeft: 8,
   },
-  placeholderContainer: {
-    padding: 40,
-    alignItems: 'center',
-  },
-  placeholderText: {
-    color: colors.grayDark,
-    fontSize: 16,
-  },
 });
-
-export default JobProfile;

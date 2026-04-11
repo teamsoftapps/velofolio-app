@@ -9,6 +9,7 @@ import {
 import colors from '../utils/colors';
 import Tag from "./Tag";
 import TeamComponent from "./TeamComponent";
+import ProgressBar from "./ProgressBar";
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -19,41 +20,48 @@ const TaskCard = ({ task }) => {
       <View style={styles.header}>
         <View style={styles.tagsContainer}>
           <Tag
-            text="High"
-            bgColor={colors.red}
-            color={colors.white}
-            icon={<MaterialIcons name="flag" size={14} color={colors.white} />}
-          />
-          <Tag
-            text="In Progress"
-            bgColor={colors.blueAccent}
+            text={task.priority || "HIGH"}
+            bgColor={task.priorityColor || colors.red}
             color={colors.white}
           />
         </View>
         <TouchableOpacity>
-          <Feather name="more-horizontal" size={24} color={colors.grayDark} />
+          <Feather name="more-horizontal" size={24} color="#9CA3AF" />
         </TouchableOpacity>
       </View>
 
       {/* Task Title */}
-      <Text style={styles.title}>{task.title || "Edit Wedding Photos"}</Text>
+      <Text style={styles.title}>{task.title}</Text>
 
-      {/* Task Description */}
-      <Text style={styles.description}>
-        {task.description || "Footage received from the videographer."}
-      </Text>
+      {/* Assignee */}
+      <View style={styles.assigneeContainer}>
+        <Feather name="users" size={16} color="#9CA3AF" />
+        <Text style={styles.assigneeText}>{task.assignee || "Sarah & John"}</Text>
+      </View>
 
-      {/* Footer with Date and Team */}
+      {/* Progress Bar */}
+      <View style={styles.progressSection}>
+        <View style={styles.progressRow}>
+          <View style={styles.progressBarWrapper}>
+            <ProgressBar progress={(task.progress?.percent || 0) / 100} height={8} />
+          </View>
+          <Text style={styles.progressPercent}>{task.progress?.percent || 0}%</Text>
+        </View>
+      </View>
+
+      {/* Footer with Date and Status */}
       <View style={styles.footer}>
         <View style={styles.dateContainer}>
-          <Feather name="calendar" size={18} color={colors.grayDark} />
+          <Feather name="calendar" size={18} color="#9CA3AF" />
           <Text style={styles.dateLabel}>
-            Due Date: <Text style={styles.dateValue}>Oct 12, 2025</Text>
+            Due Date: <Text style={styles.dateValue}>{task.dueDate || "Oct 12, 2025"}</Text>
           </Text>
         </View>
 
-        <View style={styles.teamWrapper}>
-          <TeamComponent />
+        <View style={[styles.statusPill, { backgroundColor: task.statusBg || '#E0F2FE' }]}>
+          <Text style={[styles.statusText, { color: task.statusColor || '#00B1E7' }]}>
+            {task.status || "In Progress"}
+          </Text>
         </View>
       </View>
     </View>
@@ -90,23 +98,42 @@ const styles = StyleSheet.create({
     gap: responsiveWidth(2),
   },
   title: {
-    fontSize: responsiveFontSize(2.2),
+    fontSize: responsiveFontSize(2),
     fontWeight: '700',
     color: colors.black,
-    marginBottom: responsiveHeight(0.8),
+    marginBottom: responsiveHeight(1.5),
   },
-  description: {
-    fontSize: responsiveFontSize(1.7),
-    color: colors.grayDark,
+  assigneeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: responsiveWidth(2.5),
     marginBottom: responsiveHeight(2),
-    fontWeight: '400',
-    lineHeight: responsiveFontSize(2.2),
+  },
+  assigneeText: {
+    fontSize: 14,
+    color: '#6B7280',
+    fontWeight: '500',
+  },
+  progressSection: {
+    marginBottom: responsiveHeight(2.5),
+  },
+  progressRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: responsiveWidth(3),
+  },
+  progressBarWrapper: {
+    flex: 1,
+  },
+  progressPercent: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#111827',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: responsiveHeight(0.5),
   },
   dateContainer: {
     flexDirection: 'row',
@@ -114,15 +141,20 @@ const styles = StyleSheet.create({
     gap: responsiveWidth(2),
   },
   dateLabel: {
-    fontSize: responsiveFontSize(1.7),
-    color: colors.grayDark,
-    fontWeight: '500',
+    fontSize: 14,
+    color: '#6B7280',
   },
   dateValue: {
     color: colors.red,
     fontWeight: '600',
   },
-  teamWrapper: {
-    // scale down the team component slightly if needed or adjust its container
-  }
+  statusPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  statusText: {
+    fontSize: 12,
+    fontWeight: '700',
+  },
 });

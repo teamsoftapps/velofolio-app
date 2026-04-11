@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import auth from '@react-native-firebase/auth';
-
 import AuthNavigator from './AuthNavigator';
 import MainStack from "../navigations/MainStack"
-
 
 const RootNavigator = () => {
   const [user, setUser] = useState(null);
@@ -18,7 +16,7 @@ const RootNavigator = () => {
     return unsubscribe;
   }, []);
 
-  if (loading) return null; // or splash screen
+  if (loading) return null;
 
   return user ? <MainStack /> : <AuthNavigator />;
 };

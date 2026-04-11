@@ -1,25 +1,25 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import * as Progress from 'react-native-progress';
-import { responsiveWidth, responsiveHeight, responsiveFontSize } from 'react-native-responsive-dimensions';
+import { responsiveWidth, responsiveHeight } from 'react-native-responsive-dimensions';
 import colors from '../utils/colors';
 
-const ProgressWithBackground = ({ progress = 0.7 ,tab}) => {
+const ProgressWithBackground = ({ progress = 0.7 }) => {
   const percent = Math.round(progress * 100);
 
   return (
     <View style={styles.container}>
-      <Progress.Bar
-        progress={progress}
-        width={responsiveWidth(70)}           // ← most of the width
-        height={responsiveHeight(1.3)}
-        color={colors.yellowAccent}
-        unfilledColor={tab==="task"?colors.gray:'white'}            // ← usually better than transparent
-        borderWidth={3}
-        borderColor={'white'}
-        borderRadius={responsiveWidth(2)}
-      />
-
+      <View style={styles.barWrapper}>
+        <Progress.Bar
+          progress={progress}
+          width={null} // allows bar to fill its container
+          height={10}
+          color="#000000"
+          unfilledColor="#F3F4F6"
+          borderWidth={0}
+          borderRadius={10}
+        />
+      </View>
       <Text style={styles.percentText}>{percent}%</Text>
     </View>
   );
@@ -31,16 +31,17 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',      // ← this is the key!
-    width: responsiveWidth(83),     
-    height:responsiveHeight(4),      // or '100%' if you want full width
+    width: '100%',
+    gap: 12,
   },
-
+  barWrapper: {
+    flex: 1, // takes remaining space
+  },
   percentText: {
-    fontSize: responsiveFontSize(2),
-    color: colors.black,
-    fontWeight: '600',
-    minWidth: responsiveWidth(12),        // prevents jumping when 9% → 10% → 100%
+    fontSize: 14,
+    color: '#374151',
+    fontWeight: '700',
+    minWidth: 40,
     textAlign: 'right',
   },
 });

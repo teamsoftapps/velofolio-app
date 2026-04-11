@@ -12,12 +12,13 @@ const ProfileHeaderCard = ({
   image,
   name,
   role,
+  dateAdded,
   status = 'Active',
   statusColor = '#10b981',
   statusBg = '#ecfdf5',
   onMorePress,
   onStatusPress,
-  variant = 'default', // new prop
+  variant = 'default',
 }) => {
   if (variant === 'job') {
     return (
@@ -33,6 +34,52 @@ const ProfileHeaderCard = ({
     );
   }
 
+  if (variant === 'client') {
+    return (
+      <View style={styles.headerCardClient}>
+        <View style={styles.profileRow}>
+          <Image source={{ uri: image }} style={styles.avatarClient} />
+
+          <View style={styles.infoContainer}>
+            <View style={styles.headingRowClient}>
+              <View>
+                <Text style={styles.nameClient}>{name}</Text>
+                {dateAdded && <Text style={styles.dateAdded}>Date Added: {dateAdded}</Text>}
+              </View>
+
+              <TouchableOpacity
+                onPress={onMorePress}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                style={styles.moreIcon}
+              >
+                <Feather
+                  name="more-horizontal"
+                  size={24}
+                  color="#6B7280"
+                />
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              style={styles.statusBadgeClient}
+              onPress={onStatusPress}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.statusDot, { backgroundColor: '#FFBE2B' }]} />
+              <Text style={styles.statusTextClient}>{status}</Text>
+              <MaterialIcons
+                name="keyboard-arrow-down"
+                size={20}
+                color="#6B7280"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  // DEFAULT VIEW (Used for Team Profile)
   return (
     <View style={styles.headerCard}>
       <View style={styles.profileRow}>
@@ -61,9 +108,13 @@ const ProfileHeaderCard = ({
             onPress={onStatusPress}
             activeOpacity={0.8}
           >
-            {['Active', 'InActive', 'Completed', 'Overdue', 'In Progress'].includes(
-              status
-            ) && (
+            {[
+              'Active',
+              'InActive',
+              'Completed',
+              'Overdue',
+              'In Progress',
+            ].includes(status) && (
               <View
                 style={[styles.statusDot, { backgroundColor: statusColor }]}
               />
@@ -71,9 +122,13 @@ const ProfileHeaderCard = ({
             <Text style={[styles.statusText, { color: statusColor }]}>
               {status}
             </Text>
-            {['Active', 'InActive', 'Completed', 'Overdue', 'In Progress'].includes(
-              status
-            ) && (
+            {[
+              'Active',
+              'InActive',
+              'Completed',
+              'Overdue',
+              'In Progress',
+            ].includes(status) && (
               <MaterialIcons
                 name="keyboard-arrow-down"
                 size={responsiveWidth(5)}
@@ -96,6 +151,12 @@ const styles = StyleSheet.create({
     paddingTop: responsiveHeight(3),
     paddingBottom: responsiveHeight(2.5),
   },
+  headerCardClient: {
+    backgroundColor: colors.white,
+    paddingHorizontal: responsiveWidth(5),
+    paddingTop: 10,
+    paddingBottom: 20,
+  },
   profileRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -106,6 +167,12 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(9),
     marginRight: responsiveWidth(4),
   },
+  avatarClient: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginRight: responsiveWidth(4),
+  },
   infoContainer: {
     flex: 1,
   },
@@ -114,11 +181,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  headingRowClient: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 6,
+  },
   name: {
     fontSize: responsiveWidth(5.5),
     fontWeight: '700',
     color: colors.textPrimary || '#111827',
     marginBottom: responsiveHeight(0.4),
+  },
+  nameClient: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: '#111827',
+  },
+  dateAdded: {
+    fontSize: 14,
+    color: '#6B7280',
+    marginTop: 2,
   },
   role: {
     fontSize: responsiveWidth(3.8),
@@ -133,45 +216,66 @@ const styles = StyleSheet.create({
     borderRadius: responsiveWidth(10),
     alignSelf: 'flex-start',
   },
+  statusBadgeClient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F9FAFB',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
+    marginTop: 4,
+  },
   statusDot: {
-    width: responsiveWidth(2.4),
-    height: responsiveWidth(2.4),
-    borderRadius: responsiveWidth(1.2),
-    marginRight: responsiveWidth(2),
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 8,
   },
   statusText: {
     fontSize: responsiveWidth(3.8),
     fontWeight: '600',
   },
+  statusTextClient: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#374151',
+    marginRight: 4,
+  },
   jobHeaderCard: {
     backgroundColor: colors.white,
     paddingHorizontal: responsiveWidth(5),
-    paddingVertical: responsiveHeight(2),
+    paddingTop: responsiveHeight(1),
+    paddingBottom: responsiveHeight(3),
   },
   jobPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F0F9FF', // Light cyan from screenshot
-    borderRadius: responsiveWidth(4),
-    padding: responsiveWidth(4),
+    backgroundColor: '#F0F9FF',
+    borderRadius: 20,
+    padding: responsiveWidth(5),
+    borderWidth: 1,
+    borderColor: '#E0F2FE',
   },
   jobAvatar: {
-    width: responsiveWidth(14),
-    height: responsiveWidth(14),
-    borderRadius: responsiveWidth(7),
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     marginRight: responsiveWidth(4),
   },
   jobInfo: {
     flex: 1,
   },
   jobName: {
-    fontSize: responsiveWidth(4.5),
-    fontWeight: '600',
-    color: colors.textPrimary || '#111827',
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#111827',
   },
   jobEmail: {
-    fontSize: responsiveWidth(3.8),
-    color: colors.textSecondary || '#6b7280',
+    fontSize: 15,
+    color: '#6B7280',
     marginTop: 2,
   },
 });

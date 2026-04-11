@@ -1,16 +1,16 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import Octicons from "react-native-vector-icons/Octicons";
-import SearchInput from "./SearchInput";
+import React from 'react';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
+import SearchInput from './SearchInput';
 import {
-    responsiveHeight,
-    responsiveWidth,
-    responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+  responsiveFontSize,
 } from 'react-native-responsive-dimensions';
 
 const SearchHeader = ({
-  placeholder = "Search...",
+  placeholder = 'Search...',
   showPlus = false,
   onFilterPress,
   onPlusPress,
@@ -57,8 +57,8 @@ export default SearchHeader;
 
 const styles = StyleSheet.create({
   searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: responsiveWidth(4),
     gap: responsiveWidth(3),
   },
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
     height: responsiveWidth(14),
     borderRadius: responsiveWidth(3),
     borderWidth: 2,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: responsiveWidth(1),
   },
   plusIcon: {

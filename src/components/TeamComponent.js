@@ -1,46 +1,30 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, Text } from 'react-native';
-
-// Import local images (PNG, JPG, etc.)
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 import avatar1 from '../assets/Ellipse63.png';
-import avatar2 from '../assets/Ellipse63.png';
-import avatar3 from '../assets/Ellipse63.png';
-import { responsiveWidth } from 'react-native-responsive-dimensions';
-import { Button } from 'react-native/types_generated/index';
-import ButtonSimple from './Button';
 import colors from '../utils/colors';
-import Fontisto from 'react-native-vector-icons/Fontisto';
 
 const TeamAvatars = () => {
-  // For local images → use the imported variable directly in source
   const teamMembers = [
     { id: 1, source: avatar1 },
-    { id: 2, source: avatar2 },
-    { id: 3, source: avatar3 },
-   
+    { id: 2, source: avatar1 },
+    { id: 3, source: avatar1 },
   ];
-
-  const maxVisible = 3;
-  const visibleMembers = teamMembers.slice(0, maxVisible);
-  const remaining = teamMembers.length - maxVisible;
 
   return (
     <View style={styles.teamContainer}>
-      {visibleMembers.map((member) => (
-        <Image
-          key={member.id}
-          source={member.source}          
-          style={styles.avatar}
-        />
-      ))}
-
-    
-        <ButtonSimple title={""} leftIcon={
-          <Fontisto name="plus-a" size={20} color={colors.white}/>
-        }   style={styles.rightButton}  textStyle={styles.addButtonText}    />
- 
-
-   
+      <View style={styles.avatarGroup}>
+        {teamMembers.map((member, index) => (
+          <Image
+            key={member.id}
+            source={member.source}
+            style={[styles.avatar, { zIndex: teamMembers.length - index, marginLeft: index === 0 ? 0 : -15 }]}
+          />
+        ))}
+        <TouchableOpacity style={styles.addButton} activeOpacity={0.8}>
+          <Feather name="plus" size={18} color={colors.white} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -49,49 +33,35 @@ const styles = StyleSheet.create({
   teamContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding:responsiveWidth(1),
-   
+  },
+  avatarGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
   avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     borderWidth: 2,
-    borderColor: '#fff',
-    marginRight: -14,     // adjust overlap strength (try -10 to -16)
+    borderColor: '#FFFFFF',
   },
   addButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#007AFF', // iOS blue – change to match your app
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#00B1E7',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#fff',
-    marginLeft: 3,      // should match the negative marginRight of avatars
-  },
-  addText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-    rightButton: {
-    width: responsiveWidth(9),
-    height: responsiveWidth(9),
-    borderRadius: responsiveWidth(50),
-    // backgroundColor: colors.blueAccent,
-    borderColor:colors.white,
-    borderWidth:2,
-    flexDirection: 'row',
-    gap: responsiveWidth(3),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addButtonText: {
-    color: colors.white,
-    fontSize: responsiveWidth(4),
-    fontWeight: '600',
+    borderColor: '#FFFFFF',
+    marginLeft: -10,
+    zIndex: 0,
   },
 });
 

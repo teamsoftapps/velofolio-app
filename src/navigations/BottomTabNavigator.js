@@ -6,7 +6,7 @@ import ClientsScreen from '../screens/Clients';
 import CalendarScreen from '../screens/Calendar';
 import Teams from '../screens/Teams';
 import CustomTabBar from '../components/CustomTabBar';
-import ActonModal from '../components/ActionModal';
+import ActionModal from '../components/ActionModal';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +15,7 @@ const BottomTabNavigator = () => {
 
   return (
     <>
-      <ActonModal modal={modal} setModal={setModal} />
+      <ActionModal modal={modal} setModal={setModal} />
       <Tab.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={(props) => <CustomTabBar {...props} setModal={setModal} modal={modal} />}

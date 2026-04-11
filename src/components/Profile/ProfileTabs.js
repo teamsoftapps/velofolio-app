@@ -76,8 +76,7 @@ const ProfileTabs = ({ activeTab, onTabPress, tabs = defaulttabs }) => {
           <TouchableOpacity
             key={tab}
             onPress={() => onTabPress(tab)}
-          
-            style={[styles.tabButton,{borderBottomWidth:activeTab===tab?responsiveWidth(1):0}]}
+            style={styles.tabButton}
           >
             <Text
               style={[
@@ -87,6 +86,7 @@ const ProfileTabs = ({ activeTab, onTabPress, tabs = defaulttabs }) => {
             >
               {tab}
             </Text>
+            {activeTab === tab && <View style={styles.activeIndicator} />}
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -104,32 +104,31 @@ const ProfileTabs = ({ activeTab, onTabPress, tabs = defaulttabs }) => {
 export default ProfileTabs;
 const styles = StyleSheet.create({
   tabsWrapper: {
-    backgroundColor: colors.card || '#fff',
-    paddingTop: responsiveHeight(2),
+    backgroundColor: colors.white,
+    paddingTop: responsiveHeight(1),
+    borderBottomWidth: 1,
+    borderBottomColor: '#F3F4F6',
   },
-
   tabButton: {
-    paddingHorizontal: responsiveWidth(4),
-    borderBottomColor:colors.blueAccent
+    paddingHorizontal: responsiveWidth(5),
+    paddingBottom: 12,
   },
-
   tabItem: {
-    fontSize: responsiveFontSize(1.9),
+    fontSize: 16,
     fontWeight: '600',
-    color: colors.textSecondary || '#6b7280',
-    paddingBottom: responsiveHeight(1.4),
+    color: '#6B7280',
   },
-
   activeTab: {
-    color: colors.black,
+    color: '#111827',
     fontWeight: '700',
   },
-
-  tabUnderline: {
+  activeIndicator: {
     position: 'absolute',
     bottom: 0,
-    height: responsiveHeight(0.4),
-    backgroundColor: colors.blueAccent || '#2563eb',
-    borderRadius: responsiveWidth(1),
+    left: responsiveWidth(5),
+    right: responsiveWidth(5),
+    height: 3,
+    backgroundColor: colors.blueAccent,
+    borderRadius: 2,
   },
 });

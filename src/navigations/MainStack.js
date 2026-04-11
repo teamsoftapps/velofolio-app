@@ -1,10 +1,6 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// Navigators
 import AppDrawerNavigator from './AppDrawerNavigator';
-
-// Screens - Auth & Setup
 import VerifyOtp from '../screens/VerifyOtp';
 import TwoFactorAuthScreen from "../screens/TFA";
 import AddPhone from "../screens/AddPhone";
@@ -12,8 +8,6 @@ import VerifyPhoneMailOtp from "../screens/VerifyPhoneMailOtp";
 import AccountRecoveryScreen from "../screens/AccountRecoveryScreen";
 import EmailRecovery from "../screens/EmailRecovery";
 import BackupPhoneScreen from "../screens/BackupPhone";
-
-// Screens - Profile & Account
 import Profile from '../screens/Profile';
 import ChangePassword from '../screens/ChangePassword';
 import SecuritynPassword from '../screens/SecuritynPassword';
@@ -21,8 +15,6 @@ import DeleteAccount from '../screens/DeleteAccount';
 import DeleteFeedbackScreen from "../screens/DeleteFeedbackScreen";
 import ConfirmDelete from "../screens/ConfirmDeleteScreen";
 import Sessions from "../screens/Sessions";
-
-// Screens - Business Operations
 import AddJobs from '../screens/AddJobs';
 import AddClients from '../screens/AddClients';
 import AddTeams from '../screens/AddTeams';
@@ -33,8 +25,6 @@ import NewInvoice from "../screens/NewInvoice";
 import AddQuote from "../screens/AddQuote";
 import Payments from '../screens/Payments';
 import ReportAnalysis from '../screens/ReportAnalysis';
-
-// Screens - Settings (General)
 import Settings from '../screens/Settings';
 import Notifications from '../screens/Notifications';
 import EmailnNotificationSettings from "../screens/EmailnNotificationSettings";
@@ -47,8 +37,6 @@ import GmailConnectedScreen from "../screens/GmailConnected";
 import GmailSettingPage from "../screens/GmailSettingPage";
 import EmailTemplates from "../screens/EmailTemplates";
 import EditEmailTemplate from "../screens/EditEmailTemplate";
-
-// Screens - Settings (Administrative)
 import RolesPermissions from '../screens/RolesPermissions';
 import RoleDetail from '../screens/RoleDetail';
 import BrandingCustomization from '../screens/BrandingCustomization';
@@ -78,10 +66,8 @@ const Stack = createNativeStackNavigator();
 export default function MainStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* Root Navigation (Drawer contains Tabs) */}
       <Stack.Screen name="Tabs" component={AppDrawerNavigator} />
 
-      {/* Profile & Account Stack */}
       <Stack.Group>
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
@@ -95,7 +81,6 @@ export default function MainStack() {
         </Stack.Group>
       </Stack.Group>
 
-      {/* Business Operations Stack */}
       <Stack.Group>
         <Stack.Screen name="AddJobs" component={AddJobs} />
         <Stack.Screen name="AddClients" component={AddClients} />
@@ -109,7 +94,6 @@ export default function MainStack() {
         <Stack.Screen name="ReportAnalysis" component={ReportAnalysis} />
       </Stack.Group>
 
-      {/* Settings & Preferences Stack */}
       <Stack.Group>
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Notifications" component={Notifications} />
@@ -125,7 +109,6 @@ export default function MainStack() {
         <Stack.Screen name="GmailSettings" component={GmailScreen} />
       </Stack.Group>
 
-      {/* Administrative Settings Stack */}
       <Stack.Group>
         <Stack.Screen name="RolesPermissions" component={RolesPermissions} />
         <Stack.Screen name="RoleDetail" component={RoleDetail} />
@@ -152,7 +135,6 @@ export default function MainStack() {
         <Stack.Screen name="FilesAutomation" component={FilesAutomation} />
       </Stack.Group>
 
-      {/* Verification & Recovery Stack */}
       <Stack.Group>
         <Stack.Screen name="Recovery" component={AccountRecoveryScreen} />
         <Stack.Screen name="RecoveryEmail" component={EmailRecovery} />
