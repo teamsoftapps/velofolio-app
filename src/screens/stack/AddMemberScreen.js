@@ -16,6 +16,7 @@ import ScreenWrapper from '../../components/ScreenWrapper';
 import Typography from '../../components/Typography';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
+import MemberSuccessModal from '../../components/MemberSuccessModal';
 import { rs, rh } from '../../utils/dimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -209,7 +210,28 @@ const AddMemberScreen = ({ navigation }) => {
   const [dob, setDob] = useState('');
   const [gender, setGender] = useState('');
   const [address, setAddress] = useState('');
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
   const insets = useSafeAreaInsets();
+
+  const resetForm = () => {
+    setFirstName('');
+    setLastName('');
+    setEmail('');
+    setPhone('');
+    setRole('');
+    setStatus('');
+    setJoinedDate('');
+    setAvailability('');
+    setDob('');
+    setGender('');
+    setAddress('');
+    setSuccessModalVisible(false);
+  };
+
+  const handleSendInvitation = () => {
+    // Here logic for API call would go
+    setSuccessModalVisible(true);
+  };
 
   return (
     <ScreenWrapper backgroundColor="#FAF9F6" disablePaddingTop={true}>
@@ -361,7 +383,7 @@ const AddMemberScreen = ({ navigation }) => {
           <View style={styles.actionsContainer}>
             <Button
               title="Send Invitation"
-              onPress={() => navigation.goBack()}
+              onPress={handleSendInvitation}
               style={styles.saveButton}
             />
             <Button
@@ -375,6 +397,16 @@ const AddMemberScreen = ({ navigation }) => {
           <View style={styles.bottomPadding} />
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <MemberSuccessModal
+        visible={successModalVisible}
+        onClose={() => setSuccessModalVisible(false)}
+        onDone={() => {
+          setSuccessModalVisible(false);
+          navigation.goBack();
+        }}
+        onInviteAnother={resetForm}
+      />
     </ScreenWrapper>
   );
 };

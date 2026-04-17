@@ -8,11 +8,18 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import ScreenWrapper from '../../components/ScreenWrapper';
 import Typography from '../../components/Typography';
+import InvoiceActionsModal from '../../components/InvoiceActionsModal';
 import { rs, rh } from '../../utils/dimensions';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const InvoiceDetailScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
+  const [actionsModalVisible, setActionsModalVisible] = React.useState(false);
+
+  const handleAction = (actionId) => {
+    console.log('Action performed:', actionId);
+    // Logic for different actions would go here
+  };
 
   return (
     <ScreenWrapper backgroundColor="#FAFAFA" disablePaddingTop={true}>
@@ -22,7 +29,10 @@ const InvoiceDetailScreen = ({ navigation }) => {
             <Feather name="arrow-left" size={rs(24)} color="#111827" />
           </TouchableOpacity>
           <Typography style={styles.headerTitle}>Invoice 20251126-01</Typography>
-          <TouchableOpacity style={styles.moreButton}>
+          <TouchableOpacity 
+            style={styles.moreButton} 
+            onPress={() => setActionsModalVisible(true)}
+          >
             <Feather name="more-vertical" size={rs(22)} color="#111827" />
           </TouchableOpacity>
         </View>
@@ -153,6 +163,12 @@ const InvoiceDetailScreen = ({ navigation }) => {
           <Typography style={styles.sendFabText}>Send Invoice</Typography>
         </TouchableOpacity>
       </View>
+
+      <InvoiceActionsModal
+        visible={actionsModalVisible}
+        onClose={() => setActionsModalVisible(false)}
+        onAction={handleAction}
+      />
     </ScreenWrapper>
   );
 };

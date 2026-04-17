@@ -13,6 +13,7 @@ import Typography from '../../components/Typography';
 import RecentJobCard from '../../components/RecentJobCard';
 import BoardJobCard from '../../components/BoardJobCard';
 import JobDetailModal from '../../components/JobDetailModal';
+import SetStatusModal from '../../components/SetStatusModal';
 import { rs, rh } from '../../utils/dimensions';
 
 const JOB_DATA = [
@@ -201,10 +202,46 @@ const JobsScreen = ({ navigation, route }) => {
   const [activeTab, setActiveTab] = useState('list');
   const [selectedJob, setSelectedJob] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [jobs, setJobs] = useState(JOB_DATA);
+  const [statusModalVisible, setStatusModalVisible] = useState(false);
+  const [jobForStatusUpdate, setJobForStatusUpdate] = useState(null);
 
   const openJobDetail = (job) => {
     setSelectedJob(job);
     setModalVisible(true);
+  };
+
+  const handleStatusPress = (job) => {
+    setJobForStatusUpdate(job);
+    setStatusModalVisible(true);
+  };
+
+  const handleStatusUpdate = (newStatus) => {
+    if (!jobForStatusUpdate) return;
+
+    // Define color mapping for statuses
+    const statusColors = {
+      'Pending': '#9CA3AF',
+      'In Progress': '#38BDF8',
+      'Review': '#F59E0B',
+      'Completed': '#34D399',
+      'On Hold': '#FBBF24',
+      'Cancelled': '#EF4444',
+    };
+
+    const updatedJobs = jobs.map(j => {
+      if (j.title === jobForStatusUpdate.title && j.client === jobForStatusUpdate.client) {
+        return {
+          ...j,
+          status: newStatus,
+          statusColor: statusColors[newStatus] || j.statusColor,
+        };
+      }
+      return j;
+    });
+
+    setJobs(updatedJobs);
+    setJobForStatusUpdate(null);
   };
 
   useEffect(() => {
@@ -269,11 +306,12 @@ const JobsScreen = ({ navigation, route }) => {
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
         >
-          {JOB_DATA.map((job, index) => (
+          {jobs.map((job, index) => (
             <View key={index} style={styles.cardWrapper}>
               <RecentJobCard
                 {...job}
                 onPress={() => navigation.navigate('JobProfile', { job })}
+                onStatusPress={() => handleStatusPress(job)}
               />
             </View>
           ))}
@@ -368,6 +406,13 @@ const JobsScreen = ({ navigation, route }) => {
         visible={modalVisible}
         job={selectedJob}
         onClose={() => setModalVisible(false)}
+      />
+
+      <SetStatusModal
+        visible={statusModalVisible}
+        currentStatus={jobForStatusUpdate?.status}
+        onClose={() => setStatusModalVisible(false)}
+        onSelect={handleStatusUpdate}
       />
     </ScreenWrapper>
   );

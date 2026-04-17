@@ -17,6 +17,7 @@ const RecentJobCard = ({
   backgroundColor = '#E0F2FE',
   statusColor = '#38BDF8',
   onPress,
+  onStatusPress,
 }) => {
   return (
     <TouchableOpacity style={[styles.container, { backgroundColor }]} activeOpacity={0.9} onPress={onPress}>
@@ -25,9 +26,13 @@ const RecentJobCard = ({
           <View style={styles.typeBadge}>
             <Typography style={styles.typeText}>{type}</Typography>
           </View>
-          <View style={[styles.statusBadge, { backgroundColor: statusColor }]}>
+          <TouchableOpacity
+            style={[styles.statusBadge, { backgroundColor: statusColor }]}
+            onPress={() => onStatusPress && onStatusPress(status)}
+            activeOpacity={0.7}
+          >
             <Typography style={styles.statusText}>{status}</Typography>
-          </View>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.moreButton}>
           <View style={styles.dot} />

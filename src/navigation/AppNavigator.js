@@ -57,6 +57,8 @@ import WorkflowSettingsScreen from '../screens/stack/WorkflowSettingsScreen';
 import FilesAutomationScreen from '../screens/stack/FilesAutomationScreen';
 import RecoveryEmailScreen from '../screens/stack/RecoveryEmailScreen';
 import BackupPhoneScreen from '../screens/stack/BackupPhoneScreen';
+import AddPhoneNumberScreen from '../screens/stack/AddPhoneNumberScreen';
+import Verify2FAScreen from '../screens/stack/Verify2FAScreen';
 import BeforeYouGoScreen from '../screens/stack/BeforeYouGoScreen';
 import ConfirmAccountDeletionScreen from '../screens/stack/ConfirmAccountDeletionScreen';
 import DefaultEmailScreen from '../screens/stack/DefaultEmailScreen';
@@ -173,6 +175,8 @@ const StackNavigator = () => {
       <Stack.Screen name="FilesAutomation" component={FilesAutomationScreen} />
       <Stack.Screen name="RecoveryEmail" component={RecoveryEmailScreen} />
       <Stack.Screen name="BackupPhone" component={BackupPhoneScreen} />
+      <Stack.Screen name="AddPhoneNumber" component={AddPhoneNumberScreen} />
+      <Stack.Screen name="Verify2FA" component={Verify2FAScreen} />
       <Stack.Screen name="BeforeYouGo" component={BeforeYouGoScreen} />
       <Stack.Screen
         name="ConfirmAccountDeletion"

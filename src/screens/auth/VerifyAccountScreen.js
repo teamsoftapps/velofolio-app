@@ -78,7 +78,9 @@ const VerifyAccountScreen = ({ navigation, route }) => {
         />
 
         <View style={styles.resendRow}>
-          <Typography style={styles.resendText}>Didn't get the code? </Typography>
+          <Typography style={styles.resendText}>
+            Didn't get the code?{' '}
+          </Typography>
           <TouchableOpacity onPress={() => {}}>
             <Typography style={styles.resendLink}>Resend Code</Typography>
           </TouchableOpacity>
